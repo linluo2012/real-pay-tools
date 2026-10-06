@@ -49,6 +49,57 @@ def resolve_domain() -> str:
     return PLACEHOLDER
 
 
+def esc(s: str) -> str:
+    """把文本安全地放进 HTML 属性里"""
+    return (s.replace("&", "&amp;").replace('"', "&quot;")
+             .replace("<", "&lt;").replace(">", "&gt;").strip())
+
+
+def inject_og(text: str, domain: str, rel: str) -> tuple[str, bool]:
+    """补全 Open Graph / Twitter Card 标签。
+
+    求职垂类大量依赖 Reddit、X 分享冷启动，缺 og 标签时分享出去
+    只是裸链接（无标题、无卡片图），点击率会显著下降。
+    页面若已手写 og:title 则尊重原内容，不覆盖。
+    """
+    if 'property="og:title"' in text or "property='og:title'" in text:
+        return text, False
+
+    m = re.search(r"<title>(.*?)</title>", text, re.S | re.I)
+    title = esc(re.sub(r"\s+", " ", m.group(1))) if m else "Real Pay Tools"
+
+    m = re.search(r'<meta\s+name=["\']description["\']\s+content=["\'](.*?)["\']',
+                  text, re.S | re.I)
+    if not m:
+        m = re.search(r'<meta\s+content=["\'](.*?)["\']\s+name=["\']description["\']',
+                      text, re.S | re.I)
+    desc = esc(re.sub(r"\s+", " ", m.group(1))) if m else ""
+
+    stem = rel[:-5] if rel.endswith(".html") else rel
+    url = f"https://{domain}" if rel == "index.html" else f"https://{domain}/{rel}"
+    img = f"https://{domain}/og/{'home' if rel == 'index.html' else stem}.png"
+
+    block = (
+        f'  <meta property="og:type" content="website">\n'
+        f'  <meta property="og:site_name" content="Real Pay Tools">\n'
+        f'  <meta property="og:title" content="{title}">\n'
+        f'  <meta property="og:description" content="{desc}">\n'
+        f'  <meta property="og:url" content="{url}">\n'
+        f'  <meta property="og:image" content="{img}">\n'
+        f'  <meta property="og:image:width" content="1200">\n'
+        f'  <meta property="og:image:height" content="630">\n'
+        f'  <meta name="twitter:card" content="summary_large_image">\n'
+        f'  <meta name="twitter:title" content="{title}">\n'
+        f'  <meta name="twitter:description" content="{desc}">\n'
+        f'  <meta name="twitter:image" content="{img}">\n'
+    )
+    if re.search(r"</head\s*>", text, re.I):
+        text = re.sub(r"</head\s*>", block + "</head>", text, count=1, flags=re.I)
+    else:
+        text = text.replace("<body", block + "</head>\n<body", 1)
+    return text, True
+
+
 def build(domain: str, outdir: pathlib.Path) -> int:
     if not SRC.exists():
         print(f"错误：找不到 {SRC}")
@@ -62,15 +113,20 @@ def build(domain: str, outdir: pathlib.Path) -> int:
     outdir.mkdir(parents=True, exist_ok=True)
 
     changed = []
+    og_added = []
     for f in pages:
         rel = f.relative_to(SRC)
+        rel_s = str(rel).replace("\\", "/")
         out_file = outdir / rel
         out_file.parent.mkdir(parents=True, exist_ok=True)
         text = f.read_text(encoding="utf-8")
         n = text.count(PLACEHOLDER)
         if n:
             text = text.replace(PLACEHOLDER, domain)
-            changed.append((str(rel), n))
+            changed.append((rel_s, n))
+        text, added = inject_og(text, domain, rel_s)
+        if added:
+            og_added.append(rel_s)
         out_file.write_text(text, encoding="utf-8")
 
     for extra in sorted(p for p in SRC.rglob("*") if p.is_file() and p.suffix != ".html"):
@@ -151,6 +207,13 @@ def build(domain: str, outdir: pathlib.Path) -> int:
     print(f"pages:   {len(built)}")
     for name, n in changed:
         print(f"         {name:44s} {n} 处域名替换")
+    if og_added:
+        print(f"og:      为 {len(og_added)} 个页面补全 Open Graph / Twitter Card")
+    missing_og = [p for p in og_added
+                  if not (outdir / "og" / ("home.png" if p == "index.html"
+                                           else p[:-5] + ".png")).exists()]
+    if missing_og:
+        issues.append(f"缺少 og 分享图（运行 make_og.py 生成）: {missing_og}")
     if issues:
         print("\n构建完成，但有问题:")
         for i in issues:
