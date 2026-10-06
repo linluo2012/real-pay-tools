@@ -63,20 +63,57 @@ Reddit 是这站最有效的渠道，但有硬门槛：<b>账号满 30 天、100
 如果你的 Reddit 账号是新注册的，<b>前 30 天不要在任何 sub 发链接</b>。这段时间用来养号和做下面第 1、2 步——它们不需要账号年龄。
 </div>
 
-<h2>开始前必须先完成（约 15 分钟）</h2>
+<h2>第 0 步 · 让搜索引擎先找到你（地基，先做完）</h2>
+
+<p>站点 17 页全靠爬虫自己发现会非常慢。这一步的价值高于后面所有分发动作——<b>Reddit 帖子三天就沉了，被收录的页面会持续带来流量</b>。</p>
+
+<div class="box ok">
+<b>✅ 已替你完成：IndexNow（Bing 即时推送）</b>
+已生成密钥文件并部署到 <code>career.linwt.top/{key}.txt</code>，17 条 URL 已推送，Bing 返回 <b>HTTP 202（已接受）</b>。<br>
+以后每次新增页面，在项目目录执行 <code>python3 submit_indexnow.py</code> 即可再推一次；也可
+<code>python3 submit_indexnow.py 某条URL</code> 单独推。
+</div>
+
+<div class="box warn">
+<b>⚠️ Google 不支持 IndexNow —— 这一步只能你手动做</b>
+Google 占英文站流量的绝大部分，但它不认 IndexNow 协议。Google 只能靠下面这两步。
+</div>
 
 <div class="step"><div class="num">1</div><div>
-<b>Google Search Console 提交 sitemap。</b>站点 17 页全靠爬虫自己发现会非常慢。<br>
-打开 <code>search.google.com/search-console</code> → 添加资源 <code>https://career.linwt.top</code>（若第一站验证的是 Domain 类型 <code>linwt.top</code>，子域会自动覆盖，不用新建）→ 左侧 <b>Sitemaps</b> → 提交 <code>sitemap.xml</code>。
+<b>判断你的 GSC 资源类型。</b>打开 <code>search.google.com/search-console</code>，看第一站那个资源：<br>
+· 显示 <code>linwt.top</code>（Domain 类型）→ <b>子域自动覆盖</b>，不用新建资源，直接用它<br>
+· 显示 <code>https://linwt.top/</code>（URL-prefix 类型）→ 需要<b>单独添加</b>一个资源，填 <code>https://career.linwt.top</code>
 </div></div>
 
 <div class="step"><div class="num">2</div><div>
-<b>用 URL 检查工具手动请求索引。</b>GSC 顶部搜索框，把首页 + 3 个核心计算器页逐个粘进去点「请求编入索引」。这比等爬虫快几周。
+<b>验证所有权。</b>选 <b>DNS 记录</b>方式最省事：Google 会给一条 TXT 记录，去 Cloudflare 的 DNS 页面加上，回 GSC 点验证。<br>
+<span style="color:var(--muted);font-size:14px;">（选 HTML 文件方式也行，但要往仓库里加文件再重新部署，麻烦）</span>
 </div></div>
 
-<div class="box tip">
-<b>这两步是所有分发动作的地基</b>
-没做的话，后面引来的流量留不下任何长期资产——Reddit 帖子三天就沉了，只有被 Google 收录的页面会持续带来流量。
+<div class="step"><div class="num">3</div><div>
+<b>提交 sitemap。</b>左侧 <b>Sitemaps</b> → 填 <code>sitemap.xml</code> → 提交。
+</div></div>
+
+<div class="step"><div class="num">4</div><div>
+<b>手动请求索引（关键）。</b>GSC 顶部搜索框，把下面几个地址<b>逐个</b>粘进去，点「请求编入索引」：<br>
+<code>career.linwt.top</code> · <code>career.linwt.top/take-home-pay-calculator</code> ·
+<code>career.linwt.top/job-offer-comparison-calculator</code> · <code>career.linwt.top/bonus-tax-calculator</code><br>
+这比干等爬虫快几周。
+</div></div>
+
+<h3>收录时间预期（别着急，也别以为失败了）</h3>
+<table>
+<tr><th style="width:24%">节点</th><th>预期</th></tr>
+<tr><td><b>Bing</b></td><td>IndexNow 已推送，<b>几天内</b>开始抓取</td></tr>
+<tr><td><b>Google 首次收录</b></td><td>GSC 提交后 <b>1–4 周</b>出现首批收录页；新域名没有信任度，前几周慢是正常的</td></tr>
+<tr><td><b>Google 稳定收录</b></td><td><b>4–12 周</b>。这段时间<b>不要反复提交、不要改 URL</b>，改一次会重置排队</td></tr>
+<tr><td><b>有搜索流量</b></td><td>取决于竞争度，通常 <b>3–6 个月</b>才开始有稳定自然流量</td></tr>
+</table>
+
+<div class="box stop">
+<b>这段时间最容易犯的错</b>
+看到 GSC 显示「已发现但未收录」就着急，反复改标题、改 URL、反复提交 —— 这会让 Google 不断重新评估，<b>反而更慢</b>。<br>
+正确做法：提交一次，然后<b>什么都不做，等 4 周</b>。同时用这段时间去做下面的分发和加页面。
 </div>
 
 <h2>新功能：每个结果都能变成一条可分享的链接</h2>
