@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relocation Salary Calculator — What a Move Is Really Worth</title>
+<meta name="description" content="Adjust a salary for cost of living and state tax between two cities, and see whether a relocation offer actually leaves you better off.">
+<link rel="canonical" href="https://example.com/relocation-salary-calculator.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Relocation Salary Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "url": "https://example.com/relocation-salary-calculator.html",
+  "description": "Compare salaries between two cities after cost of living and state income tax, and find the salary in the new city that leaves you no worse off.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I work out an equivalent salary in a more expensive city?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Multiply by the ratio of the two cost-of-living indices. If you earn 100,000 dollars where the index is 100 and you are moving somewhere with an index of 130, the same standard of living costs about 130,000 dollars. Tax then shifts the answer again, because state income tax rates differ substantially, so the cleanest method is to compare take-home pay divided by the local index rather than comparing gross salaries."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a higher salary in a big city actually better?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Often not. Housing is usually the largest driver of the difference, and it does not scale linearly with income: a 30% higher salary in a city where rent is 80% higher leaves you worse off. State and local income tax can remove another several percent. Running the numbers on take-home pay after housing rather than on gross salary is what shows the real answer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate are cost-of-living indices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They are indicative, not precise. Published indices use different baskets of goods and different base cities, and they will not match your actual spending pattern. Someone who rents and never drives experiences a very different cost difference from a homeowner with two cars. Treat an index as a starting point and override it with your own research on rent, transport and childcare."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I count state income tax when comparing cities?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The gap between a no-income-tax state and a high-tax state can be worth several thousand dollars a year on a median salary, and some cities add a local income tax on top. Because it applies to the whole salary, it is often a larger swing than people expect and it stacks on top of the cost-of-living difference."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header><div class="wrap">
+  <a class="brand" href="https://example.com/">Real Pay Tools</a>
+  <nav class="brandnav">
+    <a href="https://example.com/tools.html">All tools</a>
+    <a href="https://example.com/take-home-pay-calculator.html">Take-home pay</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+<h1>Relocation Salary Calculator</h1>
+<p class="sub">A bigger number in a bigger city is often a pay cut. Compare what is left after rent and tax, not what is written in the offer.</p>
+
+<div class="ad-slot" aria-hidden="true">Advertisement slot</div>
+
+<div class="panel">
+  <h3>Where you are now</h3>
+  <div class="row">
+    <div class="field">
+      <label for="curSal">Current salary</label>
+      <input type="number" id="curSal" value="90000" step="1000" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="curPreset">Load a city <span class="hint">Sets the index below</span></label>
+      <select id="curPreset">
+        <option value="">— choose —</option>
+        <option value="176">San Francisco (≈176)</option>
+        <option value="165">New York City (≈165)</option>
+        <option value="150">Boston (≈150)</option>
+        <option value="145">Seattle (≈145)</option>
+        <option value="143">Los Angeles (≈143)</option>
+        <option value="140">Washington DC (≈140)</option>
+        <option value="137">San Diego (≈137)</option>
+        <option value="122">Portland (≈122)</option>
+        <option value="118">Denver (≈118)</option>
+        <option value="117">Miami (≈117)</option>
+        <option value="114">Austin (≈114)</option>
+        <option value="112">Chicago (≈112)</option>
+        <option value="107">Philadelphia (≈107)</option>
+        <option value="105">Atlanta (≈105)</option>
+        <option value="104">Phoenix (≈104)</option>
+        <option value="102">Dallas (≈102)</option>
+        <option value="98">Houston (≈98)</option>
+        <option value="100">US average (100)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="curIdx">Cost of living index <span class="hint">US average = 100</span></label>
+      <input type="number" id="curIdx" value="100" step="1" min="1" inputmode="decimal">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="curState">State tax now</label>
+      <select id="curState">
+        <option value="0">No state income tax</option>
+        <option value="0.065">California (≈6.5%)</option>
+        <option value="0.06">New York (≈6.0%)</option>
+        <option value="0.0495">Illinois (≈4.95%)</option>
+        <option value="0.0307">Pennsylvania (≈3.07%)</option>
+        <option value="0.031">Ohio (≈3.1%)</option>
+        <option value="0.045">North Carolina (≈4.5%)</option>
+        <option value="0.05">Massachusetts (≈5.0%)</option>
+        <option value="0.045">New Jersey (≈4.5%)</option>
+        <option value="0.044">Colorado (≈4.4%)</option>
+        <option value="0.025">Arizona (≈2.5%)</option>
+        <option value="0.0539">Georgia (≈5.39%)</option>
+        <option value="0.0425">Michigan (≈4.25%)</option>
+        <option value="0.05">Virginia (≈5.0%)</option>
+      </select>
+    </div>
+  </div>
+  <h3>Where you would move</h3>
+  <div class="row">
+    <div class="field">
+      <label for="newSal">Salary offered</label>
+      <input type="number" id="newSal" value="115000" step="1000" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="newPreset">Load a city <span class="hint">Sets the index below</span></label>
+      <select id="newPreset">
+        <option value="">— choose —</option>
+        <option value="176">San Francisco (≈176)</option>
+        <option value="165">New York City (≈165)</option>
+        <option value="150">Boston (≈150)</option>
+        <option value="145">Seattle (≈145)</option>
+        <option value="143">Los Angeles (≈143)</option>
+        <option value="140">Washington DC (≈140)</option>
+        <option value="137">San Diego (≈137)</option>
+        <option value="122">Portland (≈122)</option>
+        <option value="118">Denver (≈118)</option>
+        <option value="117">Miami (≈117)</option>
+        <option value="114">Austin (≈114)</option>
+        <option value="112">Chicago (≈112)</option>
+        <option value="107">Philadelphia (≈107)</option>
+        <option value="105">Atlanta (≈105)</option>
+        <option value="104">Phoenix (≈104)</option>
+        <option value="102">Dallas (≈102)</option>
+        <option value="98">Houston (≈98)</option>
+        <option value="100">US average (100)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="newIdx">Cost of living index <span class="hint">US average = 100</span></label>
+      <input type="number" id="newIdx" value="143" step="1" min="1" inputmode="decimal">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="newState">State tax there</label>
+      <select id="newState">
+        <option value="0">No state income tax</option>
+        <option value="0.065">California (≈6.5%)</option>
+        <option value="0.06">New York (≈6.0%)</option>
+        <option value="0.0495">Illinois (≈4.95%)</option>
+        <option value="0.0307">Pennsylvania (≈3.07%)</option>
+        <option value="0.031">Ohio (≈3.1%)</option>
+        <option value="0.045">North Carolina (≈4.5%)</option>
+        <option value="0.05">Massachusetts (≈5.0%)</option>
+        <option value="0.045">New Jersey (≈4.5%)</option>
+        <option value="0.044">Colorado (≈4.4%)</option>
+        <option value="0.025">Arizona (≈2.5%)</option>
+        <option value="0.0539">Georgia (≈5.39%)</option>
+        <option value="0.0425">Michigan (≈4.25%)</option>
+        <option value="0.05">Virginia (≈5.0%)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="status">Filing status</label>
+      <select id="status">
+        <option value="single">Single</option>
+        <option value="mfj">Married filing jointly</option>
+        <option value="hoh">Head of household</option>
+        <option value="mfs">Married filing separately</option>
+      </select>
+    </div>
+  </div>
+  <p class="note">Indices are approximate and indicative only — override them with your own research. Tax uses 2026 federal brackets from IRS Revenue Procedure 2025-32.</p>
+</div>
+
+<div id="results" aria-live="polite">
+  <div class="grid3">
+    <div class="stat hl">
+      <p class="lbl">Salary you need to break even</p>
+      <p class="val" id="breakEven">$0</p>
+    </div>
+    <div class="stat" id="verdictCard">
+      <p class="lbl">Real change</p>
+      <p class="val" id="verdict">0%</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Simple COL equivalent</p>
+      <p class="val" id="naive">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Change in tax paid</p>
+      <p class="val" id="taxGap">$0</p>
+    </div>
+  </div>
+
+  <h2>Side by side</h2>
+  <table>
+    <caption class="vh">Comparison of gross salary, tax, take-home pay and cost-of-living-adjusted spending power</caption>
+    <thead><tr><th>Line item</th><th class="num">Now</th><th class="num">After the move</th></tr></thead>
+    <tbody>
+      <tr><td>Gross salary</td><td class="num" id="g0">$0</td><td class="num" id="g1">$0</td></tr>
+      <tr><td>Federal income tax</td><td class="num" id="f0">−$0</td><td class="num" id="f1">−$0</td></tr>
+      <tr><td>State income tax</td><td class="num" id="s0">−$0</td><td class="num" id="s1">−$0</td></tr>
+      <tr><td>FICA</td><td class="num" id="c0">−$0</td><td class="num" id="c1">−$0</td></tr>
+      <tr><td><strong>Take-home pay</strong></td><td class="num" id="n0"><strong>$0</strong></td><td class="num" id="n1"><strong>$0</strong></td></tr>
+      <tr><td>Cost of living index</td><td class="num" id="i0">100</td><td class="num" id="i1">100</td></tr>
+      <tr><td><strong>Spending power</strong></td><td class="num" id="p0"><strong>$0</strong></td><td class="num" id="p1"><strong>$0</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight" id="insight"></div>
+</div>
+
+<h2>Common questions</h2>
+
+<details>
+  <summary>How do I work out an equivalent salary in a more expensive city?</summary>
+  <p>Multiply by the ratio of the two indices. If you earn $100,000 where the index is 100 and move somewhere indexed at 130, the same standard of living costs roughly $130,000. Tax then shifts the answer again, so the cleanest method is to compare take-home pay divided by the local index rather than comparing gross salaries.</p>
+</details>
+
+<details>
+  <summary>Is a higher salary in a big city actually better?</summary>
+  <p>Often not. Housing drives most of the difference and does not scale linearly with income: a 30% higher salary where rent is 80% higher leaves you worse off. State and local income tax can remove another several percent. What shows the real answer is take-home pay measured against local costs, not the gross figure.</p>
+</details>
+
+<details>
+  <summary>How accurate are cost-of-living indices?</summary>
+  <p>Indicative, not precise. Published indices use different baskets of goods and different base cities and will not match your actual spending. Someone who rents and never drives experiences a very different difference from a homeowner with two cars. Treat an index as a starting point and override it with your own research on rent, transport and childcare.</p>
+</details>
+
+<details>
+  <summary>Should I count state income tax when comparing cities?</summary>
+  <p>Yes. The gap between a no-income-tax state and a high-tax state can be worth several thousand dollars a year on a median salary, and some cities add a local tax on top. Because it applies to the whole salary it is often a larger swing than expected, and it stacks on top of the cost difference.</p>
+</details>
+
+<h2>Related tools</h2>
+<div class="related">
+  <a href="https://example.com/take-home-pay-calculator.html">Take-Home Pay Calculator</a>
+  <a href="https://example.com/job-offer-comparison-calculator.html">Job Offer Comparison</a>
+  <a href="https://example.com/commute-cost-calculator.html">Commute Cost Calculator</a>
+  <a href="https://example.com/raise-calculator.html">Raise Calculator</a>
+</div>
+
+<div class="disc"><strong>Disclaimer.</strong> For informational and educational purposes only. Cost-of-living indices shown are approximate and indicative, and this does not constitute financial advice.</div>
+
+<footer>
+  <a href="https://example.com/tools.html">All tools</a>
+  <a href="https://example.com/about.html">About</a>
+  <a href="https://example.com/privacy.html">Privacy Policy</a>
+  <a href="https://example.com/disclaimer.html">Disclaimer</a>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  function val(id){ var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+
+  var SS_CAP = 184500, ADDL_MED = 200000;
+
+  var B = {
+    single: { std: 16100, rates: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[640600,.35],[Infinity,.37]] },
+    mfj:    { std: 32200, rates: [[24800,.10],[100800,.12],[211400,.22],[403550,.24],[512450,.32],[768700,.35],[Infinity,.37]] },
+    hoh:    { std: 24150, rates: [[17700,.10],[67450,.12],[105700,.22],[201750,.24],[256200,.32],[640600,.35],[Infinity,.37]] },
+    mfs:    { std: 16100, rates: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[384350,.35],[Infinity,.37]] }
+  };
+
+  function fedTax(taxable, rates){
+    var tax = 0, lower = 0;
+    for (var i = 0; i < rates.length; i++){
+      var cap = rates[i][0], r = rates[i][1];
+      if (taxable <= lower) break;
+      var slice = Math.min(taxable, cap) - lower;
+      if (slice > 0) tax += slice * r;
+      lower = cap;
+    }
+    return tax;
+  }
+
+  function takeHome(gross, stateRate){
+    var cfg = B[$('status').value];
+    var fed = fedTax(Math.max(gross - cfg.std, 0), cfg.rates);
+    var fica = Math.min(gross, SS_CAP) * 0.062 + gross * 0.0145 + Math.max(gross - ADDL_MED, 0) * 0.009;
+    var st = gross * stateRate;
+    return { gross: gross, fed: fed, state: st, fica: fica, net: gross - fed - st - fica };
+  }
+
+  function calc(){
+    var curSal = Math.max(val('curSal'), 0);
+    var newSal = Math.max(val('newSal'), 0);
+    var curIdx = Math.max(val('curIdx'), 1);
+    var newIdx = Math.max(val('newIdx'), 1);
+    var curRate = parseFloat($('curState').value) || 0;
+    var newRate = parseFloat($('newState').value) || 0;
+
+    var a = takeHome(curSal, curRate);
+    var b = takeHome(newSal, newRate);
+
+    var powerA = a.net / curIdx * 100;
+    var powerB = b.net / newIdx * 100;
+
+    $('g0').textContent = money(a.gross); $('g1').textContent = money(b.gross);
+    $('f0').textContent = '−' + money(a.fed); $('f1').textContent = '−' + money(b.fed);
+    $('s0').textContent = '−' + money(a.state); $('s1').textContent = '−' + money(b.state);
+    $('c0').textContent = '−' + money(a.fica); $('c1').textContent = '−' + money(b.fica);
+    $('n0').innerHTML = '<strong>' + money(a.net) + '</strong>';
+    $('n1').innerHTML = '<strong>' + money(b.net) + '</strong>';
+    $('i0').textContent = curIdx.toFixed(0); $('i1').textContent = newIdx.toFixed(0);
+    $('p0').innerHTML = '<strong>' + money(powerA) + '</strong>';
+    $('p1').innerHTML = '<strong>' + money(powerB) + '</strong>';
+
+    // 简单口径：只看生活成本指数
+    var naive = curSal * newIdx / curIdx;
+    $('naive').textContent = money(naive);
+
+    // 盈亏平衡：让搬迁后购买力等于现在所需的新城市薪资
+    var lo = 0, hi = 5000000, be = 0;
+    for (var i = 0; i < 90; i++){
+      var mid = (lo + hi) / 2;
+      var t = takeHome(mid, newRate);
+      if (t.net / newIdx * 100 < powerA){ lo = mid; } else { hi = mid; }
+      be = hi;
+    }
+    $('breakEven').textContent = money(be);
+
+    var change = powerA > 0 ? (powerB / powerA - 1) : 0;
+    var vCard = $('verdictCard');
+    $('verdict').textContent = (change >= 0 ? '+' : '−') + Math.abs(change * 100).toFixed(1) + '%';
+    vCard.className = 'stat ' + (change >= 0 ? 'hl' : 'bad');
+
+    var taxNow = a.gross - a.net;
+    var taxNew = b.gross - b.net;
+    var taxGap = taxNew - taxNow;
+    $('taxGap').textContent = (taxGap >= 0 ? '+' : '−') + money(Math.abs(taxGap));
+
+    var msg;
+    if (curSal <= 0){
+      msg = 'Enter your current salary to compare.';
+    } else {
+      msg = 'After tax and cost of living, the move changes your real spending power by '
+          + (change >= 0 ? '+' : '−') + Math.abs(change * 100).toFixed(1) + '%. '
+          + 'Adjusting for cost of living alone suggests ' + money(naive) + ', but once tax is included you need about '
+          + money(be) + ' to be no worse off. ';
+      if (newSal >= be){
+        msg += 'At ' + money(newSal) + ' the offer clears that mark by ' + money(newSal - be) + '.';
+      } else {
+        msg += 'At ' + money(newSal) + ' you would be short of it by ' + money(be - newSal) + ' — '
+             + 'worth negotiating before you accept.';
+      }
+    }
+    $('insight').textContent = msg;
+  }
+
+  ['curPreset','newPreset'].forEach(function(sel){
+    $(sel).addEventListener('change', function(){
+      var v = $(sel).value;
+      if (v){ $(sel === 'curPreset' ? 'curIdx' : 'newIdx').value = v; calc(); }
+    });
+  });
+
+  ['curSal','newSal','curIdx','newIdx','curState','newState','status'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bonus Tax Calculator — What You Get Now vs What You Actually Owe</title>
+<meta name="description" content="See how much is withheld from a bonus under the 22% flat supplemental rate, what the bonus really costs you in tax, and whether you get a refund or owe more at filing.">
+<link rel="canonical" href="https://example.com/bonus-tax-calculator.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Bonus Tax Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "url": "https://example.com/bonus-tax-calculator.html",
+  "description": "Compare the 22% flat supplemental withholding rate against the actual tax on a bonus, and see the refund or balance due when you file, using 2026 federal brackets and FICA rules.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why is my bonus taxed at 22%?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bonuses are classified as supplemental wages, and the IRS lets employers withhold a flat 22% federal rate on supplemental payments up to one million dollars in a calendar year, regardless of your actual bracket. That is a withholding rate, not your final tax. The bonus is added to your other income on the return and taxed at your ordinary marginal rates, and any difference is settled when you file."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a bonus taxed more heavily than my salary?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. A bonus is ordinary income taxed at exactly the same rates as salary. It only appears more heavily taxed because of how it is withheld. The flat 22% rate can exceed the marginal rate of a lower-bracket earner, which produces a refund, or fall short of the marginal rate of a higher-bracket earner, which produces a balance due. Either way the total tax is computed once, on the whole year's income."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I pay Social Security and Medicare on a bonus?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Supplemental wages are subject to Social Security at 6.2% up to the annual wage base and Medicare at 1.45%, with an extra 0.9% Additional Medicare Tax once wages pass 200,000 dollars. If you have already reached the wage base by the time the bonus is paid, the Social Security portion no longer applies but Medicare still does."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I avoid tax on a bonus?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You cannot avoid the tax, because a bonus is ordinary income, but you can reduce taxable income in the same year. Contributing the bonus to a traditional 401(k) if the plan allows it, funding an HSA, or timing deductible expenses all reduce the income the bonus is measured against. Redirecting the bonus into pre-tax accounts is usually the most effective option."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header><div class="wrap">
+  <a class="brand" href="https://example.com/">Real Pay Tools</a>
+  <nav class="brandnav">
+    <a href="https://example.com/tools.html">All tools</a>
+    <a href="https://example.com/take-home-pay-calculator.html">Take-home pay</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+<h1>Bonus Tax Calculator</h1>
+<p class="sub">A bonus is not taxed at a special rate. It is <em>withheld</em> at a special rate — and the difference is money back or money owed at filing.</p>
+
+<div class="ad-slot" aria-hidden="true">Advertisement slot</div>
+
+<div class="panel">
+  <div class="row">
+    <div class="field">
+      <label for="salary">Base salary</label>
+      <input type="number" id="salary" value="60000" step="1000" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="bonus">Bonus amount</label>
+      <input type="number" id="bonus" value="10000" step="500" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="status">Filing status</label>
+      <select id="status">
+        <option value="single">Single</option>
+        <option value="mfj">Married filing jointly</option>
+        <option value="hoh">Head of household</option>
+        <option value="mfs">Married filing separately</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="state">State <span class="hint">Approximate rate</span></label>
+      <select id="state">
+        <option value="0">No state income tax</option>
+        <option value="0.065">California (≈6.5%)</option>
+        <option value="0.06">New York (≈6.0%)</option>
+        <option value="0.0495">Illinois (≈4.95%)</option>
+        <option value="0.0307">Pennsylvania (≈3.07%)</option>
+        <option value="0.031">Ohio (≈3.1%)</option>
+        <option value="0.045">North Carolina (≈4.5%)</option>
+        <option value="0.05">Massachusetts (≈5.0%)</option>
+        <option value="0.045">New Jersey (≈4.5%)</option>
+        <option value="0.044">Colorado (≈4.4%)</option>
+        <option value="0.025">Arizona (≈2.5%)</option>
+        <option value="0.0539">Georgia (≈5.39%)</option>
+        <option value="0.0425">Michigan (≈4.25%)</option>
+        <option value="0.05">Virginia (≈5.0%)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="pre">Pre-tax deductions <span class="hint">401(k) and similar, per year</span></label>
+      <input type="number" id="pre" value="6000" step="500" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="method">Employer withholding method</label>
+      <select id="method">
+        <option value="flat">Flat 22% supplemental rate</option>
+        <option value="agg">Aggregate method</option>
+      </select>
+    </div>
+  </div>
+  <p class="note">Uses 2026 federal brackets from IRS Revenue Procedure 2025-32, the $184,500 Social Security wage base, and the 22% supplemental withholding rate in IRS Publication 15.</p>
+</div>
+
+<div id="results" aria-live="polite">
+  <div class="grid3">
+    <div class="stat hl">
+      <p class="lbl">Bonus paid into your account</p>
+      <p class="val" id="netBonus">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Withheld from the bonus</p>
+      <p class="val" id="withheld">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Actual tax on the bonus</p>
+      <p class="val" id="actual">$0</p>
+    </div>
+    <div class="stat" id="diffCard">
+      <p class="lbl">At filing</p>
+      <p class="val" id="diff">$0</p>
+    </div>
+  </div>
+
+  <h2>What comes off the bonus</h2>
+  <table>
+    <caption class="vh">Withholding components applied to the bonus payment</caption>
+    <thead><tr><th>Component</th><th class="num">Rate</th><th class="num">Amount</th></tr></thead>
+    <tbody>
+      <tr><td>Federal income tax withheld</td><td class="num" id="fedRateLbl">22%</td><td class="num" id="fedWh">$0</td></tr>
+      <tr><td>Social Security</td><td class="num">6.2%</td><td class="num" id="ssWh">$0</td></tr>
+      <tr><td>Medicare</td><td class="num">1.45%</td><td class="num" id="medWh">$0</td></tr>
+      <tr><td>State income tax</td><td class="num" id="stRateLbl">0%</td><td class="num" id="stWh">$0</td></tr>
+      <tr><td><strong>Total withheld</strong></td><td class="num">—</td><td class="num" id="totWh"><strong>$0</strong></td></tr>
+      <tr><td><strong>Paid into your account</strong></td><td class="num">—</td><td class="num" id="netRow"><strong>$0</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight" id="insight"></div>
+</div>
+
+<h2>Common questions</h2>
+
+<details>
+  <summary>Why is my bonus taxed at 22%?</summary>
+  <p>Bonuses are supplemental wages, and the IRS allows employers to withhold a flat 22% federal rate on supplemental payments up to $1 million in a calendar year, regardless of your actual bracket. That is a withholding rate, not your final tax. The bonus is added to your other income on the return and taxed at ordinary marginal rates, and the difference is settled when you file.</p>
+</details>
+
+<details>
+  <summary>Is a bonus taxed more heavily than my salary?</summary>
+  <p>No. A bonus is ordinary income taxed at exactly the same rates as salary. It only looks more heavily taxed because of withholding. The flat 22% can exceed the marginal rate of a lower-bracket earner, producing a refund, or fall short for a higher-bracket earner, producing a balance due. Total tax is computed once, on the whole year's income.</p>
+</details>
+
+<details>
+  <summary>Do I pay Social Security and Medicare on a bonus?</summary>
+  <p>Yes. Supplemental wages are subject to Social Security at 6.2% up to the annual wage base and Medicare at 1.45%, plus 0.9% Additional Medicare Tax once wages pass $200,000. If you have already reached the wage base when the bonus is paid, the Social Security portion no longer applies but Medicare still does.</p>
+</details>
+
+<details>
+  <summary>Can I avoid tax on a bonus?</summary>
+  <p>You cannot avoid the tax because a bonus is ordinary income, but you can reduce the income it is measured against. Contributing the bonus to a traditional 401(k) if the plan allows it, funding an HSA, or timing deductible expenses all reduce taxable income in that year. Redirecting into pre-tax accounts is usually the most effective option.</p>
+</details>
+
+<h2>Related tools</h2>
+<div class="related">
+  <a href="https://example.com/take-home-pay-calculator.html">Take-Home Pay Calculator</a>
+  <a href="https://example.com/raise-calculator.html">Raise Calculator</a>
+  <a href="https://example.com/overtime-pay-calculator.html">Overtime Pay Calculator</a>
+  <a href="https://example.com/severance-calculator.html">Severance Calculator</a>
+</div>
+
+<div class="disc"><strong>Disclaimer.</strong> For informational and educational purposes only. State supplemental withholding rules vary widely and this does not constitute tax advice.</div>
+
+<footer>
+  <a href="https://example.com/tools.html">All tools</a>
+  <a href="https://example.com/about.html">About</a>
+  <a href="https://example.com/privacy.html">Privacy Policy</a>
+  <a href="https://example.com/disclaimer.html">Disclaimer</a>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  function pct(n, d){ return (n * 100).toFixed(d === undefined ? 1 : d) + '%'; }
+  function val(id){ var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+
+  var SS_CAP = 184500, ADDL_MED = 200000;
+
+  var B = {
+    single: { std: 16100, rates: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[640600,.35],[Infinity,.37]] },
+    mfj:    { std: 32200, rates: [[24800,.10],[100800,.12],[211400,.22],[403550,.24],[512450,.32],[768700,.35],[Infinity,.37]] },
+    hoh:    { std: 24150, rates: [[17700,.10],[67450,.12],[105700,.22],[201750,.24],[256200,.32],[640600,.35],[Infinity,.37]] },
+    mfs:    { std: 16100, rates: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[384350,.35],[Infinity,.37]] }
+  };
+
+  function fedTax(taxable, rates){
+    var tax = 0, lower = 0;
+    for (var i = 0; i < rates.length; i++){
+      var cap = rates[i][0], r = rates[i][1];
+      if (taxable <= lower) break;
+      var slice = Math.min(taxable, cap) - lower;
+      if (slice > 0) tax += slice * r;
+      lower = cap;
+    }
+    return tax;
+  }
+
+  function calc(){
+    var sal = Math.max(val('salary'), 0);
+    var bonus = Math.max(val('bonus'), 0);
+    var pre = Math.max(val('pre'), 0);
+    var cfg = B[$('status').value];
+    var stRate = parseFloat($('state').value) || 0;
+    var useFlat = $('method').value === 'flat';
+
+    function fed(gross){ return fedTax(Math.max(gross - Math.min(pre, gross) - cfg.std, 0), cfg.rates); }
+    function fica(gross){
+      return { ss: Math.min(gross, SS_CAP) * 0.062,
+               med: gross * 0.0145 + Math.max(gross - ADDL_MED, 0) * 0.009 };
+    }
+
+    // 该奖金实际承担的税 = 全年有奖金 - 全年无奖金
+    var actualFed = fed(sal + bonus) - fed(sal);
+    var fB = fica(sal + bonus), fA = fica(sal);
+    var actualSS = fB.ss - fA.ss;
+    var actualMed = fB.med - fA.med;
+    var actualSt = bonus * stRate;
+    var actualTotal = actualFed + actualSS + actualMed + actualSt;
+
+    // 预扣
+    var fedWh;
+    if (useFlat){
+      fedWh = bonus * 0.22;
+      $('fedRateLbl').textContent = '22% flat';
+    } else {
+      // 累计法：把奖金视同当期常规工资一起算，近似等同于边际税率预扣
+      fedWh = actualFed;
+      $('fedRateLbl').textContent = pct(bonus > 0 ? fedWh / bonus : 0, 1);
+    }
+    var ssWh = Math.max(Math.min(bonus, Math.max(SS_CAP - sal, 0)), 0) * 0.062;
+    var medWh = bonus * 0.0145 + Math.max(Math.min(bonus, Math.max(sal + bonus - ADDL_MED, 0)), 0) * 0.009;
+    var stWh = bonus * stRate;
+    var totWh = fedWh + ssWh + medWh + stWh;
+    var net = bonus - totWh;
+
+    $('fedWh').textContent = money(fedWh);
+    $('ssWh').textContent = money(ssWh);
+    $('medWh').textContent = money(medWh);
+    $('stRateLbl').textContent = pct(stRate, 1);
+    $('stWh').textContent = money(stWh);
+    $('totWh').innerHTML = '<strong>' + money(totWh) + '</strong>';
+    $('netRow').innerHTML = '<strong>' + money(net) + '</strong>';
+
+    $('netBonus').textContent = money(net);
+    $('withheld').textContent = money(totWh);
+    $('actual').textContent = money(actualTotal);
+
+    var diff = totWh - actualTotal;
+    var card = $('diffCard');
+    if (bonus <= 0){
+      $('diff').textContent = '$0';
+      card.className = 'stat';
+    } else if (diff > 0){
+      $('diff').textContent = '+' + money(diff) + ' back';
+      card.className = 'stat hl';
+    } else if (diff < 0){
+      $('diff').textContent = '−' + money(Math.abs(diff)) + ' due';
+      card.className = 'stat bad';
+    } else {
+      $('diff').textContent = 'Even';
+      card.className = 'stat';
+    }
+
+    var msg;
+    if (bonus <= 0){
+      msg = 'Enter a bonus amount to see what reaches your account.';
+    } else {
+      msg = 'On a ' + money(bonus) + ' bonus, ' + money(totWh) + ' is withheld and ' + money(net)
+          + ' reaches your account. The tax the bonus actually adds to your return is ' + money(actualTotal)
+          + ', an effective rate of ' + pct(actualTotal / bonus, 1) + '. ';
+      if (diff > 1){
+        msg += 'That means roughly ' + money(diff) + ' more was withheld than the bonus really costs in tax, '
+             + 'so it comes back as a refund or a smaller balance due when you file.';
+      } else if (diff < -1){
+        msg += 'That means about ' + money(Math.abs(diff)) + ' less was withheld than the bonus really costs, '
+             + 'so expect to owe that much more at filing.';
+      } else {
+        msg += 'The withholding happens to line up almost exactly with the real tax.';
+      }
+    }
+    $('insight').textContent = msg;
+  }
+
+  ['salary','bonus','status','state','pre','method'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freelance Rate Calculator — The Hourly Rate That Actually Replaces Your Salary</title>
+<meta name="description" content="Turn a salary into the freelance rate you need to charge, accounting for self-employment tax, unpaid time off, business expenses and the benefits you give up.">
+<link rel="canonical" href="https://example.com/freelance-rate-calculator.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Freelance Rate Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "url": "https://example.com/freelance-rate-calculator.html",
+  "description": "Work out the freelance hourly and day rate required to match a salaried job, including self-employment tax at 15.3%, unpaid leave, business expenses and lost employer benefits.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why does a freelancer need to charge more than an hourly employee?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Three reasons stack up. A freelancer pays both halves of FICA through self-employment tax at 15.3%, where an employee only sees 7.65% taken from wages. A freelancer pays for their own health cover, retirement and equipment out of revenue. And a freelancer is not paid for holidays, sick days or the time spent finding and administering work, so billable hours are a fraction of hours actually worked."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is self-employment tax and how much is it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Self-employment tax is 15.3% on net earnings, made up of 12.4% Social Security and 2.9% Medicare. It applies to 92.35% of net profit, and the Social Security portion stops at the annual wage base. Half of the self-employment tax is deductible above the line, which reduces income tax but does not remove the tax itself. Employees pay half this amount, because the employer pays the other half."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many hours can a freelancer actually bill?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Far fewer than 40 a week. After holidays, sick days, admin, invoicing, sales and business development, a full-time freelancer typically bills somewhere between 20 and 30 hours a week. Using 40 billable hours a week with two weeks of leave will badly understate the rate needed, which is why the billable hours figure matters more than any other input here."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I charge by the hour or by the project?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Project pricing usually earns more, because it rewards speed rather than time. This calculator still produces an hourly figure because it is the cleanest way to sanity-check a quote: price the project, divide by the hours you expect it to take, and see whether the result clears the rate you need. If it does not, the project is not worth taking at that price."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header><div class="wrap">
+  <a class="brand" href="https://example.com/">Real Pay Tools</a>
+  <nav class="brandnav">
+    <a href="https://example.com/tools.html">All tools</a>
+    <a href="https://example.com/take-home-pay-calculator.html">Take-home pay</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+<h1>Freelance Rate Calculator</h1>
+<p class="sub">Your salary is not your rate. You pay both halves of FICA, buy your own benefits, and do not get paid for the hours you are not billing.</p>
+
+<div class="ad-slot" aria-hidden="true">Advertisement slot</div>
+
+<div class="panel">
+  <div class="row">
+    <div class="field">
+      <label for="salary">Salary you want to match</label>
+      <input type="number" id="salary" value="90000" step="1000" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="status">Filing status</label>
+      <select id="status">
+        <option value="single">Single</option>
+        <option value="mfj">Married filing jointly</option>
+        <option value="hoh">Head of household</option>
+        <option value="mfs">Married filing separately</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="state">State <span class="hint">Approximate rate</span></label>
+      <select id="state">
+        <option value="0">No state income tax</option>
+        <option value="0.065">California (≈6.5%)</option>
+        <option value="0.06">New York (≈6.0%)</option>
+        <option value="0.0495">Illinois (≈4.95%)</option>
+        <option value="0.0307">Pennsylvania (≈3.07%)</option>
+        <option value="0.031">Ohio (≈3.1%)</option>
+        <option value="0.045">North Carolina (≈4.5%)</option>
+        <option value="0.05">Massachusetts (≈5.0%)</option>
+        <option value="0.045">New Jersey (≈4.5%)</option>
+        <option value="0.044">Colorado (≈4.4%)</option>
+        <option value="0.025">Arizona (≈2.5%)</option>
+        <option value="0.0539">Georgia (≈5.39%)</option>
+        <option value="0.0425">Michigan (≈4.25%)</option>
+        <option value="0.05">Virginia (≈5.0%)</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="billable">Billable hours per week <span class="hint">Not hours worked</span></label>
+      <input type="number" id="billable" value="25" step="1" min="1" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="off">Unpaid weeks per year <span class="hint">Holiday and sick</span></label>
+      <input type="number" id="off" value="4" step="1" min="0" max="52" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="exp">Business expenses per year</label>
+      <input type="number" id="exp" value="6000" step="500" min="0" inputmode="decimal">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="health">Health cover you must buy <span class="hint">Per year</span></label>
+      <input type="number" id="health" value="9000" step="500" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="retire">Retirement you must fund <span class="hint">Per year</span></label>
+      <input type="number" id="retire" value="6000" step="500" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="margin">Profit margin <span class="hint">Percent on top</span></label>
+      <input type="number" id="margin" value="20" step="5" min="0" inputmode="decimal">
+    </div>
+  </div>
+  <p class="note">Self-employment tax is 15.3% on 92.35% of net profit, with half of it deductible. Uses 2026 brackets and the $184,500 wage base.</p>
+</div>
+
+<div id="results" aria-live="polite">
+  <div class="grid3">
+    <div class="stat hl">
+      <p class="lbl">Hourly rate to charge</p>
+      <p class="val" id="hourly">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Day rate <span class="hint">8 hours</span></p>
+      <p class="val" id="dayRate">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Revenue needed per year</p>
+      <p class="val" id="revenue">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Salary equivalent</p>
+      <p class="val" id="equiv">$0</p>
+    </div>
+  </div>
+
+  <h2>Where the money goes</h2>
+  <table>
+    <caption class="vh">Breakdown of required freelance revenue into expenses, tax and spendable income</caption>
+    <thead><tr><th>Line item</th><th class="num">Amount</th></tr></thead>
+    <tbody>
+      <tr><td>Gross revenue needed</td><td class="num" id="rRev">$0</td></tr>
+      <tr><td>Business expenses</td><td class="num" id="rExp">−$0</td></tr>
+      <tr><td>Self-employment tax</td><td class="num" id="rSe">−$0</td></tr>
+      <tr><td>Federal income tax</td><td class="num" id="rFed">−$0</td></tr>
+      <tr><td>State income tax</td><td class="num" id="rSt">−$0</td></tr>
+      <tr><td><strong>Left after tax</strong></td><td class="num" id="rLeft"><strong>$0</strong></td></tr>
+      <tr><td>Health cover and retirement</td><td class="num" id="rBen">−$0</td></tr>
+      <tr><td><strong>Spendable, matched to salary</strong></td><td class="num" id="rNet"><strong>$0</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight" id="insight"></div>
+</div>
+
+<h2>Common questions</h2>
+
+<details>
+  <summary>Why does a freelancer need to charge more than an hourly employee?</summary>
+  <p>Three things stack up. A freelancer pays both halves of FICA through self-employment tax at 15.3%, where an employee only sees 7.65% taken out. A freelancer buys their own health cover, funds their own retirement and pays for their own equipment out of revenue. And a freelancer is not paid for holidays, sick days, or the hours spent finding and administering work, so billable hours are only a fraction of the hours actually worked.</p>
+</details>
+
+<details>
+  <summary>What is self-employment tax and how much is it?</summary>
+  <p>It is 15.3% on net earnings: 12.4% Social Security plus 2.9% Medicare. It applies to 92.35% of net profit, and the Social Security portion stops at the annual wage base. Half of it is deductible above the line, which reduces income tax but not the tax itself. Employees effectively pay half this amount because the employer pays the other half.</p>
+</details>
+
+<details>
+  <summary>How many hours can a freelancer actually bill?</summary>
+  <p>Far fewer than 40 a week. After holidays, sick days, admin, invoicing and business development, a full-time freelancer typically bills somewhere between 20 and 30 hours a week. Using 40 billable hours with two weeks off badly understates the rate you need — which is why the billable hours field matters more than anything else on this page.</p>
+</details>
+
+<details>
+  <summary>Should I charge by the hour or by the project?</summary>
+  <p>Project pricing usually earns more, because it rewards speed rather than time. This page still produces an hourly figure because it is the cleanest way to sanity-check a quote: price the project, divide by the hours you expect, and see whether the result clears the rate you need. If it does not, the project is not worth taking at that price.</p>
+</details>
+
+<h2>Related tools</h2>
+<div class="related">
+  <a href="https://example.com/w2-vs-1099-calculator.html">W-2 vs 1099 Calculator</a>
+  <a href="https://example.com/hourly-to-salary-calculator.html">Hourly to Salary Calculator</a>
+  <a href="https://example.com/take-home-pay-calculator.html">Take-Home Pay Calculator</a>
+  <a href="https://example.com/job-offer-comparison-calculator.html">Job Offer Comparison</a>
+</div>
+
+<div class="disc"><strong>Disclaimer.</strong> For informational and educational purposes only. Results are estimates and do not account for quarterly estimated payments, local taxes or specific deduction eligibility. Not tax advice.</div>
+
+<footer>
+  <a href="https://example.com/tools.html">All tools</a>
+  <a href="https://example.com/about.html">About</a>
+  <a href="https://example.com/privacy.html">Privacy Policy</a>
+  <a href="https://example.com/disclaimer.html">Disclaimer</a>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  function val(id){ var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+
+  var SS_CAP = 184500, ADDL_MED = 200000;
+
+  var B = {
+    single: { std: 16100, rates: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[640600,.35],[Infinity,.37]] },
+    mfj:    { std: 32200, rates: [[24800,.10],[100800,.12],[211400,.22],[403550,.24],[512450,.32],[768700,.35],[Infinity,.37]] },
+    hoh:    { std: 24150, rates: [[17700,.10],[67450,.12],[105700,.22],[201750,.24],[256200,.32],[640600,.35],[Infinity,.37]] },
+    mfs:    { std: 16100, rates: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[384350,.35],[Infinity,.37]] }
+  };
+
+  function fedTax(taxable, rates){
+    var tax = 0, lower = 0;
+    for (var i = 0; i < rates.length; i++){
+      var cap = rates[i][0], r = rates[i][1];
+      if (taxable <= lower) break;
+      var slice = Math.min(taxable, cap) - lower;
+      if (slice > 0) tax += slice * r;
+      lower = cap;
+    }
+    return tax;
+  }
+
+  // 受薪雇员的到手工资
+  function employeeNet(salary){
+    var cfg = B[$('status').value];
+    var stRate = parseFloat($('state').value) || 0;
+    var fed = fedTax(Math.max(salary - cfg.std, 0), cfg.rates);
+    var ss = Math.min(salary, SS_CAP) * 0.062;
+    var med = salary * 0.0145 + Math.max(salary - ADDL_MED, 0) * 0.009;
+    var st = salary * stRate;
+    return salary - fed - ss - med - st;
+  }
+
+  // 自由职业者：给定毛利，返回税后剩余
+  function freelanceAfterTax(revenue){
+    var exp = Math.max(val('exp'), 0);
+    var stRate = parseFloat($('state').value) || 0;
+    var cfg = B[$('status').value];
+    var profit = Math.max(revenue - exp, 0);
+    var base = profit * 0.9235;
+    var ss = Math.min(base, SS_CAP) * 0.124;
+    var med = base * 0.029 + Math.max(base - ADDL_MED, 0) * 0.009;
+    var se = ss + med;
+    var half = se / 2;
+    var taxable = Math.max(profit - half - cfg.std, 0);
+    var fed = fedTax(taxable, cfg.rates);
+    var st = Math.max(profit - half, 0) * stRate;
+    return { profit: profit, se: se, fed: fed, st: st, net: profit - se - fed - st };
+  }
+
+  function calc(){
+    var salary = Math.max(val('salary'), 0);
+    var billWk = Math.max(val('billable'), 1);
+    var off = Math.min(Math.max(val('off'), 0), 52);
+    var health = Math.max(val('health'), 0);
+    var retire = Math.max(val('retire'), 0);
+    var margin = Math.max(val('margin'), 0);
+    var exp = Math.max(val('exp'), 0);
+
+    // 目标：税后剩余 = 受薪到手工资 + 需要自己买的东西 + 利润率加成
+    var target = employeeNet(salary);
+    var need = target + health + retire;
+    need = need * (1 + margin / 100);
+
+    // 二分求解所需毛利
+    var lo = 0, hi = 3000000, rev = 0, det = null;
+    for (var i = 0; i < 80; i++){
+      var mid = (lo + hi) / 2;
+      var r = freelanceAfterTax(mid);
+      if (r.net < need){ lo = mid; } else { hi = mid; }
+      rev = mid; det = r;
+    }
+    rev = hi;
+    det = freelanceAfterTax(rev);
+
+    var billHours = billWk * (52 - off);
+    var hourly = billHours > 0 ? rev / billHours : 0;
+
+    $('hourly').textContent = '$' + hourly.toFixed(0);
+    $('dayRate').textContent = money(hourly * 8);
+    $('revenue').textContent = money(rev);
+    $('equiv').textContent = money(salary);
+
+    $('rRev').textContent = money(rev);
+    $('rExp').textContent = '−' + money(exp);
+    $('rSe').textContent = '−' + money(det.se);
+    $('rFed').textContent = '−' + money(det.fed);
+    $('rSt').textContent = '−' + money(det.st);
+    $('rLeft').innerHTML = '<strong>' + money(det.net) + '</strong>';
+    $('rBen').textContent = '−' + money(health + retire);
+    $('rNet').innerHTML = '<strong>' + money(det.net - health - retire) + '</strong>';
+
+    var msg;
+    if (salary <= 0){
+      msg = 'Enter the salary you want to match.';
+    } else {
+      var naive = billHours > 0 ? salary / billHours : 0;
+      msg = 'Matching a ' + money(salary) + ' salary takes about ' + money(rev) + ' in annual revenue at '
+          + billWk.toFixed(0) + ' billable hours a week, which is ' + '$' + hourly.toFixed(0) + ' an hour. '
+          + 'Dividing the salary by the same hours would have suggested only ' + '$' + naive.toFixed(0)
+          + ' — underpricing by ' + (naive > 0 ? ((hourly / naive - 1) * 100).toFixed(0) : '0') + '%, '
+          + 'which is the gap that self-employment tax, unpaid time and lost benefits create.';
+    }
+    $('insight').textContent = msg;
+  }
+
+  ['salary','status','state','billable','off','exp','health','retire','margin'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

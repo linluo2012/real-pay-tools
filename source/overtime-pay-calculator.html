@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overtime Pay Calculator — Time and a Half, Double Time and Whether You Are Exempt</title>
+<meta name="description" content="Work out overtime pay at time and a half or double time, see your real hourly rate once extra hours are counted, and check the 2026 FLSA salary threshold for exempt status.">
+<link rel="canonical" href="https://example.com/overtime-pay-calculator.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Overtime Pay Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "url": "https://example.com/overtime-pay-calculator.html",
+  "description": "Calculate overtime pay at time and a half or double time, see the effective hourly rate once unpaid extra hours are included, and check whether a salary meets the 2026 FLSA exempt threshold.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much is overtime pay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Under federal law, non-exempt employees must be paid at least one and one half times their regular rate for every hour worked beyond 40 in a workweek. On a 30 dollar hourly rate that is 45 dollars for each overtime hour. Some employers and several states require double time in specific situations, such as hours beyond 12 in a day in California. Overtime is calculated by workweek, not by pay period, so working 50 hours across two uneven weeks is not the same as 45 and 55."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the salary threshold for being exempt from overtime in 2026?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The federal standard salary level is 684 dollars per week, which is 35,568 dollars per year. A 2024 rule that would have raised this to 58,656 dollars was vacated by a federal court in November 2024, and the Department of Labor formally restored the 2019 level by technical amendment in May 2026. Several states set higher thresholds, and where state law is more protective the state figure controls. Salary level is only one part of the test; the duties test also has to be met."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I be salaried and still owed overtime?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Being paid a salary does not by itself remove overtime rights. If your salary is below the threshold, or if your actual job duties do not meet the executive, administrative or professional tests, you are non-exempt and must be paid overtime. An employee earning a high salary who does not perform genuinely exempt duties is still owed overtime, and this is where most misclassification claims originate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does overtime change how much tax I pay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Overtime is ordinary income and is taxed the same way as regular wages, though it can be withheld at the flat 22 percent supplemental rate depending on how the employer processes it. Withholding is not the same as the tax you finally owe: it is reconciled when you file. Working substantially more hours can push total income into a higher bracket, but only the dollars inside that bracket are taxed at the higher rate."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header><div class="wrap">
+  <a class="brand" href="https://example.com/">Real Pay Tools</a>
+  <nav class="brandnav">
+    <a href="https://example.com/tools.html">All tools</a>
+    <a href="https://example.com/hourly-to-salary-calculator.html">Hourly to salary</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+<h1>Overtime Pay Calculator</h1>
+<p class="sub">What extra hours actually pay, what they do to your real hourly rate, and whether your salary clears the 2026 exempt threshold.</p>
+
+<div class="ad-slot" aria-hidden="true">Advertisement slot</div>
+
+<div class="panel">
+  <div class="row">
+    <div class="field">
+      <label for="mode">Pay basis</label>
+      <select id="mode">
+        <option value="hourly">Hourly rate</option>
+        <option value="salary">Annual salary</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="rate" id="rateLabel">Hourly rate</label>
+      <input type="number" id="rate" value="30" step="0.50" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="hours">Hours worked per week</label>
+      <input type="number" id="hours" value="48" step="1" min="0" inputmode="decimal">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="mult">Overtime multiplier</label>
+      <select id="mult">
+        <option value="1.5">Time and a half (1.5×)</option>
+        <option value="2">Double time (2×)</option>
+        <option value="1">Straight time (1×)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="weeks">Weeks worked per year</label>
+      <input type="number" id="weeks" value="52" step="1" min="1" max="52" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="otThreshold">Overtime starts after <span class="hint">Hours per week</span></label>
+      <input type="number" id="otThreshold" value="40" step="1" min="0" inputmode="decimal">
+    </div>
+  </div>
+  <p class="note">Federal rule: 1.5× the regular rate for hours over 40 in a workweek. The 2026 exempt salary level is $684 per week ($35,568 a year).</p>
+</div>
+
+<div id="results" aria-live="polite">
+  <div class="grid3">
+    <div class="stat hl">
+      <p class="lbl">Overtime pay per week</p>
+      <p class="val" id="otWeek">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Total pay per week</p>
+      <p class="val" id="totWeek">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Extra per year</p>
+      <p class="val" id="otYear">$0</p>
+    </div>
+    <div class="stat" id="effCard">
+      <p class="lbl">Real hourly rate</p>
+      <p class="val" id="effRate">$0</p>
+    </div>
+  </div>
+
+  <h2>How the week breaks down</h2>
+  <table>
+    <caption class="vh">Breakdown of regular hours, overtime hours and pay for a typical week</caption>
+    <thead><tr><th>Line item</th><th class="num">Hours</th><th class="num">Rate</th><th class="num">Amount</th></tr></thead>
+    <tbody>
+      <tr><td>Regular hours</td><td class="num" id="rh">0</td><td class="num" id="rr">$0</td><td class="num" id="ra">$0</td></tr>
+      <tr><td>Overtime hours</td><td class="num" id="oh">0</td><td class="num" id="orr">$0</td><td class="num" id="oa">$0</td></tr>
+      <tr><td><strong>Total week</strong></td><td class="num" id="th"><strong>0</strong></td><td class="num">—</td><td class="num" id="ta"><strong>$0</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight" id="insight"></div>
+  <div class="insight" id="exemptNote"></div>
+</div>
+
+<h2>Common questions</h2>
+
+<details>
+  <summary>How much is overtime pay?</summary>
+  <p>Federal law requires at least one and one half times the regular rate for every hour beyond 40 in a workweek. On a $30 hourly rate that is $45 per overtime hour. Some employers and some states require double time in specific situations, for example hours beyond 12 in a day in California. Overtime is measured by workweek, not by pay period, so two uneven weeks are not averaged together.</p>
+</details>
+
+<details>
+  <summary>What is the salary threshold for being exempt from overtime in 2026?</summary>
+  <p>The federal standard salary level is $684 per week, or $35,568 per year. A 2024 rule that would have raised it to $58,656 was vacated by a federal court in November 2024, and the Department of Labor formally restored the 2019 level by technical amendment in May 2026. Several states, including California, Colorado, Maine, New York, Washington and Alaska, set higher thresholds, and the more protective figure controls. Salary is only half the test; the duties test also has to be met.</p>
+</details>
+
+<details>
+  <summary>Can I be salaried and still owed overtime?</summary>
+  <p>Yes. A salary alone does not remove overtime rights. If the salary is below the threshold, or if the actual duties do not meet the executive, administrative or professional tests, you are non-exempt and overtime is owed. Someone on a high salary who does not perform genuinely exempt duties is still owed overtime, and that is where most misclassification claims come from.</p>
+</details>
+
+<details>
+  <summary>Does overtime change how much tax I pay?</summary>
+  <p>Overtime is ordinary income, taxed the same way as regular wages, though it may be withheld at the flat 22% supplemental rate depending on how payroll processes it. Withholding is not the final tax; it is reconciled when you file. A large amount of overtime can push total income into a higher bracket, but only the dollars within that bracket are taxed at the higher rate.</p>
+</details>
+
+<h2>Related tools</h2>
+<div class="related">
+  <a href="https://example.com/hourly-to-salary-calculator.html">Hourly to Salary Calculator</a>
+  <a href="https://example.com/take-home-pay-calculator.html">Take-Home Pay Calculator</a>
+  <a href="https://example.com/bonus-tax-calculator.html">Bonus Tax Calculator</a>
+  <a href="https://example.com/freelance-rate-calculator.html">Freelance Rate Calculator</a>
+</div>
+
+<div class="disc"><strong>Disclaimer.</strong> For informational and educational purposes only. Overtime rules vary by state and by the duties test, and this does not constitute legal or tax advice.</div>
+
+<footer>
+  <a href="https://example.com/tools.html">All tools</a>
+  <a href="https://example.com/about.html">About</a>
+  <a href="https://example.com/privacy.html">Privacy Policy</a>
+  <a href="https://example.com/disclaimer.html">Disclaimer</a>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  function money2(n){ return '$' + n.toFixed(2); }
+  function val(id){ var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+
+  var EXEMPT_WEEK = 684, EXEMPT_YEAR = 35568;
+
+  function calc(){
+    var isSalary = $('mode').value === 'salary';
+    $('rateLabel').textContent = isSalary ? 'Annual salary' : 'Hourly rate';
+
+    var hours = Math.max(val('hours'), 0);
+    var weeks = Math.min(Math.max(val('weeks'), 1), 52);
+    var thr = Math.max(val('otThreshold'), 0);
+    var mult = parseFloat($('mult').value) || 1.5;
+
+    var hourly;
+    if (isSalary){
+      var sal = Math.max(val('rate'), 0);
+      hourly = hours > 0 ? sal / (weeks * hours) : 0;
+    } else {
+      hourly = Math.max(val('rate'), 0);
+    }
+
+    var regH = Math.min(hours, thr);
+    var otH = Math.max(hours - thr, 0);
+    var otRate = hourly * mult;
+
+    var regPay = regH * hourly;
+    var otPay = otH * otRate;
+    var totWeek = regPay + otPay;
+    var otYear = otPay * weeks;
+
+    $('rh').textContent = regH.toFixed(regH % 1 ? 1 : 0);
+    $('oh').textContent = otH.toFixed(otH % 1 ? 1 : 0);
+    $('th').innerHTML = '<strong>' + hours.toFixed(hours % 1 ? 1 : 0) + '</strong>';
+    $('rr').textContent = money2(hourly);
+    $('orr').textContent = money2(otRate);
+    $('ra').textContent = money(regPay);
+    $('oa').textContent = money(otPay);
+    $('ta').innerHTML = '<strong>' + money(totWeek) + '</strong>';
+
+    $('otWeek').textContent = money(otPay);
+    $('totWeek').textContent = money(totWeek);
+    $('otYear').textContent = money(otYear);
+
+    // 实际时薪：把加班时间也算进去后，每小时真正值多少
+    var eff = hours > 0 ? totWeek / hours : 0;
+    $('effRate').textContent = money2(eff);
+    $('effCard').className = 'stat' + (mult > 1 && otH > 0 ? ' hl' : '');
+
+    var msg;
+    if (hourly <= 0){
+      msg = 'Enter a pay rate to see the overtime breakdown.';
+    } else if (otH <= 0){
+      msg = 'At ' + hours.toFixed(0) + ' hours a week you are not past the ' + thr.toFixed(0)
+          + '-hour threshold, so no overtime applies. Your real hourly rate stays at ' + money2(hourly) + '.';
+    } else {
+      msg = otH.toFixed(otH % 1 ? 1 : 0) + ' overtime hours a week at ' + money2(otRate)
+          + ' adds ' + money(otPay) + ' a week, or ' + money(otYear) + ' a year. '
+          + 'Counting those hours, every hour you work is worth ' + money2(eff)
+          + ' on average instead of ' + money2(hourly) + ' — a lift of '
+          + (hours > 0 ? ((eff / hourly - 1) * 100).toFixed(1) : '0') + '%.';
+    }
+    $('insight').textContent = msg;
+
+    var note;
+    if (isSalary){
+      var salNow = Math.max(val('rate'), 0);
+      if (salNow > 0 && salNow < EXEMPT_YEAR){
+        note = 'Heads up: at ' + money(salNow) + ' a year you are below the federal exempt salary level of '
+             + money(EXEMPT_YEAR) + ' (' + money(EXEMPT_WEEK) + ' a week). Unless a state threshold or a '
+             + 'different exemption applies, you are likely non-exempt and entitled to overtime pay for hours over 40.';
+      } else if (salNow >= EXEMPT_YEAR){
+        note = 'At ' + money(salNow) + ' a year you clear the federal exempt salary level of ' + money(EXEMPT_YEAR)
+             + '. Salary level is only one part of the test though — the duties test also has to be met, and several '
+             + 'states set higher thresholds. If the duties test is not met, overtime may still be owed.';
+      } else {
+        note = 'Enter a salary to check it against the federal exempt threshold.';
+      }
+    } else {
+      note = 'Hourly employees are generally non-exempt and owed overtime for hours over 40 in a workweek. '
+           + 'The federal exempt salary level of ' + money(EXEMPT_YEAR) + ' a year is a separate test that applies to salaried roles.';
+    }
+    $('exemptNote').textContent = note;
+  }
+
+  ['mode','rate','hours','mult','weeks','otThreshold'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

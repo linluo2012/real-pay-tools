@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W-2 vs 1099 Calculator — Is the Contract Rate Worth Giving Up the Job?</title>
+<meta name="description" content="Compare a salaried W-2 offer against a 1099 contract rate after tax, and see the contract rate at which the two are actually equal.">
+<link rel="canonical" href="https://example.com/w2-vs-1099-calculator.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "W-2 vs 1099 Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "url": "https://example.com/w2-vs-1099-calculator.html",
+  "description": "Put a salaried W-2 offer and a 1099 contract rate side by side after tax, self-employment tax and expenses, and find the break-even contract rate.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much more should a 1099 contract pay to match a salaried job?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A common rule of thumb is 25% to 50% more on the headline rate, but the honest answer is that it depends on how many hours you can bill and what benefits you are giving up. A contractor pays both halves of FICA through self-employment tax, funds their own health cover and retirement, absorbs unpaid leave and business expenses, and takes on the risk of gaps between contracts. A role with generous benefits and few billable hours needs a much larger premium than a lean one with steady full-time hours."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the tax difference between W-2 and 1099 income?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A W-2 employee pays 7.65% in FICA and has the other 7.65% paid by the employer, with income tax withheld each period. A 1099 contractor pays self-employment tax of 15.3% on 92.35% of net profit, covering both halves, though half of that is deductible above the line. Contractors also generally have to make quarterly estimated payments, because nothing is withheld for them."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I lose unemployment rights as a contractor?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Generally yes. Independent contractors do not pay into and cannot usually claim unemployment insurance, and they are not covered by the employer's workers' compensation. They also fall outside most employment protections that apply to employees. This is a real cost of the arrangement and is worth pricing alongside the tax difference."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I be misclassified as a contractor?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, and it is common. The label in a contract does not decide it; the substance of the working relationship does, including how much control the company exercises, whether the work is central to its business, and whether you genuinely run an independent business. If you are misclassified you may be owed back payroll taxes and overtime, and rules differ between federal and state tests."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header><div class="wrap">
+  <a class="brand" href="https://example.com/">Real Pay Tools</a>
+  <nav class="brandnav">
+    <a href="https://example.com/tools.html">All tools</a>
+    <a href="https://example.com/job-offer-comparison-calculator.html">Offer comparison</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+<h1>W-2 vs 1099 Calculator</h1>
+<p class="sub">A higher hourly rate is not automatically a better deal. Compare both after tax, and see the rate where they break even.</p>
+
+<div class="ad-slot" aria-hidden="true">Advertisement slot</div>
+
+<div class="panel">
+  <h3>The salaried offer</h3>
+  <div class="row">
+    <div class="field">
+      <label for="w2sal">W-2 salary</label>
+      <input type="number" id="w2sal" value="90000" step="1000" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="w2ben">Employer-paid benefits <span class="hint">Health, match, per year</span></label>
+      <input type="number" id="w2ben" value="12000" step="500" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="status">Filing status</label>
+      <select id="status">
+        <option value="single">Single</option>
+        <option value="mfj">Married filing jointly</option>
+        <option value="hoh">Head of household</option>
+        <option value="mfs">Married filing separately</option>
+      </select>
+    </div>
+  </div>
+  <h3>The contract</h3>
+  <div class="row">
+    <div class="field">
+      <label for="rate">1099 hourly rate</label>
+      <input type="number" id="rate" value="60" step="1" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="hours">Billable hours per week</label>
+      <input type="number" id="hours" value="30" step="1" min="1" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="weeks">Paid weeks per year</label>
+      <input type="number" id="weeks" value="48" step="1" min="1" max="52" inputmode="decimal">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="exp">Business expenses per year</label>
+      <input type="number" id="exp" value="6000" step="500" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="selfben">Cover you must buy yourself <span class="hint">Health, retirement</span></label>
+      <input type="number" id="selfben" value="15000" step="500" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="state">State <span class="hint">Approximate rate</span></label>
+      <select id="state">
+        <option value="0">No state income tax</option>
+        <option value="0.065">California (≈6.5%)</option>
+        <option value="0.06">New York (≈6.0%)</option>
+        <option value="0.0495">Illinois (≈4.95%)</option>
+        <option value="0.0307">Pennsylvania (≈3.07%)</option>
+        <option value="0.031">Ohio (≈3.1%)</option>
+        <option value="0.045">North Carolina (≈4.5%)</option>
+        <option value="0.05">Massachusetts (≈5.0%)</option>
+        <option value="0.045">New Jersey (≈4.5%)</option>
+        <option value="0.044">Colorado (≈4.4%)</option>
+        <option value="0.025">Arizona (≈2.5%)</option>
+        <option value="0.0539">Georgia (≈5.39%)</option>
+        <option value="0.0425">Michigan (≈4.25%)</option>
+        <option value="0.05">Virginia (≈5.0%)</option>
+      </select>
+    </div>
+  </div>
+  <p class="note">Self-employment tax is 15.3% on 92.35% of net profit with half deductible. Uses 2026 brackets and the $184,500 wage base.</p>
+</div>
+
+<div id="results" aria-live="polite">
+  <div class="grid3">
+    <div class="stat hl" id="winCard">
+      <p class="lbl">Better by</p>
+      <p class="val" id="diff">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">W-2 spendable</p>
+      <p class="val" id="w2net">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">1099 spendable</p>
+      <p class="val" id="cnet">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Break-even rate</p>
+      <p class="val" id="breakeven">$0</p>
+    </div>
+  </div>
+
+  <h2>Side by side</h2>
+  <table>
+    <caption class="vh">Comparison of gross pay, tax and spendable income for the W-2 offer and the 1099 contract</caption>
+    <thead><tr><th>Line item</th><th class="num">W-2</th><th class="num">1099</th></tr></thead>
+    <tbody>
+      <tr><td>Gross pay</td><td class="num" id="g0">$0</td><td class="num" id="g1">$0</td></tr>
+      <tr><td>Business expenses</td><td class="num">—</td><td class="num" id="e1">−$0</td></tr>
+      <tr><td>FICA / self-employment tax</td><td class="num" id="f0">−$0</td><td class="num" id="f1">−$0</td></tr>
+      <tr><td>Federal income tax</td><td class="num" id="t0">−$0</td><td class="num" id="t1">−$0</td></tr>
+      <tr><td>State income tax</td><td class="num" id="s0">−$0</td><td class="num" id="s1">−$0</td></tr>
+      <tr><td><strong>After tax</strong></td><td class="num" id="a0"><strong>$0</strong></td><td class="num" id="a1"><strong>$0</strong></td></tr>
+      <tr><td>Benefits received</td><td class="num" id="b0">+$0</td><td class="num">—</td></tr>
+      <tr><td>Benefits bought by you</td><td class="num">—</td><td class="num" id="b1">−$0</td></tr>
+      <tr><td><strong>Spendable</strong></td><td class="num" id="p0"><strong>$0</strong></td><td class="num" id="p1"><strong>$0</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight" id="insight"></div>
+</div>
+
+<h2>Common questions</h2>
+
+<details>
+  <summary>How much more should a 1099 contract pay to match a salaried job?</summary>
+  <p>The common rule of thumb is 25% to 50% on the headline rate, but it depends on how many hours you can actually bill and what you are giving up. A contractor pays both halves of FICA, funds their own health cover and retirement, absorbs unpaid leave and expenses, and carries the risk of gaps between contracts. A role with generous benefits and few billable hours needs a much larger premium than a lean one with steady full-time hours.</p>
+</details>
+
+<details>
+  <summary>What is the tax difference between W-2 and 1099 income?</summary>
+  <p>A W-2 employee pays 7.65% in FICA and the employer pays the other 7.65%, with income tax withheld each period. A 1099 contractor pays self-employment tax of 15.3% on 92.35% of net profit, covering both halves, though half of it is deductible above the line. Contractors usually have to make quarterly estimated payments because nothing is withheld for them.</p>
+</details>
+
+<details>
+  <summary>Do I lose unemployment rights as a contractor?</summary>
+  <p>Generally yes. Independent contractors do not usually pay into or claim unemployment insurance, are not covered by the client's workers' compensation, and fall outside most employment protections. That is a real cost of the arrangement and worth pricing alongside the tax difference.</p>
+</details>
+
+<details>
+  <summary>Can I be misclassified as a contractor?</summary>
+  <p>Yes, and it is common. The label in the contract does not decide it; the substance of the relationship does, including how much control the company exercises, whether the work is central to its business, and whether you genuinely run an independent business. Misclassification can mean back payroll taxes and overtime owed, and federal and state tests differ.</p>
+</details>
+
+<h2>Related tools</h2>
+<div class="related">
+  <a href="https://example.com/freelance-rate-calculator.html">Freelance Rate Calculator</a>
+  <a href="https://example.com/job-offer-comparison-calculator.html">Job Offer Comparison</a>
+  <a href="https://example.com/take-home-pay-calculator.html">Take-Home Pay Calculator</a>
+  <a href="https://example.com/severance-calculator.html">Severance Calculator</a>
+</div>
+
+<div class="disc"><strong>Disclaimer.</strong> For informational and educational purposes only. Classification rules and unemployment eligibility are legal questions, and this does not constitute tax or legal advice.</div>
+
+<footer>
+  <a href="https://example.com/tools.html">All tools</a>
+  <a href="https://example.com/about.html">About</a>
+  <a href="https://example.com/privacy.html">Privacy Policy</a>
+  <a href="https://example.com/disclaimer.html">Disclaimer</a>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  function val(id){ var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+
+  var SS_CAP = 184500, ADDL_MED = 200000;
+
+  var B = {
+    single: { std: 16100, rates: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[640600,.35],[Infinity,.37]] },
+    mfj:    { std: 32200, rates: [[24800,.10],[100800,.12],[211400,.22],[403550,.24],[512450,.32],[768700,.35],[Infinity,.37]] },
+    hoh:    { std: 24150, rates: [[17700,.10],[67450,.12],[105700,.22],[201750,.24],[256200,.32],[640600,.35],[Infinity,.37]] },
+    mfs:    { std: 16100, rates: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[384350,.35],[Infinity,.37]] }
+  };
+
+  function fedTax(taxable, rates){
+    var tax = 0, lower = 0;
+    for (var i = 0; i < rates.length; i++){
+      var cap = rates[i][0], r = rates[i][1];
+      if (taxable <= lower) break;
+      var slice = Math.min(taxable, cap) - lower;
+      if (slice > 0) tax += slice * r;
+      lower = cap;
+    }
+    return tax;
+  }
+
+  function w2(gross){
+    var cfg = B[$('status').value];
+    var stRate = parseFloat($('state').value) || 0;
+    var fed = fedTax(Math.max(gross - cfg.std, 0), cfg.rates);
+    var fica = Math.min(gross, SS_CAP) * 0.062 + gross * 0.0145 + Math.max(gross - ADDL_MED, 0) * 0.009;
+    var st = gross * stRate;
+    return { gross: gross, fica: fica, fed: fed, st: st, net: gross - fica - fed - st };
+  }
+
+  function contract(revenue){
+    var exp = Math.max(val('exp'), 0);
+    var cfg = B[$('status').value];
+    var stRate = parseFloat($('state').value) || 0;
+    var profit = Math.max(revenue - exp, 0);
+    var base = profit * 0.9235;
+    var se = Math.min(base, SS_CAP) * 0.124 + base * 0.029 + Math.max(base - ADDL_MED, 0) * 0.009;
+    var half = se / 2;
+    var fed = fedTax(Math.max(profit - half - cfg.std, 0), cfg.rates);
+    var st = Math.max(profit - half, 0) * stRate;
+    return { gross: revenue, exp: exp, se: se, fed: fed, st: st, net: profit - se - fed - st };
+  }
+
+  function calc(){
+    var sal = Math.max(val('w2sal'), 0);
+    var ben = Math.max(val('w2ben'), 0);
+    var selfBen = Math.max(val('selfben'), 0);
+    var hours = Math.max(val('hours'), 1);
+    var weeks = Math.min(Math.max(val('weeks'), 1), 52);
+    var rate = Math.max(val('rate'), 0);
+
+    var e = w2(sal);
+    var billHours = hours * weeks;
+    var revenue = rate * billHours;
+    var c = contract(revenue);
+
+    var w2Spend = e.net + ben;
+    var cSpend = c.net - selfBen;
+
+    $('g0').textContent = money(e.gross); $('g1').textContent = money(c.gross);
+    $('e1').textContent = '−' + money(c.exp);
+    $('f0').textContent = '−' + money(e.fica); $('f1').textContent = '−' + money(c.se);
+    $('t0').textContent = '−' + money(e.fed); $('t1').textContent = '−' + money(c.fed);
+    $('s0').textContent = '−' + money(e.st); $('s1').textContent = '−' + money(c.st);
+    $('a0').innerHTML = '<strong>' + money(e.net) + '</strong>';
+    $('a1').innerHTML = '<strong>' + money(c.net) + '</strong>';
+    $('b0').textContent = '+' + money(ben); $('b1').textContent = '−' + money(selfBen);
+    $('p0').innerHTML = '<strong>' + money(w2Spend) + '</strong>';
+    $('p1').innerHTML = '<strong>' + money(cSpend) + '</strong>';
+
+    $('w2net').textContent = money(w2Spend);
+    $('cnet').textContent = money(cSpend);
+
+    var d = cSpend - w2Spend;
+    var card = $('winCard');
+    if (d >= 0){
+      $('diff').textContent = '+' + money(d);
+      card.className = 'stat hl';
+      card.querySelector('.lbl').textContent = 'Contract ahead by';
+    } else {
+      $('diff').textContent = '−' + money(Math.abs(d));
+      card.className = 'stat bad';
+      card.querySelector('.lbl').textContent = 'Contract behind by';
+    }
+
+    // 盈亏平衡点：找出让 1099 可支配收入等于 W-2 的费率
+    var lo = 0, hi = 2000, be = 0;
+    for (var i = 0; i < 80; i++){
+      var mid = (lo + hi) / 2;
+      var t = contract(mid * billHours);
+      if (t.net - selfBen < w2Spend){ lo = mid; } else { hi = mid; }
+      be = hi;
+    }
+    $('breakeven').textContent = '$' + be.toFixed(0) + '/hr';
+
+    var msg;
+    if (sal <= 0 && rate <= 0){
+      msg = 'Enter a salary and a contract rate to compare them.';
+    } else {
+      msg = 'The contract earns ' + money(c.gross) + ' in revenue, leaving ' + money(c.net) + ' after tax and expenses, '
+          + 'and ' + money(cSpend) + ' once you have bought your own cover. The salaried job leaves ' + money(e.net)
+          + ' after tax plus ' + money(ben) + ' of employer-paid benefits, so ' + money(w2Spend) + '. ';
+      if (d >= 0){
+        msg += 'The contract is ahead by ' + money(d) + ' a year. ';
+      } else {
+        msg += 'The contract is behind by ' + money(Math.abs(d)) + ' a year. ';
+      }
+      msg += 'You would need about $' + be.toFixed(0) + ' an hour to break even.';
+    }
+    $('insight').textContent = msg;
+  }
+
+  ['w2sal','w2ben','status','state','rate','hours','weeks','exp','selfben'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>
