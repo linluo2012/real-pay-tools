@@ -178,11 +178,37 @@ branch 'main' set up to track 'origin/main'.</div>
 
 <h2>出问题了？对照这里</h2>
 
+<div class="box stop">
+<b>⚠️ 如果看到 Permission denied (publickey)，先这样定位</b>
+先跑这条命令，看客户端到底有没有把密钥发出去：
+<div class="cmd"><button class="cp">复制</button>ssh -Tv git@github.com 2&gt;&amp;1 | grep -iE "offering|authenticat|denied"</div>
+<ul style="margin:10px 0 0;">
+<li>如果出现 <code>Offering public key: ...</code> — 说明本地密钥没问题，<b>问题在 GitHub 那边没登记这个公钥</b>，回到第 0 步加一次</li>
+<li>如果出现 <code>agent contains no identities</code> 且没有 Offering — 说明 ssh-agent 没加载密钥，执行
+<code>ssh-add --apple-use-keychain ~/.ssh/id_ed25519</code></li>
+<li>两者都没有 — 密钥文件不存在或权限不对</li>
+</ul>
+</div>
+
 <table>
 <tr><th style="width:34%">报错信息</th><th>原因与解决办法</th></tr>
 <tr>
 <td><code>Permission denied (publickey)</code></td>
-<td>SSH 公钥没配上。回到第 0 步重新加一次，确认 <code>ssh -T git@github.com</code> 能通</td>
+<td><b>绝大多数情况：公钥没加到 GitHub。</b><br>
+本机公钥（已复制到剪贴板）：
+<div class="cmd" style="font-size:12px;"><button class="cp">复制</button>ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKQ6sFbJiui6nX3l7mElOxUy/SXUCKpyISd+ugj0Kcek linluo2012@github</div>
+粘贴到 GitHub → Settings → SSH and GPG keys → New SSH key。
+加完后再跑 <code>ssh -T git@github.com</code> 验证</td>
+</tr>
+<tr>
+<td>连接到的 IP 是 <code>198.18.0.76</code> 之类</td>
+<td>这是代理软件的「假 IP」，不是 GitHub 真实地址，<b>属于正常现象，不用管</b>。
+只要主机指纹是 <code>SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU</code>
+（GitHub 官方 ED25519 指纹），连的就是真 GitHub</td>
+</tr>
+<tr>
+<td><code>no such identity</code> / 找不到密钥</td>
+<td>密钥不在默认位置。确认 <code>ls ~/.ssh/</code> 里有 <code>id_ed25519</code> 和 <code>id_ed25519.pub</code> 两个文件</td>
 </tr>
 <tr>
 <td><code>remote origin already exists</code></td>
@@ -196,7 +222,31 @@ branch 'main' set up to track 'origin/main'.</div>
 <td><code>fatal: not a git repository</code></td>
 <td>当前目录不对。先执行 <code>cd /Volumes/2t/workplace/网站副业2</code> 再继续</td>
 </tr>
+<tr>
+<td>SSH 怎么都配不通</td>
+<td>改用 HTTPS + 令牌方案绕过（见下方「备选方案」），实测更省事</td>
+</tr>
 </table>
+
+<h3>备选方案：改用 HTTPS + 个人令牌（SSH 实在配不通时用）</h3>
+<div class="step"><div class="num">1</div><div>
+GitHub → 头像 → <b>Settings</b> → 左侧最下面 <b>Developer settings</b>
+→ <b>Personal access tokens</b> → <b>Tokens (classic)</b> → <b>Generate new token (classic)</b>
+</div></div>
+<div class="step"><div class="num">2</div><div>
+Note 填 <code>Real Pay Tools</code>，<b>勾上 repo</b>（第一个大项）就够了，拉到最下面点 <b>Generate token</b>
+</div></div>
+<div class="step"><div class="num">3</div><div>
+<b>立刻复制那个 ghp_ 开头的字符串</b>（关掉页面就再也看不到了）
+</div></div>
+<div class="step"><div class="num">4</div><div>
+建仓库时第 2 步改成复制 <b>HTTPS</b> 地址（<code>https://github.com/用户名/real-pay-tools.git</code>），然后执行：
+<div class="cmd"><button class="cp">复制</button>cd /Volumes/2t/workplace/网站副业2
+git remote add origin https://github.com/用户名/real-pay-tools.git
+git branch -M main
+git push -u origin main</div>
+用户名填 GitHub 用户名，<b>密码那一栏粘贴 ghp_ 开头的令牌</b>（不是登录密码）。macOS 钥匙串会自动记住，以后不用重复输。
+</div></div>
 
 <h2>做完后告诉我</h2>
 <p>推送成功后跟我说一声，我会继续帮你做完后面两步，并检查线上是否正常：</p>
