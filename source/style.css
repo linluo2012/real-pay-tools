@@ -101,9 +101,22 @@ details p{margin:10px 0 0;font-size:14px;}
      text-decoration:none;color:var(--accent);font-size:14px;}
 .related a:hover{background:var(--accent-soft);}
 
+/* 分享条：让计算结果可被复制成链接带走 */
+.sharebar{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:18px 0 0;
+     padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface);}
+.sharelabel{font-size:13px;color:var(--muted);margin-right:auto;}
+.sharebtn{border:1px solid var(--accent);background:var(--accent);color:#fff;font:inherit;font-size:14px;
+     padding:7px 15px;border-radius:8px;cursor:pointer;}
+.sharebtn:hover{background:#134b85;border-color:#134b85;}
+.sharebtn:active{transform:translateY(1px);}
+.sharehint{font-size:13px;color:var(--muted);min-width:0;word-break:break-all;}
+.sharehint.ok{color:#1a7f4b;font-weight:600;}
+
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
 
 @media (max-width:520px){
   h1{font-size:24px;}
   .stat .val{font-size:21px;}
+  .sharebar{flex-direction:column;align-items:stretch;}
+  .sharelabel{margin-right:0;}
 }

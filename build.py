@@ -100,6 +100,29 @@ def inject_og(text: str, domain: str, rel: str) -> tuple[str, bool]:
     return text, True
 
 
+def inject_share(text: str) -> tuple[str, bool]:
+    """把 share.js 内联注入到带结果区（id="results"）的计算器页。
+
+    目的：让每次计算结果都能生成一个可分享的链接（参数编码在 URL hash 里）。
+    这是站内自带的传播机制——用户在 Reddit / 群里回答薪资问题时可以直接贴
+    「我帮你算了一下」的链接，比发首页链接自然得多，也不违反社区反推广规则。
+
+    用内联而不是外链：省一个请求，且不依赖相对路径。
+    """
+    if 'id="results"' not in text:
+        return text, False
+    p = ROOT / "share.js"
+    if not p.exists():
+        return text, False
+    js = p.read_text(encoding="utf-8").strip()
+    block = "<script>\n" + js + "\n</script>\n"
+    if re.search(r"</body\s*>", text, re.I):
+        text = re.sub(r"</body\s*>", block + "</body>", text, count=1, flags=re.I)
+    else:
+        text = text + "\n" + block
+    return text, True
+
+
 def strip_html_suffix(text: str, domain: str) -> str:
     """去掉站内链接的 .html 后缀，统一成无后缀形式。
 
@@ -127,6 +150,7 @@ def build(domain: str, outdir: pathlib.Path) -> int:
 
     changed = []
     og_added = []
+    share_added = []
     for f in pages:
         rel = f.relative_to(SRC)
         rel_s = str(rel).replace("\\", "/")
@@ -142,6 +166,10 @@ def build(domain: str, outdir: pathlib.Path) -> int:
             og_added.append(rel_s)
         # 顺序：先注入 OG（其 og:url 带 .html），再去后缀，两者都会被统一
         text = strip_html_suffix(text, domain)
+        # share.js 放在最后注入，确保它在页面自身脚本之后执行
+        text, shared = inject_share(text)
+        if shared:
+            share_added.append(rel_s)
         out_file.write_text(text, encoding="utf-8")
 
     for extra in sorted(p for p in SRC.rglob("*") if p.is_file() and p.suffix != ".html"):
@@ -224,6 +252,8 @@ def build(domain: str, outdir: pathlib.Path) -> int:
         print(f"         {name:44s} {n} 处域名替换")
     if og_added:
         print(f"og:      为 {len(og_added)} 个页面补全 Open Graph / Twitter Card")
+    if share_added:
+        print(f"share:   为 {len(share_added)} 个计算器页注入结果分享链接功能")
     missing_og = [p for p in og_added
                   if not (outdir / "og" / ("home.png" if p == "index.html"
                                            else p[:-5] + ".png")).exists()]
