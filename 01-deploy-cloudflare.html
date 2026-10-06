@@ -160,6 +160,18 @@ OG 分享图（12 张 PNG）已经提交进仓库了，<b>云端构建不需要�
 <div class="cmd"><button class="cp">复制</button>SITE_DOMAIN = career.linwt.top</div>
 <p style="font-size:14px;color:var(--muted);">不加也行——脚本会读仓库里的 <code>domain.txt</code>，里面写的就是 <code>career.linwt.top</code>。</p>
 
+<div class="box stop">
+<b>⚠️ 找不到 Build output directory？（第一站踩过同样的坑）</b>
+<p style="margin-bottom:8px;"><b>原因</b>：Cloudflare 新版界面在检测不到框架时会<b>简化表单</b>，
+这个字段被折叠隐藏了。</p>
+<p style="margin-bottom:8px;"><b>解决</b>：把 <b>Framework preset</b> 选成 <b>None</b>，
+该字段就会显现出来。（注意：是显式点选 None，不是留空）</p>
+<p style="margin-bottom:0;"><b>还不行？用兜底方案</b>：先照默认完成创建，
+然后进项目 → <b>Settings</b> → <b>Builds &amp; deployments</b> →
+<b>Edit configuration</b>（编辑配置），在里面补填
+build command 和 output directory，保存后重新部署即可。<b>创建完之后随时都能改，不用推倒重来。</b></p>
+</div>
+
 <div class="step"><div class="num">4</div><div>
 点 <b>Save and Deploy</b>（保存并部署）。
 </div></div>
@@ -209,6 +221,37 @@ DNS 页面看一眼，确认第一站那几条记录原封不动。两个站是�
   printf "%-36s %s\n" "/$u" "$(curl -s -o /dev/null -w '%{http_code}' -m 20 https://career.linwt.top/$u)"
 done</div>
 <p style="font-size:14px;color:var(--muted);">全部显示 <code>200</code> 就正常。</p>
+
+<h2>第一站踩过的三个坑（第二站已提前避开两个）</h2>
+
+<table>
+<tr><th style="width:30%">现象</th><th style="width:26%">根因</th><th>解决办法</th></tr>
+<tr>
+<td>向导页找不到 <code>Build output directory</code></td>
+<td>新版界面检测不到框架时简化表单，字段被折叠</td>
+<td>Framework preset 显式选 <b>None</b>；或用上面的兜底方案（创建后在 Settings 里改）</td>
+</tr>
+<tr>
+<td>构建报 <code>domain: example.com</code> 残留占位域名</td>
+<td>环境变量 <code>SITE_DOMAIN</code> 没注入</td>
+<td><b>第二站已避开</b>：仓库根目录有 <code>domain.txt</code>（内容 <code>career.linwt.top</code>），
+build.py 直接读文件，不依赖后台配置。<b>已实测：不带任何环境变量模拟云端构建，域名读取正确</b></td>
+</tr>
+<tr>
+<td><code>Missing entry-point to Worker script</code>，构建成功但部署失败</td>
+<td>仓库里有 <code>wrangler.toml</code>，Cloudflare 把 Pages 误判成 Workers 项目</td>
+<td><b>第二站已避开</b>：已确认仓库内<b>没有</b> wrangler.toml / wrangler.json / package.json。
+<b>Pages 项目的仓库里绝不能有这些文件</b></td>
+</tr>
+</table>
+
+<div class="box warn">
+<b>两条从第一站总结的教训</b>
+<p style="margin-bottom:8px;">1. <b>遇到界面字段找不到，优先在项目内解决</b>（加文件、改脚本），不要在配置文件上做文章——
+第一站为了解决"找不到字段"去加配置文件，结果引入了更严重的问题。</p>
+<p style="margin-bottom:0;">2. <b>构建成功 ≠ 部署成功</b>。日志里 <code>Success: Build command completed</code> 只是第一步，
+真正的失败可能在后面的 deploy 阶段。<b>读日志要从下往上看最终状态。</b></p>
+</div>
 
 <h2>构建失败了？对照这里</h2>
 <table>
