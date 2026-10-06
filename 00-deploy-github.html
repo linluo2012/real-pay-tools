@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitHub 新建仓库 + 推送第二站 — 操作步骤</title>
+<style>
+:root{--ink:#1c1c1a;--muted:#6b6a64;--line:#e5e3dc;--surface:#faf9f7;
+      --accent:#185fa5;--accent-soft:#e6f1fb;--accent-line:#85b7eb;
+      --warn-bg:#faeeda;--warn-bd:#fac775;--warn-fg:#854f0b;
+      --bad-bg:#fcebeb;--bad-bd:#f7c1c1;--bad-fg:#a32d2d;
+      --good-bg:#eaf5ec;--good-bd:#a8d5b1;--good-fg:#1a6b2e;}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,
+     "PingFang SC","Microsoft YaHei",sans-serif;background:#fff;color:var(--ink);
+     line-height:1.7;margin:0;padding:0 16px 80px;font-size:15px;}
+.wrap{max-width:820px;margin:0 auto;}
+h1{font-size:27px;font-weight:600;letter-spacing:-0.02em;margin:36px 0 8px;line-height:1.3;}
+h2{font-size:20px;font-weight:600;margin:40px 0 6px;padding-top:20px;border-top:1px solid var(--line);}
+h2:first-of-type{border-top:none;padding-top:0;}
+h3{font-size:16px;font-weight:600;margin:24px 0 8px;}
+p{margin:0 0 14px;}
+.sub{color:var(--muted);margin:0 0 24px;}
+ol,ul{padding-left:24px;margin:0 0 16px;}
+li{margin-bottom:9px;}
+code{background:var(--surface);border:1px solid var(--line);border-radius:4px;
+     padding:1px 6px;font-size:13.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+.cmd{background:#1c1c1a;color:#f2f0ea;border-radius:8px;padding:14px 16px;margin:12px 0 16px;
+     font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;
+     line-height:1.75;overflow-x:auto;position:relative;white-space:pre;}
+.cmd .c{color:#8a8a82;}
+button.cp{position:absolute;top:8px;right:8px;background:#3a3a36;color:#e8e6df;
+  border:1px solid #55554f;border-radius:5px;font-size:11.5px;padding:3px 9px;cursor:pointer;
+  font-family:inherit;}
+button.cp:hover{background:#4a4a45;}
+button.cp.ok{background:#2f6b3c;border-color:#2f6b3c;color:#fff;}
+.box{border-radius:8px;padding:14px 18px;margin:16px 0;font-size:14.5px;}
+.box p:last-child{margin-bottom:0;}
+.box.warn{background:var(--warn-bg);border:1px solid var(--warn-bd);color:var(--warn-fg);}
+.box.stop{background:var(--bad-bg);border:1px solid var(--bad-bd);color:var(--bad-fg);}
+.box.tip{background:var(--accent-soft);border:1px solid var(--accent-line);color:var(--accent);}
+.box.ok{background:var(--good-bg);border:1px solid var(--good-bd);color:var(--good-fg);}
+.box b{display:block;margin-bottom:5px;}
+.kbd{display:inline-block;background:var(--surface);border:1px solid var(--line-strong,var(--line));
+     border-bottom-width:2px;border-radius:4px;padding:1px 7px;font-size:13px;
+     font-family:ui-monospace,Menlo,monospace;}
+.step{display:flex;gap:14px;margin:0 0 6px;align-items:baseline;}
+.num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;
+     font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+table{width:100%;border-collapse:collapse;margin:14px 0 18px;font-size:14px;}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top;}
+th{background:var(--surface);font-weight:600;}
+footer{border-top:1px solid var(--line);margin-top:48px;padding-top:16px;
+       font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>GitHub 新建仓库并推送第二站</h1>
+<p class="sub">Real Pay Tools · career.linwt.top · 全程约 5 分钟，只需做一次</p>
+
+<div class="box tip">
+<b>关于认证方式</b>
+你这台 Mac 上已经存在 SSH 密钥（<code>~/.ssh/id_ed25519.pub</code>），所以本手册走 <b>SSH 方式</b>。
+配好之后以后每次推送都不用再输密码或令牌，比 HTTPS + 令牌省事得多。
+</div>
+
+<h2>第 0 步 · 先把 SSH 公钥登记到 GitHub</h2>
+<p>如果你以前已经在 GitHub 配过这台电脑，可以跳过这一步，直接看第 1 步。</p>
+
+<div class="step"><div class="num">1</div><div>
+打开<b>终端</b>（Terminal），粘贴执行下面这条命令，它会把公钥复制到剪贴板：
+<div class="cmd"><button class="cp">复制</button>cat ~/.ssh/id_ed25519.pub | pbcopy</div>
+</div></div>
+
+<div class="step"><div class="num">2</div><div>
+浏览器打开 <b>github.com</b> 并登录 → 点右上角<b>头像</b> → <b>Settings</b>。
+</div></div>
+
+<div class="step"><div class="num">3</div><div>
+左侧菜单点 <b>SSH and GPG keys</b> → 右上角绿色按钮 <b>New SSH key</b>。
+</div></div>
+
+<div class="step"><div class="num">4</div><div>
+<b>Title</b> 随便填（如 <code>Mac</code>）；<b>Key type</b> 保持 <code>Authentication Key</code>；
+在 <b>Key</b> 那个大文本框里按 <span class="kbd">⌘</span>+<span class="kbd">V</span> 粘贴。
+</div></div>
+
+<div class="step"><div class="num">5</div><div>
+点 <b>Add SSH key</b>。（可能会要求输入一次 GitHub 密码确认）
+</div></div>
+
+<div class="step"><div class="num">6</div><div>
+回终端验证是否连通：
+<div class="cmd"><button class="cp">复制</button>ssh -T git@github.com</div>
+第一次会问 <code>Are you sure you want to continue connecting (yes/no)?</code>，输入 <code>yes</code> 回车。
+看到 <code>Hi 你的用户名! You've successfully authenticated...</code> 就成功了。
+</div></div>
+
+<h2>第 1 步 · 新建空仓库</h2>
+
+<div class="step"><div class="num">1</div><div>
+登录 GitHub 后，点页面<b>右上角那个「+」号</b>（在头像左边）→ 选 <b>New repository</b>。
+</div></div>
+
+<div class="step"><div class="num">2</div><div>
+按下面这张表填：
+<table>
+<tr><th style="width:30%">字段</th><th>怎么填</th></tr>
+<tr><td>Owner</td><td>默认就是你自己的账号，不用动</td></tr>
+<tr><td><b>Repository name</b></td><td><code>real-pay-tools</code></td></tr>
+<tr><td>Description</td><td>可不填，或写 <code>Real Pay Tools — salary &amp; job offer calculators</code></td></tr>
+<tr><td><b>公开性</b></td><td>选 <b>● Public</b>（公开）</td></tr>
+</table>
+</div></div>
+
+<div class="box stop">
+<b>⚠️ 这一步千万别勾错</b>
+往下有个「Initialize this repository with」区域，里面三个选项
+—— <b>Add a README file</b>、<b>Add .gitignore</b>、<b>Choose a license</b>
+—— <b>全部保持不勾选</b>。<br><br>
+原因：你本地已经是一个有提交记录的仓库了。如果 GitHub 这边也生成一个 README，
+两边历史就对不上，推送会被拒绝，还得额外处理冲突。空仓库最省事。
+</div>
+
+<div class="step"><div class="num">3</div><div>
+点绿色按钮 <b>Create repository</b>。
+</div></div>
+
+<h2>第 2 步 · 复制仓库地址（要 SSH 那个）</h2>
+
+<p>创建完成后会跳转到一个写着「Quick setup」的页面。</p>
+
+<div class="step"><div class="num">1</div><div>
+页面中间有一排切换按钮：<code>HTTPS</code> / <code>SSH</code> / <code>GitHub CLI</code>。
+<b>点 SSH</b>（默认显示的是 HTTPS，一定要切过来）。
+</div></div>
+
+<div class="step"><div class="num">2</div><div>
+复制显示的那个地址，长这样：
+<div class="cmd"><button class="cp">复制</button>git@github.com:你的用户名/real-pay-tools.git</div>
+把里面的「你的用户名」换成页面上实际显示的（就是你 GitHub 用户名）。
+</div></div>
+
+<div class="box tip">
+<b>顺手可以做的</b>
+同一个页面往下滚动，会看到一段标题是「<b>…or push an existing repository from the command line</b>」的命令。
+那三条命令跟下面第 3 步是同一件事，直接复制粘贴也行。
+</div>
+
+<h2>第 3 步 · 在本地执行推送</h2>
+
+<p>把下面命令里的地址换成你刚复制的那个，在终端逐条执行：</p>
+
+<div class="cmd"><button class="cp">复制</button><span class="c"># 1. 进入第二站目录</span>
+cd /Volumes/2t/workplace/网站副业2
+
+<span class="c"># 2. 关联远程仓库（地址换成你自己的）</span>
+git remote add origin git@github.com:你的用户名/real-pay-tools.git
+
+<span class="c"># 3. 确保当前分支叫 main</span>
+git branch -M main
+
+<span class="c"># 4. 推送</span>
+git push -u origin main</div>
+
+<p>正常的话会看到类似这样的输出：</p>
+<div class="cmd"><button class="cp">复制</button>Enumerating objects: 24, done.
+Writing objects: 100% (24/24), 210.45 KiB | 1.20 MiB/s, done.
+To github.com:你的用户名/real-pay-tools.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.</div>
+
+<div class="step"><div class="num">✓</div><div>
+回到 GitHub 刷新页面，能看到 12 个源文件和 <code>build.py</code> 等文件，就是成功了。
+</div></div>
+
+<h2>出问题了？对照这里</h2>
+
+<table>
+<tr><th style="width:34%">报错信息</th><th>原因与解决办法</th></tr>
+<tr>
+<td><code>Permission denied (publickey)</code></td>
+<td>SSH 公钥没配上。回到第 0 步重新加一次，确认 <code>ssh -T git@github.com</code> 能通</td>
+</tr>
+<tr>
+<td><code>remote origin already exists</code></td>
+<td>之前已经关联过。改用这条覆盖：<br><code>git remote set-url origin git@github.com:用户名/real-pay-tools.git</code></td>
+</tr>
+<tr>
+<td><code>Updates were rejected because the remote contains work that you do not have</code></td>
+<td>建仓库时误勾了 README。最快的办法：删掉这个仓库，重新按第 1 步建一个<b>空的</b></td>
+</tr>
+<tr>
+<td><code>fatal: not a git repository</code></td>
+<td>当前目录不对。先执行 <code>cd /Volumes/2t/workplace/网站副业2</code> 再继续</td>
+</tr>
+</table>
+
+<h2>做完后告诉我</h2>
+<p>推送成功后跟我说一声，我会继续帮你做完后面两步，并检查线上是否正常：</p>
+<ul>
+<li><b>Cloudflare Pages</b> 新建独立项目，连到这个仓库（构建命令 <code>python3 build.py --build</code>，输出目录 <code>dist</code>）</li>
+<li><b>DNS</b> 添加 <code>career</code> 的 CNAME 记录</li>
+<li>验证线上页面、sitemap、OG 图是否都能正常访问</li>
+</ul>
+
+<div class="box warn">
+<b>一个小提醒：提交者邮箱</b>
+你本机的 git 身份目前是 <code>linluo2012@linluo2012deiMac.local</code>，这是 Mac 自动生成的本地邮箱，
+推到 GitHub 后提交记录不会关联到你的头像和贡献图。不影响部署，如果想改，告诉我你的 GitHub 邮箱，我帮你一条命令改掉。
+</div>
+
+<footer>
+Real Pay Tools 部署手册 · 第二站，与第一站（Small Profit Tools, linwt.top）完全独立
+</footer>
+
+</div>
+<script>
+document.querySelectorAll('button.cp').forEach(function(b){
+  b.addEventListener('click', function(){
+    var box = b.parentElement;
+    var lines = box.innerText.split('\n').filter(function(l){
+      return l.trim() !== '复制';
+    });
+    navigator.clipboard.writeText(lines.join('\n')).then(function(){
+      var old = b.textContent;
+      b.textContent = '已复制'; b.classList.add('ok');
+      setTimeout(function(){ b.textContent = old; b.classList.remove('ok'); }, 1600);
+    });
+  });
+});
+</script>
+</body>
+</html>
