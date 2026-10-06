@@ -100,6 +100,19 @@ def inject_og(text: str, domain: str, rel: str) -> tuple[str, bool]:
     return text, True
 
 
+def strip_html_suffix(text: str, domain: str) -> str:
+    """去掉站内链接的 .html 后缀，统一成无后缀形式。
+
+    静态托管（Workers/Pages）默认会把 /x.html 用 307 跳到 /x。
+    若 sitemap、canonical、站内链接都带 .html，规范形式就与服务器不一致，
+    搜索引擎会看到两套 URL。统一改成无后缀：/x.html -> /x，首页 index.html -> /
+    """
+    def _r(m):
+        p = m.group(1)
+        return f"https://{domain}/" if p == "index" else f"https://{domain}/{p}"
+    return re.sub(rf'https://{re.escape(domain)}/([A-Za-z0-9\-]*?)\.html', _r, text)
+
+
 def build(domain: str, outdir: pathlib.Path) -> int:
     if not SRC.exists():
         print(f"错误：找不到 {SRC}")
@@ -127,6 +140,8 @@ def build(domain: str, outdir: pathlib.Path) -> int:
         text, added = inject_og(text, domain, rel_s)
         if added:
             og_added.append(rel_s)
+        # 顺序：先注入 OG（其 og:url 带 .html），再去后缀，两者都会被统一
+        text = strip_html_suffix(text, domain)
         out_file.write_text(text, encoding="utf-8")
 
     for extra in sorted(p for p in SRC.rglob("*") if p.is_file() and p.suffix != ".html"):
@@ -139,7 +154,7 @@ def build(domain: str, outdir: pathlib.Path) -> int:
     order = ["index.html"] + [n for n in built if n != "index.html"]
     urls = []
     for name in order:
-        loc = domain if name == "index.html" else f"{domain}/{name}"
+        loc = domain if name == "index.html" else f"{domain}/{name[:-5]}"
         if "calculator" in name:
             pri, freq = "0.9", "weekly"
         elif name == "index.html" or name == "tools.html":
@@ -166,10 +181,10 @@ def build(domain: str, outdir: pathlib.Path) -> int:
         "  X-Frame-Options: SAMEORIGIN\n"
         "  Permissions-Policy: geolocation=(), microphone=(), camera=()\n"
         "\n"
-        "/index.html\n"
+        "/\n"
         "  Cache-Control: no-cache\n"
         "\n"
-        "/tools.html\n"
+        "/tools\n"
         "  Cache-Control: no-cache\n",
         encoding="utf-8")
 
@@ -198,8 +213,8 @@ def build(domain: str, outdir: pathlib.Path) -> int:
                 json.loads(b)
             except Exception as e:
                 issues.append(f"JSON-LD 非法 {rel}#{i+1}: {e}")
-        for h in set(re.findall(rf'href="https://{re.escape(domain)}/([a-z0-9\-/\.]+\.html)"', t)):
-            if h not in built and h != rel:
+        for h in set(re.findall(rf'href="https://{re.escape(domain)}/([a-z0-9\-]+)"', t)):
+            if h and f"{h}.html" not in built:
                 issues.append(f"死链 {rel} -> {h}")
 
     print(f"domain:  {domain}")
