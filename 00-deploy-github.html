@@ -111,8 +111,25 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding-top:16px;
 <tr><td>Owner</td><td>默认就是你自己的账号，不用动</td></tr>
 <tr><td><b>Repository name</b></td><td><code>real-pay-tools</code></td></tr>
 <tr><td>Description</td><td>可不填，或写 <code>Real Pay Tools — salary &amp; job offer calculators</code></td></tr>
-<tr><td><b>公开性</b></td><td>选 <b>● Public</b>（公开）</td></tr>
+<tr><td><b>公开性</b></td><td>建议选 <b>● Public</b>（公开）</td></tr>
 </table>
+</div></div>
+
+<div class="box warn">
+<b>选成 Private 了怎么办？</b>
+<p style="margin-bottom:8px;"><b>不影响本次推送。</b>只要你是仓库所有者，认证通过后 public 和 private 一样能推。</p>
+<p style="margin-bottom:8px;">但私有仓库会让<b>后面的 Cloudflare Pages 多一步</b>：在 Cloudflare 里默认搜不到私有仓库，
+得先点「去 GitHub 上为 Cloudflare Pages 应用配置仓库访问权限」，在 GitHub 的
+Repository access 里单独把这个仓库勾上，再回 Cloudflare 刷新才能看到。</p>
+<p style="margin-bottom:0;">另外，本站是纯静态 HTML/CSS/JS，不含任何密钥或后端，代码保密意义不大
+（网页右键「查看源代码」本来就能看到）。所以建议改成 Public，省掉后面那步麻烦。</p>
+</div>
+
+<div class="step"><div class="num">改</div><div>
+<b>把已有仓库改成 Public：</b>进入仓库页面 → <b>Settings</b>（右上角 tab）
+→ 左侧最下面 <b>Danger Zone</b> → <b>Change visibility</b> → <b>Change to public</b>
+→ 按提示输入仓库名确认。<br>
+<span style="color:var(--muted);font-size:14px;">（不想改也行，保持 Private 完全可以，只是 Cloudflare 那步要多授权一次，手册后面有说明）</span>
 </div></div>
 
 <div class="box stop">
