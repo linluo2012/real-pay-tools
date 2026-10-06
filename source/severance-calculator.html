@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Severance Calculator — Estimate a Severance Offer</title>
+<meta name="description" content="Estimate a severance package from your salary and years of service, check it against common policy formulas, and see how many months of expenses it covers.">
+<link rel="canonical" href="https://example.com/severance-calculator.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Severance Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "url": "https://example.com/severance-calculator.html",
+  "description": "Estimate severance pay from salary and years of service using a configurable weeks-per-year formula, including unused vacation payout and estimated tax.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much severance pay is typical?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "One to two weeks of pay for each year of service is the most common range for non-executive roles in the United States, with a floor of around two weeks regardless of tenure. Senior and executive roles often negotiate three to six months or more. Severance is generally a matter of company policy or negotiation rather than legal entitlement: federal law does not require it, and only a few states impose obligations in specific circumstances such as mass layoffs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is severance taxed differently from regular pay?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is taxed as ordinary income, but it is usually withheld differently. Employers commonly apply the federal supplemental wage rate of 22% to lump sum payments rather than running it through normal bracket withholding. That means the amount withheld may not match the tax you actually owe: you could owe more at filing time if your marginal rate is higher, or receive a refund if it is lower. Social Security and Medicare still apply unless you have already hit the wage base."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does unused vacation have to be paid out?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on state law and company policy. Roughly half of US states treat accrued vacation as earned wages that must be paid on separation, while others allow employers to set a forfeiture policy if it is clearly stated in advance. Some states also require payout of accrued sick leave. Check your state labor department rules and your employee handbook, and do not assume a policy that contradicts state law is enforceable."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I negotiate a severance offer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Often yes, particularly around three items: more weeks of pay, continued health cover or a subsidy for it, and the release language itself. Employers frequently have more room on benefits continuation and on the wording of non-disparagement or non-solicit clauses than on the cash amount. Consider asking for outplacement support and for equity vesting treatment to be stated explicitly. Before signing anything containing a release of claims, have an employment attorney review it."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header><div class="wrap">
+  <a class="brand" href="https://example.com/">Real Pay Tools</a>
+  <nav class="brandnav">
+    <a href="https://example.com/tools.html">All tools</a>
+    <a href="https://example.com/take-home-pay-calculator.html">Take-home pay</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+<h1>Severance Calculator</h1>
+<p class="sub">Estimate what a severance offer should look like, check it against the formula your employer is using, and see how long it covers you.</p>
+
+<div class="ad-slot" aria-hidden="true">Advertisement slot</div>
+
+<div class="panel">
+  <div class="row">
+    <div class="field">
+      <label for="salary">Annual salary</label>
+      <input type="number" id="salary" value="85000" step="1000" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="years">Years of service</label>
+      <input type="number" id="years" value="6" step="0.5" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="wpy">Weeks of pay per year served</label>
+      <input type="number" id="wpy" value="1" step="0.5" min="0" inputmode="decimal">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="minWeeks">Minimum weeks <span class="hint">Floor regardless of tenure</span></label>
+      <input type="number" id="minWeeks" value="2" step="1" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="maxWeeks">Maximum weeks <span class="hint">0 means no cap</span></label>
+      <input type="number" id="maxWeeks" value="0" step="1" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="vac">Unused vacation days</label>
+      <input type="number" id="vac" value="5" step="1" min="0" inputmode="decimal">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="state">State <span class="hint">Approximate effective rate</span></label>
+      <select id="state">
+        <option value="0">No state income tax</option>
+        <option value="0.065">California (≈6.5%)</option>
+        <option value="0.06">New York (≈6.0%)</option>
+        <option value="0.0495">Illinois (≈4.95%)</option>
+        <option value="0.0307">Pennsylvania (≈3.07%)</option>
+        <option value="0.031">Ohio (≈3.1%)</option>
+        <option value="0.045">North Carolina (≈4.5%)</option>
+        <option value="0.05">Massachusetts (≈5.0%)</option>
+        <option value="0.045">New Jersey (≈4.5%)</option>
+        <option value="0.044">Colorado (≈4.4%)</option>
+        <option value="0.025">Arizona (≈2.5%)</option>
+        <option value="0.0539">Georgia (≈5.39%)</option>
+        <option value="0.0425">Michigan (≈4.25%)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="expenses">Monthly essential expenses <span class="hint">To see how long it lasts</span></label>
+      <input type="number" id="expenses" value="3800" step="100" min="0" inputmode="decimal">
+    </div>
+  </div>
+  <p class="note">Severance is usually withheld at the 22% federal supplemental rate rather than through ordinary brackets. Social Security and Medicare apply unless you have already reached the wage base for the year.</p>
+</div>
+
+<div id="results" aria-live="polite">
+  <div class="grid3">
+    <div class="stat hl">
+      <p class="lbl">Estimated severance, after tax</p>
+      <p class="val" id="net">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Gross severance</p>
+      <p class="val" id="gross">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Weeks of pay</p>
+      <p class="val" id="weeksOut">0</p>
+    </div>
+    <div class="stat" id="coverCard">
+      <p class="lbl">Covers this many months</p>
+      <p class="val" id="months">0</p>
+    </div>
+  </div>
+
+  <h2>How it is built</h2>
+  <table>
+    <caption class="vh">Severance calculation broken into weeks, base pay, vacation and tax</caption>
+    <thead><tr><th>Line item</th><th class="num">Amount</th></tr></thead>
+    <tbody>
+      <tr><td>Weeks from years of service</td><td class="num" id="rWeeks">0</td></tr>
+      <tr><td>Weekly pay</td><td class="num" id="rWeekly">$0</td></tr>
+      <tr><td>Severance base</td><td class="num" id="rBase">$0</td></tr>
+      <tr><td>Unused vacation payout</td><td class="num" id="rVac">$0</td></tr>
+      <tr><td><strong>Gross package</strong></td><td class="num" id="rGross"><strong>$0</strong></td></tr>
+      <tr><td>Federal withholding at 22%</td><td class="num" id="rFed">$0</td></tr>
+      <tr><td>State withholding</td><td class="num" id="rState">$0</td></tr>
+      <tr><td>Social Security and Medicare</td><td class="num" id="rFica">$0</td></tr>
+      <tr><td><strong>Estimated net payment</strong></td><td class="num" id="rNet"><strong>$0</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight" id="insight"></div>
+</div>
+
+<h2>Common questions</h2>
+
+<details>
+  <summary>How much severance pay is typical?</summary>
+  <p>One to two weeks of pay for each year of service is the most common range for non-executive roles in the United States, with a floor of around two weeks regardless of tenure. Senior roles often negotiate three to six months or more. Severance is generally a matter of company policy or negotiation rather than legal entitlement: federal law does not require it, and only a few states impose obligations in specific circumstances such as mass layoffs.</p>
+</details>
+
+<details>
+  <summary>Is severance taxed differently from regular pay?</summary>
+  <p>It is taxed as ordinary income, but usually withheld differently. Employers commonly apply the federal supplemental wage rate of 22% to lump sum payments rather than normal bracket withholding. That means the amount withheld may not match what you actually owe: you could owe more at filing time if your marginal rate is higher, or get a refund if it is lower. Social Security and Medicare still apply unless you have already hit the wage base.</p>
+</details>
+
+<details>
+  <summary>Does unused vacation have to be paid out?</summary>
+  <p>It depends on state law and company policy. Roughly half of US states treat accrued vacation as earned wages that must be paid on separation, while others allow a forfeiture policy if stated clearly in advance. Some states also require payout of accrued sick leave. Check your state labor department rules and your handbook, and do not assume a policy that contradicts state law is enforceable.</p>
+</details>
+
+<details>
+  <summary>Should I negotiate a severance offer?</summary>
+  <p>Often yes, particularly on three items: more weeks of pay, continued health cover or a subsidy for it, and the release language itself. Employers frequently have more room on benefits continuation and on the wording of non-disparagement or non-solicit clauses than on the cash amount. Consider asking for outplacement support and for equity vesting treatment to be stated explicitly. Before signing anything containing a release of claims, have an employment attorney review it.</p>
+</details>
+
+<h2>Related tools</h2>
+<div class="related">
+  <a href="https://example.com/take-home-pay-calculator.html">Take-Home Pay Calculator</a>
+  <a href="https://example.com/job-offer-comparison-calculator.html">Job Offer Comparison</a>
+  <a href="https://example.com/hourly-to-salary-calculator.html">Hourly to Salary Calculator</a>
+  <a href="https://example.com/raise-calculator.html">Raise Calculator</a>
+</div>
+
+<div class="disc"><strong>Disclaimer.</strong> For informational and educational purposes only. Severance is not legally required in most circumstances and company policy varies widely. Results are estimates and do not constitute legal, tax, or financial advice. Have any separation agreement reviewed by a qualified employment attorney before signing.</div>
+
+<footer>
+  <a href="https://example.com/tools.html">All tools</a>
+  <a href="https://example.com/about.html">About</a>
+  <a href="https://example.com/privacy.html">Privacy Policy</a>
+  <a href="https://example.com/disclaimer.html">Disclaimer</a>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  function num(n, d){ return n.toLocaleString('en-US',{maximumFractionDigits:d||0}); }
+  function val(id){ var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+
+  function calc(){
+    var salary = Math.max(val('salary'), 0);
+    var years = Math.max(val('years'), 0);
+    var wpy = Math.max(val('wpy'), 0);
+    var minW = Math.max(val('minWeeks'), 0);
+    var maxW = Math.max(val('maxWeeks'), 0);
+    var vac = Math.max(val('vac'), 0);
+    var stateRate = parseFloat($('state').value) || 0;
+    var exp = Math.max(val('expenses'), 0);
+
+    var weeks = Math.max(years * wpy, minW);
+    if (maxW > 0) weeks = Math.min(weeks, maxW);
+
+    var weekly = salary / 52;
+    var daily = weekly / 5;
+    var base = weeks * weekly;
+    var vacPay = vac * daily;
+    var grossPay = base + vacPay;
+
+    var fed = grossPay * 0.22;
+    var st = grossPay * stateRate;
+    var fica = grossPay * 0.0765;
+    var net = Math.max(grossPay - fed - st - fica, 0);
+    var months = exp > 0 ? net / exp : 0;
+
+    $('net').textContent = money(net);
+    $('gross').textContent = money(grossPay);
+    $('weeksOut').textContent = num(weeks, 1);
+    $('months').textContent = num(months, 1);
+
+    $('rWeeks').textContent = num(weeks, 1);
+    $('rWeekly').textContent = money(weekly);
+    $('rBase').textContent = money(base);
+    $('rVac').textContent = money(vacPay);
+    $('rGross').innerHTML = '<strong>' + money(grossPay) + '</strong>';
+    $('rFed').textContent = money(fed);
+    $('rState').textContent = money(st);
+    $('rFica').textContent = money(fica);
+    $('rNet').innerHTML = '<strong>' + money(net) + '</strong>';
+
+    $('coverCard').className = 'stat' + (months >= 3 ? '' : ' warn');
+
+    var msg;
+    if (grossPay <= 0){
+      msg = 'Enter a salary and years of service to estimate a package.';
+    } else {
+      msg = 'That is ' + num(weeks, 1) + ' weeks of pay plus ' + vac + ' days of unused vacation, '
+          + 'coming to ' + money(grossPay) + ' gross and about ' + money(net) + ' after withholding. ';
+      if (months >= 3){
+        msg += 'At your stated expenses that covers roughly ' + num(months, 1) + ' months.';
+      } else {
+        msg += 'At your stated expenses that covers only ' + num(months, 1)
+             + ' months, which is worth raising in negotiation.';
+      }
+    }
+    $('insight').textContent = msg;
+  }
+
+  ['salary','years','wpy','minWeeks','maxWeeks','vac','state','expenses'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+"""
+build.py — Real Pay Tools 构建脚本
+
+第二站专属。与第一站（Small Profit Tools）完全独立：
+独立目录、独立仓库、独立 Cloudflare Pages 项目、独立域名配置。
+任何修改都不会触及第一站。
+
+用法：
+    python3 build.py career.linwt.top   # 本地构建到 site/
+    python3 build.py --build            # Cloudflare Pages 云端构建到 dist/
+
+流程：
+    1. 递归复制 source/ → 输出目录，替换 example.com → 真实域名
+    2. 生成 sitemap.xml、robots.txt、_headers
+    3. 校验：JSON-LD 合法性、站内死链、占位域名残留
+"""
+import sys, os, pathlib, shutil, re, json
+
+ROOT = pathlib.Path(__file__).parent
+SRC = ROOT / "source"
+OUT = ROOT / "site"
+CF_OUT = ROOT / "dist"
+PLACEHOLDER = "example.com"
+
+
+def from_file(name: str) -> str:
+    p = ROOT / name
+    if not p.exists():
+        return ""
+    t = p.read_text(encoding="utf-8").strip()
+    m = re.search(r'^SITE_DOMAIN\s*=\s*(.+)$', t, re.MULTILINE)
+    if m:
+        return m.group(1).strip().strip('"\'').lower()
+    return t.splitlines()[0].strip().lower() if t else ""
+
+
+def resolve_domain() -> str:
+    env = os.environ.get("SITE_DOMAIN", "").strip()
+    if env:
+        return env.lower()
+    for a in sys.argv[1:]:
+        if not a.startswith("--") and "." in a:
+            return a.lower()
+    for name in (".env", "domain.txt"):
+        v = from_file(name)
+        if v:
+            return v
+    return PLACEHOLDER
+
+
+def build(domain: str, outdir: pathlib.Path) -> int:
+    if not SRC.exists():
+        print(f"错误：找不到 {SRC}")
+        return 1
+
+    pages = sorted(SRC.rglob("*.html"))
+    if not pages:
+        print(f"错误：{SRC} 里没有 html 文件")
+        return 1
+
+    outdir.mkdir(parents=True, exist_ok=True)
+
+    changed = []
+    for f in pages:
+        rel = f.relative_to(SRC)
+        out_file = outdir / rel
+        out_file.parent.mkdir(parents=True, exist_ok=True)
+        text = f.read_text(encoding="utf-8")
+        n = text.count(PLACEHOLDER)
+        if n:
+            text = text.replace(PLACEHOLDER, domain)
+            changed.append((str(rel), n))
+        out_file.write_text(text, encoding="utf-8")
+
+    for extra in sorted(p for p in SRC.rglob("*") if p.is_file() and p.suffix != ".html"):
+        rel = extra.relative_to(SRC)
+        (outdir / rel).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(extra, outdir / rel)
+
+    built = sorted(str(p.relative_to(outdir)).replace("\\", "/")
+                   for p in outdir.rglob("*.html"))
+    order = ["index.html"] + [n for n in built if n != "index.html"]
+    urls = []
+    for name in order:
+        loc = domain if name == "index.html" else f"{domain}/{name}"
+        if "calculator" in name:
+            pri, freq = "0.9", "weekly"
+        elif name == "index.html" or name == "tools.html":
+            pri, freq = "1.0", "weekly"
+        else:
+            pri, freq = "0.3", "yearly"
+        urls.append(f"  <url>\n    <loc>https://{loc}</loc>\n"
+                    f"    <changefreq>{freq}</changefreq>\n"
+                    f"    <priority>{pri}</priority>\n  </url>")
+
+    (outdir / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(urls) + "\n</urlset>\n", encoding="utf-8")
+
+    (outdir / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\n\nSitemap: https://{domain}/sitemap.xml\n",
+        encoding="utf-8")
+
+    (outdir / "_headers").write_text(
+        "/*\n"
+        "  X-Content-Type-Options: nosniff\n"
+        "  Referrer-Policy: strict-origin-when-cross-origin\n"
+        "  X-Frame-Options: SAMEORIGIN\n"
+        "  Permissions-Policy: geolocation=(), microphone=(), camera=()\n"
+        "\n"
+        "/index.html\n"
+        "  Cache-Control: no-cache\n"
+        "\n"
+        "/tools.html\n"
+        "  Cache-Control: no-cache\n",
+        encoding="utf-8")
+
+    issues = []
+
+    if domain == PLACEHOLDER:
+        issues.append(
+            f"域名未配置，构建使用了占位域名 {PLACEHOLDER}。\n"
+            f"     修复方式：在 domain.txt 写入真实域名，或在 Cloudflare 后台设置环境变量 SITE_DOMAIN")
+
+    leftover = []
+    for f in sorted(outdir.rglob("*.html")):
+        t = f.read_text(encoding="utf-8")
+        for m in re.finditer(rf'href="https://{re.escape(PLACEHOLDER)}/([a-z0-9\-/\.]+\.html)"', t):
+            leftover.append(f"{f.relative_to(outdir)} -> {m.group(1)}")
+            break
+    if leftover:
+        issues.append(f"站内链接仍指向占位域名: {leftover}")
+
+    for f in sorted(outdir.rglob("*.html")):
+        rel = str(f.relative_to(outdir)).replace("\\", "/")
+        t = f.read_text(encoding="utf-8")
+        for i, b in enumerate(re.findall(
+                r'<script type="application/ld\+json">(.*?)</script>', t, re.S)):
+            try:
+                json.loads(b)
+            except Exception as e:
+                issues.append(f"JSON-LD 非法 {rel}#{i+1}: {e}")
+        for h in set(re.findall(rf'href="https://{re.escape(domain)}/([a-z0-9\-/\.]+\.html)"', t)):
+            if h not in built and h != rel:
+                issues.append(f"死链 {rel} -> {h}")
+
+    print(f"domain:  {domain}")
+    print(f"out:     {outdir}")
+    print(f"pages:   {len(built)}")
+    for name, n in changed:
+        print(f"         {name:44s} {n} 处域名替换")
+    if issues:
+        print("\n构建完成，但有问题:")
+        for i in issues:
+            print(f"  ! {i}")
+    else:
+        print("\n构建完成，无问题")
+    return 1 if issues else 0
+
+
+if __name__ == "__main__":
+    cloud = "--build" in sys.argv
+    dom = resolve_domain()
+    target = CF_OUT if cloud else OUT
+    sys.exit(build(dom, target))

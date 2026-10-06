@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hourly to Salary Calculator — With Overtime and Unpaid Leave</title>
+<meta name="description" content="Convert hourly pay to annual salary and back. Adjust for overtime, unpaid weeks off and the hours you actually work to see your real hourly rate.">
+<link rel="canonical" href="https://example.com/hourly-to-salary-calculator.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Hourly to Salary Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "url": "https://example.com/hourly-to-salary-calculator.html",
+  "description": "Convert between hourly pay and annual salary, adjusting for overtime hours, overtime multiplier and unpaid weeks off to show the real hourly rate.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How many working hours are in a year?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The standard figure is 2,080 hours: 40 hours a week across 52 weeks. It is the basis most employers use to convert salary to an hourly figure. It stops being accurate the moment you take unpaid leave, work overtime, or regularly work more or fewer than 40 hours. This calculator lets you replace 2,080 with the hours you actually work, which is the only way to get a real hourly rate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does overtime change my effective hourly rate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Overtime paid at time and a half raises total pay faster than it raises total hours, so your effective hourly rate goes up. Five overtime hours a week at 1.5x on a $30 base rate lifts the effective rate from $30.00 to about $30.94 and adds roughly $11,700 a year. Straight-time overtime, where extra hours are paid at the normal rate, leaves the effective rate unchanged but still raises annual pay."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does unpaid leave lower my real hourly rate when comparing to salary?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because the salary figure quoted for a full year assumes 52 paid weeks. If two of those weeks are unpaid, the same annual figure is earned over fewer paid weeks, so the amount earned per hour worked rises while the annual total falls. Converting a salary to an hourly rate using 2,080 hours when you were only paid for 50 weeks overstates the hourly figure by about four percent."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I compare job offers on hourly rate or annual salary?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Convert both offers to the same basis and use the real hourly rate, meaning total annual pay divided by the hours you will actually work. Salary alone hides unpaid extra hours, which is how a nominally higher salaried role ends up paying less per hour than the hourly job it replaced. Also check overtime eligibility, because hourly roles are generally covered by overtime rules in a way salaried roles above the exemption threshold are not."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header><div class="wrap">
+  <a class="brand" href="https://example.com/">Real Pay Tools</a>
+  <nav class="brandnav">
+    <a href="https://example.com/tools.html">All tools</a>
+    <a href="https://example.com/take-home-pay-calculator.html">Take-home pay</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+<h1>Hourly to Salary Calculator</h1>
+<p class="sub">Convert between hourly and annual pay, then adjust for overtime and unpaid weeks to see the rate you are really earning.</p>
+
+<div class="ad-slot" aria-hidden="true">Advertisement slot</div>
+
+<div class="panel">
+  <div class="field">
+    <label for="mode">What do you know?</label>
+    <select id="mode">
+      <option value="hourly">I know my hourly rate</option>
+      <option value="salary">I know my annual salary</option>
+    </select>
+  </div>
+
+  <div class="row">
+    <div class="field" id="rateWrap">
+      <label for="rate">Hourly rate <span class="hint">Before tax</span></label>
+      <input type="number" id="rate" value="32" step="0.01" min="0" inputmode="decimal">
+    </div>
+    <div class="field" id="salaryWrap" style="display:none;">
+      <label for="salary">Annual salary <span class="hint">Before tax, before overtime</span></label>
+      <input type="number" id="salary" value="66560" step="100" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="hours">Regular hours per week</label>
+      <input type="number" id="hours" value="40" step="0.5" min="0" inputmode="decimal">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="ot">Overtime hours per week <span class="hint">Hours beyond your regular schedule</span></label>
+      <input type="number" id="ot" value="0" step="0.5" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="otmult">Overtime paid at</label>
+      <select id="otmult">
+        <option value="1.5">1.5× — time and a half</option>
+        <option value="2">2× — double time</option>
+        <option value="1">1× — straight time</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="unpaid">Unpaid weeks off per year <span class="hint">Unpaid leave, furlough, shutdown weeks</span></label>
+      <input type="number" id="unpaid" value="0" step="0.5" min="0" max="52" inputmode="decimal">
+    </div>
+  </div>
+</div>
+
+<div id="results" aria-live="polite">
+  <div class="grid3">
+    <div class="stat hl">
+      <p class="lbl">Annual pay</p>
+      <p class="val" id="annual">$66,560</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Real hourly rate</p>
+      <p class="val" id="realRate">$32.00</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Pay per week</p>
+      <p class="val" id="weekly">$1,280</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Pay per month</p>
+      <p class="val" id="monthly">$5,547</p>
+    </div>
+  </div>
+
+  <h2>How the number is built</h2>
+  <table>
+    <caption class="vh">Breakdown of annual pay into regular and overtime components</caption>
+    <thead><tr><th>Component</th><th class="num">Hours</th><th class="num">Amount</th></tr></thead>
+    <tbody>
+      <tr><td>Regular pay</td><td class="num" id="regHours">2,080</td><td class="num" id="regPay">$66,560</td></tr>
+      <tr><td>Overtime pay</td><td class="num" id="otHoursRow">0</td><td class="num" id="otPay">$0</td></tr>
+      <tr><td><strong>Total</strong></td><td class="num" id="totalHours">2,080</td><td class="num" id="totalPay"><strong>$66,560</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight" id="insight"></div>
+</div>
+
+<h2>Common questions</h2>
+
+<details>
+  <summary>How many working hours are in a year?</summary>
+  <p>The standard figure is 2,080 hours: 40 hours a week across 52 weeks. It is what most employers use to convert salary to an hourly figure. It stops being accurate the moment you take unpaid leave, work overtime, or regularly work more or fewer than 40 hours. This calculator replaces 2,080 with the hours you actually work, which is the only way to get a real hourly rate.</p>
+</details>
+
+<details>
+  <summary>Does overtime change my effective hourly rate?</summary>
+  <p>Yes. Overtime paid at time and a half raises total pay faster than it raises total hours, so your effective rate goes up. Five overtime hours a week at 1.5× on a $30 base rate lifts the effective rate from $30.00 to about $30.94 and adds roughly $11,700 a year. Straight-time overtime leaves the effective rate unchanged but still raises annual pay.</p>
+</details>
+
+<details>
+  <summary>Why does unpaid leave lower my real hourly rate?</summary>
+  <p>Because the quoted annual figure assumes 52 paid weeks. If two weeks are unpaid, the same annual amount is earned over fewer paid weeks, so annual pay falls while the rate per hour worked stays the same. Converting a salary to an hourly rate using 2,080 hours when you were paid for 50 weeks overstates the hourly figure by about four percent.</p>
+</details>
+
+<details>
+  <summary>Should I compare offers on hourly rate or annual salary?</summary>
+  <p>Convert both to the same basis and use the real hourly rate: total annual pay divided by the hours you will actually work. Salary alone hides unpaid extra hours, which is how a nominally higher salaried role ends up paying less per hour than the hourly job it replaced. Also check overtime eligibility, because hourly roles are generally covered by overtime rules in a way salaried roles above the exemption threshold are not.</p>
+</details>
+
+<h2>Related tools</h2>
+<div class="related">
+  <a href="https://example.com/take-home-pay-calculator.html">Take-Home Pay Calculator</a>
+  <a href="https://example.com/job-offer-comparison-calculator.html">Job Offer Comparison</a>
+  <a href="https://example.com/raise-calculator.html">Raise Calculator</a>
+  <a href="https://example.com/commute-cost-calculator.html">Commute Cost Calculator</a>
+</div>
+
+<div class="disc"><strong>Disclaimer.</strong> For informational and educational purposes only. Results are estimates and do not constitute tax, legal, or financial advice. Overtime eligibility depends on classification rules that vary by jurisdiction; verify with your employer or a qualified professional.</div>
+
+<footer>
+  <a href="https://example.com/tools.html">All tools</a>
+  <a href="https://example.com/about.html">About</a>
+  <a href="https://example.com/privacy.html">Privacy Policy</a>
+  <a href="https://example.com/disclaimer.html">Disclaimer</a>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ return '$' + n.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0}); }
+  function money2(n){ return '$' + n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function hrs(n){ return n.toLocaleString('en-US',{maximumFractionDigits:1}); }
+
+  function calc(){
+    var mode = $('mode').value;
+    var hours = parseFloat($('hours').value) || 0;
+    var ot = parseFloat($('ot').value) || 0;
+    var mult = parseFloat($('otmult').value) || 1;
+    var unpaid = Math.min(Math.max(parseFloat($('unpaid').value) || 0, 0), 52);
+    var weeks = Math.max(52 - unpaid, 0);
+
+    $('rateWrap').style.display = (mode === 'hourly') ? '' : 'none';
+    $('salaryWrap').style.display = (mode === 'salary') ? '' : 'none';
+
+    var rate;
+    if (mode === 'hourly') {
+      rate = parseFloat($('rate').value) || 0;
+    } else {
+      var sal = parseFloat($('salary').value) || 0;
+      var denom = weeks * (hours + ot * mult);
+      rate = denom > 0 ? sal / denom : 0;
+    }
+
+    var regHours = hours * weeks;
+    var otHours = ot * weeks;
+    var regPay = rate * regHours;
+    var otPay = rate * mult * otHours;
+    var total = regPay + otPay;
+    var totalH = regHours + otHours;
+    var realRate = totalH > 0 ? total / totalH : 0;
+    var weekly = weeks > 0 ? total / weeks : 0;
+
+    $('annual').textContent = money(total);
+    $('realRate').textContent = money2(realRate);
+    $('weekly').textContent = money(weekly);
+    $('monthly').textContent = money(total / 12);
+
+    $('regHours').textContent = hrs(regHours);
+    $('otHoursRow').textContent = hrs(otHours);
+    $('totalHours').textContent = hrs(totalH);
+    $('regPay').textContent = money(regPay);
+    $('otPay').textContent = money(otPay);
+    $('totalPay').innerHTML = '<strong>' + money(total) + '</strong>';
+
+    if (mode === 'hourly') {
+      $('salary').value = Math.round(total);
+    } else {
+      $('rate').value = realRate.toFixed(2);
+    }
+
+    var msg;
+    if (totalH <= 0) {
+      msg = 'Enter some hours to see a result.';
+    } else if (ot > 0 && mult > 1) {
+      msg = 'Overtime adds ' + money(otPay) + ' a year and lifts your real rate from '
+          + money2(rate) + ' to ' + money2(realRate) + '. Over a full year that is '
+          + hrs(otHours) + ' extra hours for ' + money(otPay) + '.';
+    } else if (ot > 0) {
+      msg = 'Your overtime is paid at straight time, so your real rate stays at '
+          + money2(rate) + '. The extra hours add ' + money(otPay) + ' a year without raising the rate.';
+    } else if (unpaid > 0) {
+      msg = 'With ' + hrs(unpaid) + ' unpaid weeks, you are paid for ' + hrs(weeks)
+          + ' weeks instead of 52. That costs ' + money(rate * hours * unpaid)
+          + ' a year compared with the same rate paid year-round.';
+    } else {
+      msg = 'At ' + hrs(hours) + ' hours a week across 52 weeks, that is ' + hrs(totalH)
+          + ' hours a year. The 2,080-hour standard matches your input exactly.';
+    }
+    $('insight').textContent = msg;
+  }
+
+  ['mode','rate','salary','hours','ot','otmult','unpaid'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

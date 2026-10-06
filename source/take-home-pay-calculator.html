@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Take-Home Pay Calculator 2026 — What Lands in Your Account</title>
+<meta name="description" content="Free take-home pay calculator using 2026 federal brackets, the $16,100 standard deduction and 2026 FICA rates. See federal tax, state tax, Social Security and Medicare, and what you actually keep.">
+<link rel="canonical" href="https://example.com/take-home-pay-calculator.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Take-Home Pay Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "url": "https://example.com/take-home-pay-calculator.html",
+  "description": "Estimate take-home pay for 2026 using federal tax brackets, the standard deduction, state income tax and FICA contributions.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the difference between marginal and effective tax rate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your marginal rate is the rate applied to your last dollar of income, which is the bracket your taxable income falls into. Your effective rate is total tax divided by total income, and it is always lower because the first dollars you earn are taxed at 0%, 10% and 12%. A single filer on 75,000 dollars in 2026 sits in the 22% bracket but pays an effective federal rate near 10.2%. Confusing the two is the most common reason people overestimate how much a raise will cost them in tax."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does contributing to a 401(k) reduce Social Security and Medicare tax?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Traditional 401(k) contributions reduce your federal and state income tax, but Social Security and Medicare tax is still calculated on your full gross wages. This calculator follows that rule, so FICA is applied to gross pay. Health premiums paid through a Section 125 cafeteria plan are treated differently and do reduce FICA wages, which is why two people on the same salary can have different FICA amounts."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is my actual paycheck different from this estimate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Payroll withholding depends on the entries on your Form W-4, including whether you use the two-jobs box, claim dependents, or request extra withholding. It also depends on post-tax deductions such as Roth contributions, union dues and wage garnishments, none of which a general calculator can know. Treat this as a strong estimate of your annual tax, then compare it against a paystub and adjust your W-4 if the gap is large."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which states have no income tax?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "As of 2026, Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington and Wyoming levy no tax on wages. New Hampshire taxes only interest and dividend income above a threshold, not earned wages. Moving from a state with a 6% effective rate to one of these on the same salary is equivalent to a raise of roughly that percentage, though it is often partly offset by higher property tax, sales tax or housing cost."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate is the state tax figure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is an approximation. Most states use graduated brackets, and several cities and counties add their own tax on top. The rates used here are representative effective rates for a middle-income filer, not the exact statutory schedule. Use the figure to compare job offers between states, and check your state revenue department for the amount that applies to your situation."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header><div class="wrap">
+  <a class="brand" href="https://example.com/">Real Pay Tools</a>
+  <nav class="brandnav">
+    <a href="https://example.com/tools.html">All tools</a>
+    <a href="https://example.com/hourly-to-salary-calculator.html">Hourly to salary</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+<h1>Take-Home Pay Calculator</h1>
+<p class="sub">What actually reaches your account after federal tax, state tax, Social Security and Medicare — using 2026 brackets and rates.</p>
+
+<div class="ad-slot" aria-hidden="true">Advertisement slot</div>
+
+<div class="panel">
+  <div class="row">
+    <div class="field">
+      <label for="salary">Gross annual salary <span class="hint">Before any deductions</span></label>
+      <input type="number" id="salary" value="75000" step="500" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="status">Filing status</label>
+      <select id="status">
+        <option value="single">Single</option>
+        <option value="mfj">Married filing jointly</option>
+        <option value="hoh">Head of household</option>
+        <option value="mfs">Married filing separately</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="state">State <span class="hint">Approximate effective rate</span></label>
+      <select id="state">
+        <option value="0">No state income tax</option>
+        <option value="0.065">California (≈6.5%)</option>
+        <option value="0.06">New York (≈6.0%)</option>
+        <option value="0.0495">Illinois (≈4.95%)</option>
+        <option value="0.0307">Pennsylvania (≈3.07%)</option>
+        <option value="0.031">Ohio (≈3.1%)</option>
+        <option value="0.045">North Carolina (≈4.5%)</option>
+        <option value="0.05">Massachusetts (≈5.0%)</option>
+        <option value="0.045">New Jersey (≈4.5%)</option>
+        <option value="0.044">Colorado (≈4.4%)</option>
+        <option value="0.025">Arizona (≈2.5%)</option>
+        <option value="0.0539">Georgia (≈5.39%)</option>
+        <option value="0.0425">Michigan (≈4.25%)</option>
+        <option value="0.05">Virginia (≈5.0%)</option>
+        <option value="0.0475">Missouri (≈4.75%)</option>
+        <option value="0.052">Maryland (≈5.2%)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="pretax">Pre-tax deductions per year <span class="hint">401(k), traditional retirement, HSA</span></label>
+      <input type="number" id="pretax" value="0" step="500" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="freq">Paid</label>
+      <select id="freq">
+        <option value="26">Bi-weekly (26 paychecks)</option>
+        <option value="24">Semi-monthly (24 paychecks)</option>
+        <option value="12">Monthly (12 paychecks)</option>
+        <option value="52">Weekly (52 paychecks)</option>
+        <option value="1">Once a year</option>
+      </select>
+    </div>
+  </div>
+  <p class="note">Figures use IRS Revenue Procedure 2025-32 for tax year 2026 and the Social Security Administration contribution base of $184,500. Last reviewed October 2026.</p>
+</div>
+
+<div id="results" aria-live="polite">
+  <div class="grid3">
+    <div class="stat hl">
+      <p class="lbl">Take-home pay per year</p>
+      <p class="val" id="net">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Take-home per paycheck</p>
+      <p class="val" id="perCheck">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Effective tax rate</p>
+      <p class="val" id="effRate">0%</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Marginal federal rate</p>
+      <p class="val" id="margRate">0%</p>
+    </div>
+  </div>
+
+  <h2>Where the money goes</h2>
+  <table>
+    <caption class="vh">Breakdown of gross salary into deductions and taxes</caption>
+    <thead><tr><th>Line item</th><th class="num">Amount</th></tr></thead>
+    <tbody>
+      <tr><td>Gross salary</td><td class="num" id="rGross">$0</td></tr>
+      <tr><td>Pre-tax deductions</td><td class="num" id="rPre">$0</td></tr>
+      <tr><td>Standard deduction</td><td class="num" id="rStd">$0</td></tr>
+      <tr><td>Taxable income</td><td class="num" id="rTaxable">$0</td></tr>
+      <tr><td>Federal income tax</td><td class="num" id="rFed">$0</td></tr>
+      <tr><td>State income tax (approximate)</td><td class="num" id="rState">$0</td></tr>
+      <tr><td>Social Security (6.2%)</td><td class="num" id="rSS">$0</td></tr>
+      <tr><td>Medicare (1.45%)</td><td class="num" id="rMedi">$0</td></tr>
+      <tr id="addlRow"><td>Additional Medicare (0.9%)</td><td class="num" id="rAddl">$0</td></tr>
+      <tr><td><strong>Total tax</strong></td><td class="num" id="rTotalTax"><strong>$0</strong></td></tr>
+      <tr><td><strong>Take-home pay</strong></td><td class="num" id="rNet"><strong>$0</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight" id="insight"></div>
+</div>
+
+<h2>Common questions</h2>
+
+<details>
+  <summary>What is the difference between marginal and effective tax rate?</summary>
+  <p>Your marginal rate is the rate applied to your last dollar of income — the bracket your taxable income falls into. Your effective rate is total tax divided by total income, and it is always lower because your first dollars are taxed at 0%, 10% and 12%. A single filer on $75,000 in 2026 sits in the 22% bracket but pays an effective federal rate near 10.2%. Confusing the two is the most common reason people overestimate how much tax a raise will cost them.</p>
+</details>
+
+<details>
+  <summary>Does contributing to a 401(k) reduce Social Security and Medicare tax?</summary>
+  <p>No. Traditional 401(k) contributions reduce federal and state income tax, but Social Security and Medicare tax is still calculated on full gross wages. This calculator follows that rule, so FICA is applied to gross pay. Health premiums paid through a Section 125 cafeteria plan are treated differently and do reduce FICA wages, which is why two people on the same salary can have different FICA amounts.</p>
+</details>
+
+<details>
+  <summary>Why is my actual paycheck different from this estimate?</summary>
+  <p>Payroll withholding depends on your Form W-4 entries, including the two-jobs box, dependents and any extra withholding you request. It also depends on post-tax deductions such as Roth contributions, union dues and garnishments, none of which a general calculator can know. Treat this as a strong estimate of annual tax, compare it against a paystub, and adjust your W-4 if the gap is large.</p>
+</details>
+
+<details>
+  <summary>Which states have no income tax?</summary>
+  <p>As of 2026, Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington and Wyoming levy no tax on wages. New Hampshire taxes only interest and dividend income above a threshold, not earned wages. Moving from a state with a 6% effective rate to one of these on the same salary is equivalent to a raise of roughly that percentage, though it is often partly offset by higher property tax, sales tax or housing cost.</p>
+</details>
+
+<details>
+  <summary>How accurate is the state tax figure?</summary>
+  <p>It is an approximation. Most states use graduated brackets, and several cities and counties add their own tax on top. The rates used here are representative effective rates for a middle-income filer, not the exact statutory schedule. Use the figure to compare offers between states, and check your state revenue department for the amount that applies to you.</p>
+</details>
+
+<h2>Related tools</h2>
+<div class="related">
+  <a href="https://example.com/hourly-to-salary-calculator.html">Hourly to Salary Calculator</a>
+  <a href="https://example.com/job-offer-comparison-calculator.html">Job Offer Comparison</a>
+  <a href="https://example.com/raise-calculator.html">Raise Calculator</a>
+  <a href="https://example.com/commute-cost-calculator.html">Commute Cost Calculator</a>
+</div>
+
+<div class="disc"><strong>Disclaimer.</strong> For informational and educational purposes only. Results are estimates based on 2026 federal brackets and approximate state effective rates, and do not constitute tax, legal, or financial advice. Actual withholding depends on your W-4 and circumstances. Verify with a qualified tax professional.</div>
+
+<footer>
+  <a href="https://example.com/tools.html">All tools</a>
+  <a href="https://example.com/about.html">About</a>
+  <a href="https://example.com/privacy.html">Privacy Policy</a>
+  <a href="https://example.com/disclaimer.html">Disclaimer</a>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  function pct(n){ return (n * 100).toFixed(1) + '%'; }
+
+  var B = {
+    single: { std: 16100, rates: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[640600,.35],[Infinity,.37]] },
+    mfj:    { std: 32200, rates: [[24800,.10],[100800,.12],[211400,.22],[403550,.24],[512450,.32],[768700,.35],[Infinity,.37]] },
+    hoh:    { std: 24150, rates: [[17700,.10],[67450,.12],[105700,.22],[201750,.24],[256200,.32],[640600,.35],[Infinity,.37]] },
+    mfs:    { std: 16100, rates: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[384350,.35],[Infinity,.37]] }
+  };
+
+  function fedTax(taxable, rates){
+    var tax = 0, lower = 0, marginal = rates[0][1];
+    for (var i = 0; i < rates.length; i++){
+      var cap = rates[i][0], r = rates[i][1];
+      if (taxable <= lower) break;
+      var slice = Math.min(taxable, cap) - lower;
+      if (slice > 0){ tax += slice * r; marginal = r; }
+      lower = cap;
+    }
+    return { tax: tax, marginal: marginal };
+  }
+
+  function calc(){
+    var gross = Math.max(parseFloat($('salary').value) || 0, 0);
+    var pre = Math.min(Math.max(parseFloat($('pretax').value) || 0, 0), gross);
+    var cfg = B[$('status').value];
+    var stateRate = parseFloat($('state').value) || 0;
+    var periods = parseInt($('freq').value, 10) || 1;
+
+    var taxable = Math.max(gross - pre - cfg.std, 0);
+    var f = fedTax(taxable, cfg.rates);
+    var stateTax = Math.max(gross - pre, 0) * stateRate;
+    var ss = Math.min(gross, 184500) * 0.062;
+    var medi = gross * 0.0145;
+    var addl = Math.max(gross - 200000, 0) * 0.009;
+    var totalTax = f.tax + stateTax + ss + medi + addl;
+    var net = gross - pre - totalTax;
+
+    $('net').textContent = money(net);
+    $('perCheck').textContent = money(net / periods);
+    $('effRate').textContent = gross > 0 ? pct(totalTax / gross) : '0%';
+    $('margRate').textContent = pct(f.marginal);
+
+    $('rGross').textContent = money(gross);
+    $('rPre').textContent = money(pre);
+    $('rStd').textContent = money(cfg.std);
+    $('rTaxable').textContent = money(taxable);
+    $('rFed').textContent = money(f.tax);
+    $('rState').textContent = money(stateTax);
+    $('rSS').textContent = money(ss);
+    $('rMedi').textContent = money(medi);
+    $('rAddl').textContent = money(addl);
+    $('addlRow').style.display = addl > 0 ? '' : 'none';
+    $('rTotalTax').innerHTML = '<strong>' + money(totalTax) + '</strong>';
+    $('rNet').innerHTML = '<strong>' + money(net) + '</strong>';
+
+    var msg;
+    if (gross <= 0){
+      msg = 'Enter a salary to see the breakdown.';
+    } else {
+      var share = gross > 0 ? (totalTax / gross * 100) : 0;
+      msg = 'You keep ' + money(net) + ' of ' + money(gross) + ', or ' + (100 - share).toFixed(1)
+          + '% of the gross figure. Total tax is ' + money(totalTax) + ' — ' + pct(totalTax/gross)
+          + ' of salary — of which FICA alone is ' + money(ss + medi + addl)
+          + '. Because your top dollars fall in the ' + (f.marginal*100).toFixed(0)
+          + '% federal bracket, each extra $1,000 of salary adds about '
+          + money(1000 * (f.marginal + stateRate + (gross < 184500 ? 0.0765 : 0.0145))) + ' to take-home pay.';
+    }
+    $('insight').textContent = msg;
+  }
+
+  ['salary','status','state','pretax','freq'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

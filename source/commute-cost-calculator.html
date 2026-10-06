@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Commute Cost Calculator — What Getting to Work Costs You</title>
+<meta name="description" content="Work out the true annual cost of your commute in fuel, wear, parking and unpaid hours, and see what it is worth as salary.">
+<link rel="canonical" href="https://example.com/commute-cost-calculator.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Commute Cost Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "url": "https://example.com/commute-cost-calculator.html",
+  "description": "Calculate the annual cost of commuting including fuel, vehicle wear, parking, tolls and the value of unpaid travel time.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does a commute actually cost per year?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Two numbers, and the second is usually larger. The cash cost is fuel, vehicle wear, insurance, parking, tolls or fares. The time cost is the hours spent travelling valued at your effective hourly rate. A 40 minute each way commute over five days is about 333 hours a year, which at 35 dollars an hour is over 11,000 dollars. Most people budget for the fuel and never count the hours."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a longer commute worth it for a higher salary?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Work out what the extra commute costs and compare it with the extra pay. An additional 20 minutes each way across 240 working days is 160 hours a year. If your effective rate is 40 dollars, that is 6,400 dollars of time plus roughly 1,000 dollars in extra mileage. A raise of 5,000 dollars does not cover it. Use the job offer comparison tool to put both effects into one number."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I put a value on commuting time?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The standard approach is to value travel at your effective hourly rate, which is annual pay divided by the hours you actually work. Some people value it lower, arguing that commuting is not as unpleasant as working. A reasonable compromise is to value it at half your hourly rate if you use the time in a way you value, such as audiobooks, and at the full rate if you arrive drained."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does a shorter commute change my tax situation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Commuting is almost never deductible for employees. Since 2018, unreimbursed employee travel expenses are not deductible on federal returns, and commuting between home and a regular workplace is specifically excluded as a personal cost. That makes the money spent on commuting effectively after tax, which is another reason a lower paid job nearer home can beat a higher paid one further away."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header><div class="wrap">
+  <a class="brand" href="https://example.com/">Real Pay Tools</a>
+  <nav class="brandnav">
+    <a href="https://example.com/tools.html">All tools</a>
+    <a href="https://example.com/job-offer-comparison-calculator.html">Offer comparison</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+<h1>Commute Cost Calculator</h1>
+<p class="sub">Fuel and parking are the small part. The hours are the real cost — and they are worth salary.</p>
+
+<div class="ad-slot" aria-hidden="true">Advertisement slot</div>
+
+<div class="panel">
+  <div class="row">
+    <div class="field">
+      <label for="miles">One-way distance <span class="hint">Miles</span></label>
+      <input type="number" id="miles" value="18" step="1" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="mins">One-way travel time <span class="hint">Minutes</span></label>
+      <input type="number" id="mins" value="35" step="5" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="days">Days travelling per week</label>
+      <input type="number" id="days" value="5" step="0.5" min="0" max="7" inputmode="decimal">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="weeks">Weeks per year</label>
+      <input type="number" id="weeks" value="48" step="1" min="1" max="52" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="cpm">Cost per mile <span class="hint">Fuel, wear, insurance</span></label>
+      <input type="number" id="cpm" value="0.70" step="0.01" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="park">Parking, tolls or fares per month</label>
+      <input type="number" id="park" value="60" step="10" min="0" inputmode="decimal">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="rate">Your effective hourly rate <span class="hint">Used to value travel time</span></label>
+      <input type="number" id="rate" value="38" step="1" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="share">Value travel time at <span class="hint">100% = same as working time</span></label>
+      <select id="share">
+        <option value="1">100% of my rate</option>
+        <option value="0.75">75%</option>
+        <option value="0.5" selected>50% — I use the time</option>
+        <option value="0.25">25%</option>
+        <option value="0">0% — money only</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div id="results" aria-live="polite">
+  <div class="grid3">
+    <div class="stat hl">
+      <p class="lbl">Total cost per year</p>
+      <p class="val" id="total">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Cash cost per year</p>
+      <p class="val" id="cash">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Hours per year</p>
+      <p class="val" id="hours">0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Equal to this much salary</p>
+      <p class="val" id="equiv">$0</p>
+    </div>
+  </div>
+
+  <h2>How it adds up</h2>
+  <table>
+    <caption class="vh">Annual commuting cost broken down by component</caption>
+    <thead><tr><th>Component</th><th class="num">Amount</th></tr></thead>
+    <tbody>
+      <tr><td>Miles per year</td><td class="num" id="rMiles">0</td></tr>
+      <tr><td>Vehicle cost</td><td class="num" id="rVehicle">$0</td></tr>
+      <tr><td>Parking, tolls and fares</td><td class="num" id="rPark">$0</td></tr>
+      <tr><td><strong>Cash cost</strong></td><td class="num" id="rCash"><strong>$0</strong></td></tr>
+      <tr><td>Hours spent travelling</td><td class="num" id="rHours">0</td></tr>
+      <tr><td>Value of that time</td><td class="num" id="rTime">$0</td></tr>
+      <tr><td><strong>Total annual cost</strong></td><td class="num" id="rTotal"><strong>$0</strong></td></tr>
+      <tr><td><strong>Cost per working day</strong></td><td class="num" id="rPerDay"><strong>$0</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight" id="insight"></div>
+</div>
+
+<h2>Common questions</h2>
+
+<details>
+  <summary>What does a commute actually cost per year?</summary>
+  <p>Two numbers, and the second is usually larger. The cash cost is fuel, vehicle wear, insurance, parking, tolls or fares. The time cost is the hours spent travelling valued at your effective hourly rate. A 40 minute each way commute over five days is about 333 hours a year, which at $35 an hour is over $11,000. Most people budget for the fuel and never count the hours.</p>
+</details>
+
+<details>
+  <summary>Is a longer commute worth it for a higher salary?</summary>
+  <p>Work out what the extra commute costs and compare it with the extra pay. An additional 20 minutes each way across 240 working days is 160 hours a year. At a $40 effective rate that is $6,400 of time plus roughly $1,000 in extra mileage. A raise of $5,000 does not cover it. Use the offer comparison tool to put both effects into one number.</p>
+</details>
+
+<details>
+  <summary>How do I put a value on commuting time?</summary>
+  <p>The standard approach is to value travel at your effective hourly rate: annual pay divided by the hours you actually work. Some argue commuting is not as unpleasant as working, so a reasonable compromise is to value it at half your rate if you use the time in a way you value, such as audiobooks, and at the full rate if you arrive drained.</p>
+</details>
+
+<details>
+  <summary>Does a shorter commute change my tax situation?</summary>
+  <p>Commuting is almost never deductible for employees. Since 2018, unreimbursed employee travel expenses are not deductible on federal returns, and commuting between home and a regular workplace is specifically excluded as a personal cost. That makes commuting cost effectively after tax, which is another reason a lower paid job nearer home can beat a higher paid one further away.</p>
+</details>
+
+<h2>Related tools</h2>
+<div class="related">
+  <a href="https://example.com/job-offer-comparison-calculator.html">Job Offer Comparison</a>
+  <a href="https://example.com/hourly-to-salary-calculator.html">Hourly to Salary Calculator</a>
+  <a href="https://example.com/take-home-pay-calculator.html">Take-Home Pay Calculator</a>
+  <a href="https://example.com/raise-calculator.html">Raise Calculator</a>
+</div>
+
+<div class="disc"><strong>Disclaimer.</strong> For informational and educational purposes only. Cost per mile varies widely with vehicle, fuel price and insurance. Results are estimates and do not constitute financial or tax advice.</div>
+
+<footer>
+  <a href="https://example.com/tools.html">All tools</a>
+  <a href="https://example.com/about.html">About</a>
+  <a href="https://example.com/privacy.html">Privacy Policy</a>
+  <a href="https://example.com/disclaimer.html">Disclaimer</a>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  function num(n, d){ return n.toLocaleString('en-US',{maximumFractionDigits:d||0}); }
+  function val(id){ var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+
+  function calc(){
+    var miles = Math.max(val('miles'), 0);
+    var mins = Math.max(val('mins'), 0);
+    var days = Math.min(Math.max(val('days'), 0), 7);
+    var weeks = Math.min(Math.max(val('weeks'), 1), 52);
+    var cpm = Math.max(val('cpm'), 0);
+    var park = Math.max(val('park'), 0) * 12;
+    var rate = Math.max(val('rate'), 0);
+    var share = parseFloat($('share').value) || 0;
+
+    var milesYear = miles * 2 * days * weeks;
+    var vehicle = milesYear * cpm;
+    var cash = vehicle + park;
+    var hours = (mins * 2 / 60) * days * weeks;
+    var timeVal = hours * rate * share;
+    var total = cash + timeVal;
+    var workDays = days * weeks;
+    var perDay = workDays > 0 ? total / workDays : 0;
+    var equiv = total;
+
+    $('total').textContent = money(total);
+    $('cash').textContent = money(cash);
+    $('hours').textContent = num(hours);
+    $('equiv').textContent = money(equiv);
+
+    $('rMiles').textContent = num(milesYear);
+    $('rVehicle').textContent = money(vehicle);
+    $('rPark').textContent = money(park);
+    $('rCash').innerHTML = '<strong>' + money(cash) + '</strong>';
+    $('rHours').textContent = num(hours, 1);
+    $('rTime').textContent = money(timeVal);
+    $('rTotal').innerHTML = '<strong>' + money(total) + '</strong>';
+    $('rPerDay').innerHTML = '<strong>' + money(perDay) + '</strong>';
+
+    var msg;
+    if (total <= 0){
+      msg = 'Enter a distance or travel time to see the cost.';
+    } else {
+      msg = 'Your commute costs ' + money(total) + ' a year, or ' + money(perDay) + ' for each day you travel. '
+          + 'Eliminating it would be worth the same as a ' + money(total) + ' raise, tax free. '
+          + 'Vehicle cost is ' + money(vehicle) + ' and the value of ' + num(hours, 1)
+          + ' hours of your time is ' + money(timeVal) + '.';
+    }
+    $('insight').textContent = msg;
+  }
+
+  ['miles','mins','days','weeks','cpm','park','rate','share'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

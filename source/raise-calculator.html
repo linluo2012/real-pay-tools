@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raise Calculator — What a Pay Rise Is Really Worth</title>
+<meta name="description" content="See what a raise is worth after federal tax, state tax and FICA, what it adds per month, and whether it keeps up with inflation.">
+<link rel="canonical" href="https://example.com/raise-calculator.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Raise Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "url": "https://example.com/raise-calculator.html",
+  "description": "Calculate what a pay raise is worth in take-home pay after federal and state tax and FICA, and what it is worth in real terms after inflation.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Will a raise push me into a higher tax bracket and leave me worse off?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The federal system is progressive, so only the dollars that fall inside a higher bracket are taxed at the higher rate. Moving from the 22% bracket into the 24% bracket means the dollars above the threshold are taxed at 24%; every dollar below it is still taxed at 10%, 12% and 22% as before. There is no income level at which earning more leaves you with less take-home pay under ordinary federal income tax."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much of a raise do I actually keep?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Typically between 60% and 78%. The amount taken is your marginal federal rate plus state tax plus FICA. A single earner at 75,000 dollars in a state with no income tax keeps about 76% of a raise: 22% federal plus 7.65% FICA. The same earner in a state with a 6% effective rate keeps about 70%. Anyone already above the Social Security wage base keeps slightly more, because the 6.2% portion no longer applies."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What counts as a raise that keeps up with inflation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A raise equal to the inflation rate leaves your purchasing power unchanged, not improved. Anything below it is a real pay cut. The distinction matters during periods of high inflation: a 4% raise during 5% inflation leaves you about 1% worse off in real terms even though your pay went up in dollars. This calculator shows both the nominal gain and the real gain after entering an inflation figure."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I take a raise as salary or as a one-off bonus?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Salary almost always wins over time. A bonus is taxed in the year received and does not compound: it does not raise the base that next year's percentage increase is calculated from, it usually does not raise an employer pension contribution, and it does not raise severance if you leave. A 5,000 dollar raise at a 3% annual increase cycle is worth noticeably more than five years of 1,000 dollar bonuses."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header><div class="wrap">
+  <a class="brand" href="https://example.com/">Real Pay Tools</a>
+  <nav class="brandnav">
+    <a href="https://example.com/tools.html">All tools</a>
+    <a href="https://example.com/take-home-pay-calculator.html">Take-home pay</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+<h1>Raise Calculator</h1>
+<p class="sub">A raise is not the number you are offered. This shows what reaches your account, and whether it beats inflation.</p>
+
+<div class="ad-slot" aria-hidden="true">Advertisement slot</div>
+
+<div class="panel">
+  <div class="row">
+    <div class="field">
+      <label for="salary">Current salary</label>
+      <input type="number" id="salary" value="75000" step="1000" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="pct">Raise <span class="hint">Percent</span></label>
+      <input type="number" id="pct" value="6" step="0.5" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="status">Filing status</label>
+      <select id="status">
+        <option value="single">Single</option>
+        <option value="mfj">Married filing jointly</option>
+        <option value="hoh">Head of household</option>
+        <option value="mfs">Married filing separately</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="state">State <span class="hint">Approximate effective rate</span></label>
+      <select id="state">
+        <option value="0">No state income tax</option>
+        <option value="0.065">California (≈6.5%)</option>
+        <option value="0.06">New York (≈6.0%)</option>
+        <option value="0.0495">Illinois (≈4.95%)</option>
+        <option value="0.0307">Pennsylvania (≈3.07%)</option>
+        <option value="0.031">Ohio (≈3.1%)</option>
+        <option value="0.045">North Carolina (≈4.5%)</option>
+        <option value="0.05">Massachusetts (≈5.0%)</option>
+        <option value="0.045">New Jersey (≈4.5%)</option>
+        <option value="0.044">Colorado (≈4.4%)</option>
+        <option value="0.025">Arizona (≈2.5%)</option>
+        <option value="0.0539">Georgia (≈5.39%)</option>
+        <option value="0.0425">Michigan (≈4.25%)</option>
+        <option value="0.05">Virginia (≈5.0%)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="pre">Pre-tax deductions per year <span class="hint">401(k) and similar</span></label>
+      <input type="number" id="pre" value="6000" step="500" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="infl">Inflation <span class="hint">Percent, for the real gain</span></label>
+      <input type="number" id="infl" value="3" step="0.1" min="0" inputmode="decimal">
+    </div>
+  </div>
+  <p class="note">Uses 2026 federal brackets from IRS Revenue Procedure 2025-32 and the $184,500 Social Security wage base.</p>
+</div>
+
+<div id="results" aria-live="polite">
+  <div class="grid3">
+    <div class="stat hl">
+      <p class="lbl">Extra take-home per year</p>
+      <p class="val" id="netGain">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">Extra per month</p>
+      <p class="val" id="monthGain">$0</p>
+    </div>
+    <div class="stat">
+      <p class="lbl">You keep</p>
+      <p class="val" id="keepPct">0%</p>
+    </div>
+    <div class="stat" id="realCard">
+      <p class="lbl">Real gain after inflation</p>
+      <p class="val" id="realGain">$0</p>
+    </div>
+  </div>
+
+  <h2>Before and after</h2>
+  <table>
+    <caption class="vh">Comparison of salary, tax and take-home pay before and after the raise</caption>
+    <thead><tr><th>Line item</th><th class="num">Now</th><th class="num">After</th><th class="num">Change</th></tr></thead>
+    <tbody>
+      <tr><td>Gross salary</td><td class="num" id="g0">$0</td><td class="num" id="g1">$0</td><td class="num" id="gd">$0</td></tr>
+      <tr><td>Federal income tax</td><td class="num" id="f0">$0</td><td class="num" id="f1">$0</td><td class="num" id="fd">$0</td></tr>
+      <tr><td>State income tax</td><td class="num" id="s0">$0</td><td class="num" id="s1">$0</td><td class="num" id="sd">$0</td></tr>
+      <tr><td>Social Security</td><td class="num" id="ss0">$0</td><td class="num" id="ss1">$0</td><td class="num" id="ssd">$0</td></tr>
+      <tr><td>Medicare</td><td class="num" id="m0">$0</td><td class="num" id="m1">$0</td><td class="num" id="md">$0</td></tr>
+      <tr><td><strong>Take-home pay</strong></td><td class="num" id="n0"><strong>$0</strong></td><td class="num" id="n1"><strong>$0</strong></td><td class="num" id="nd"><strong>$0</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight" id="insight"></div>
+</div>
+
+<h2>Common questions</h2>
+
+<details>
+  <summary>Will a raise push me into a higher bracket and leave me worse off?</summary>
+  <p>No. The federal system is progressive, so only the dollars falling inside a higher bracket are taxed at the higher rate. Moving from 22% into 24% means the dollars above the threshold are taxed at 24%; every dollar below is still taxed at 10%, 12% and 22% as before. There is no income level at which earning more leaves you with less take-home pay under ordinary federal income tax.</p>
+</details>
+
+<details>
+  <summary>How much of a raise do I actually keep?</summary>
+  <p>Typically between 60% and 78%. What is taken is your marginal federal rate plus state tax plus FICA. A single earner at $75,000 in a state with no income tax keeps about 76%: 22% federal plus 7.65% FICA. The same earner in a 6% state keeps about 70%. Anyone already above the Social Security wage base keeps slightly more, because the 6.2% portion no longer applies.</p>
+</details>
+
+<details>
+  <summary>What counts as a raise that keeps up with inflation?</summary>
+  <p>A raise equal to the inflation rate leaves purchasing power unchanged, not improved. Anything below it is a real pay cut. A 4% raise during 5% inflation leaves you about 1% worse off in real terms even though pay rose in dollars. This calculator shows both the nominal gain and the real gain after inflation.</p>
+</details>
+
+<details>
+  <summary>Should I take a raise as salary or as a one-off bonus?</summary>
+  <p>Salary almost always wins over time. A bonus is taxed in the year received and does not compound: it does not raise the base next year's percentage is calculated from, it usually does not raise employer pension contributions, and it does not raise severance if you leave.</p>
+</details>
+
+<h2>Related tools</h2>
+<div class="related">
+  <a href="https://example.com/take-home-pay-calculator.html">Take-Home Pay Calculator</a>
+  <a href="https://example.com/hourly-to-salary-calculator.html">Hourly to Salary Calculator</a>
+  <a href="https://example.com/job-offer-comparison-calculator.html">Job Offer Comparison</a>
+  <a href="https://example.com/severance-calculator.html">Severance Calculator</a>
+</div>
+
+<div class="disc"><strong>Disclaimer.</strong> For informational and educational purposes only. Results are estimates based on 2026 federal brackets and approximate state rates, and do not constitute tax or financial advice.</div>
+
+<footer>
+  <a href="https://example.com/tools.html">All tools</a>
+  <a href="https://example.com/about.html">About</a>
+  <a href="https://example.com/privacy.html">Privacy Policy</a>
+  <a href="https://example.com/disclaimer.html">Disclaimer</a>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  function pct(n, d){ return (n * 100).toFixed(d === undefined ? 1 : d) + '%'; }
+  function val(id){ var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+
+  var B = {
+    single: { std: 16100, rates: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[640600,.35],[Infinity,.37]] },
+    mfj:    { std: 32200, rates: [[24800,.10],[100800,.12],[211400,.22],[403550,.24],[512450,.32],[768700,.35],[Infinity,.37]] },
+    hoh:    { std: 24150, rates: [[17700,.10],[67450,.12],[105700,.22],[201750,.24],[256200,.32],[640600,.35],[Infinity,.37]] },
+    mfs:    { std: 16100, rates: [[12400,.10],[50400,.12],[105700,.22],[201775,.24],[256225,.32],[384350,.35],[Infinity,.37]] }
+  };
+
+  function fedTax(taxable, rates){
+    var tax = 0, lower = 0;
+    for (var i = 0; i < rates.length; i++){
+      var cap = rates[i][0], r = rates[i][1];
+      if (taxable <= lower) break;
+      var slice = Math.min(taxable, cap) - lower;
+      if (slice > 0) tax += slice * r;
+      lower = cap;
+    }
+    return tax;
+  }
+
+  function takeHome(gross){
+    var pre = Math.min(val('pre'), gross);
+    var cfg = B[$('status').value];
+    var stateRate = parseFloat($('state').value) || 0;
+    var taxable = Math.max(gross - pre - cfg.std, 0);
+    var fed = fedTax(taxable, cfg.rates);
+    var st = Math.max(gross - pre, 0) * stateRate;
+    var ss = Math.min(gross, 184500) * 0.062;
+    var medi = gross * 0.0145 + Math.max(gross - 200000, 0) * 0.009;
+    return { gross:gross, fed:fed, state:st, ss:ss, medi:medi, net: gross - pre - fed - st - ss - medi };
+  }
+
+  function calc(){
+    var base = Math.max(val('salary'), 0);
+    var p = Math.max(val('pct'), 0);
+    var infl = Math.max(val('infl'), 0);
+    var now = takeHome(base);
+    var after = takeHome(base * (1 + p / 100));
+
+    $('g0').textContent = money(now.gross); $('g1').textContent = money(after.gross);
+    $('gd').textContent = '+' + money(after.gross - now.gross);
+    $('f0').textContent = money(now.fed); $('f1').textContent = money(after.fed);
+    $('fd').textContent = '+' + money(after.fed - now.fed);
+    $('s0').textContent = money(now.state); $('s1').textContent = money(after.state);
+    $('sd').textContent = '+' + money(after.state - now.state);
+    $('ss0').textContent = money(now.ss); $('ss1').textContent = money(after.ss);
+    $('ssd').textContent = '+' + money(after.ss - now.ss);
+    $('m0').textContent = money(now.medi); $('m1').textContent = money(after.medi);
+    $('md').textContent = '+' + money(after.medi - now.medi);
+    $('n0').innerHTML = '<strong>' + money(now.net) + '</strong>';
+    $('n1').innerHTML = '<strong>' + money(after.net) + '</strong>';
+    $('nd').innerHTML = '<strong>+' + money(after.net - now.net) + '</strong>';
+
+    var grossGain = after.gross - now.gross;
+    var netGain = after.net - now.net;
+    $('netGain').textContent = '+' + money(netGain);
+    $('monthGain').textContent = '+' + money(netGain / 12);
+    $('keepPct').textContent = grossGain > 0 ? pct(netGain / grossGain, 0) : '0%';
+
+    var realNet = after.net / (1 + infl / 100);
+    var realGain = realNet - now.net;
+    $('realGain').textContent = (realGain >= 0 ? '+' : '−') + money(Math.abs(realGain));
+    $('realCard').className = 'stat' + (realGain >= 0 ? ' hl' : ' bad');
+
+    var msg;
+    if (grossGain <= 0){
+      msg = 'Enter a raise percentage to see what it is worth.';
+    } else {
+      msg = 'The raise adds ' + money(grossGain) + ' to gross pay, of which you keep ' + money(netGain)
+          + ' — about ' + pct(netGain / grossGain, 0) + '. Tax and FICA take ' + money(grossGain - netGain) + '. ';
+      if (realGain >= 0){
+        msg += 'After ' + pct(infl / 100, 1) + ' inflation, the real gain is ' + money(realGain)
+             + ' a year, so this raise does beat rising prices.';
+      } else {
+        msg += 'After ' + pct(infl / 100, 1) + ' inflation, your purchasing power still falls by '
+             + money(Math.abs(realGain)) + ' a year. In real terms this raise is a pay cut.';
+      }
+    }
+    $('insight').textContent = msg;
+  }
+
+  ['salary','pct','status','state','pre','infl'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+site/
+dist/
+.env
+.DS_Store

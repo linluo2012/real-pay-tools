@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Offer Comparison Calculator — Compare Two Offers Properly</title>
+<meta name="description" content="Compare two job offers side by side: base salary, bonus, equity, 401(k) match, benefits and commuting cost, reduced to one comparable number.">
+<link rel="canonical" href="https://example.com/job-offer-comparison-calculator.html">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Job Offer Comparison Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "url": "https://example.com/job-offer-comparison-calculator.html",
+  "description": "Compare two job offers by converting base salary, bonus, equity, 401k match, benefits and commuting cost into a single comparable annual figure.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How should I value equity when comparing job offers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Value only the portion that vests each year, and discount it for the risk that it never pays out. For a private company, many people count equity at a fraction of its paper value or at zero, because illiquid shares can end up worthless. For public company RSUs, the annual vesting value is close to cash and can be counted near face value. Entering the annual vesting amount rather than the total grant is the single most common correction people need to make."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should commuting cost be part of a job comparison?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, and it is the item most often left out. A 45 minute each way commute is roughly 390 hours a year, which at a 40 dollar effective hourly rate is about 15,600 dollars of time, plus fuel, wear, parking or fares. A job paying 8,000 dollars more can easily lose to one that is closer. Include both the money cost and the hours, because the hours are usually the larger number."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much is a 401(k) match worth?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A match is immediate compensation, not a future abstraction. A 4% match on a 90,000 dollar salary is 3,600 dollars a year that you would otherwise have to save yourself. It is worth more than an equal amount of salary in one respect: retirement contributions grow tax deferred. It is worth less in another: it is usually not available until you are vested, so check the vesting schedule before counting it fully."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if the two offers involve different working hours?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Compare the effective hourly rate rather than the annual figure. An offer of 95,000 dollars that reliably requires 55 hours a week pays about 33 dollars an hour. An offer of 82,000 dollars at 40 hours pays about 39 dollars an hour. The lower salary is the better job on every measure that involves your time. Enter expected weekly hours for both offers and use the real hourly rate as the deciding number."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header><div class="wrap">
+  <a class="brand" href="https://example.com/">Real Pay Tools</a>
+  <nav class="brandnav">
+    <a href="https://example.com/tools.html">All tools</a>
+    <a href="https://example.com/take-home-pay-calculator.html">Take-home pay</a>
+  </nav>
+</div></header>
+
+<div class="wrap">
+
+<h1>Job Offer Comparison Calculator</h1>
+<p class="sub">Two offers, one comparable number. Base, bonus, equity, 401(k) match, benefits and the commute each one forces on you.</p>
+
+<div class="ad-slot" aria-hidden="true">Advertisement slot</div>
+
+<div class="panel">
+  <h3>Offer A</h3>
+  <div class="row">
+    <div class="field">
+      <label for="aBase">Base salary</label>
+      <input type="number" id="aBase" value="95000" step="1000" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="aBonus">Annual bonus <span class="hint">Percent of base</span></label>
+      <input type="number" id="aBonus" value="10" step="1" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="aEquity">Equity vesting per year <span class="hint">Use 0 if unsure</span></label>
+      <input type="number" id="aEquity" value="0" step="1000" min="0" inputmode="decimal">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="aMatch">401(k) match <span class="hint">Percent of base</span></label>
+      <input type="number" id="aMatch" value="4" step="0.5" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="aBenefits">Benefits value per month <span class="hint">Health, dental, gym, phone</span></label>
+      <input type="number" id="aBenefits" value="0" step="50" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="aHours">Expected hours per week</label>
+      <input type="number" id="aHours" value="45" step="1" min="1" inputmode="decimal">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="aMiles">Commute, one-way miles</label>
+      <input type="number" id="aMiles" value="18" step="1" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="aMins">Commute, one-way minutes</label>
+      <input type="number" id="aMins" value="35" step="5" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="aDays">Days in office per week</label>
+      <input type="number" id="aDays" value="5" step="0.5" min="0" max="7" inputmode="decimal">
+    </div>
+  </div>
+  <div class="field">
+    <label for="aPark">Parking or transit per month</label>
+    <input type="number" id="aPark" value="0" step="25" min="0" inputmode="decimal">
+  </div>
+</div>
+
+<div class="panel">
+  <h3>Offer B</h3>
+  <div class="row">
+    <div class="field">
+      <label for="bBase">Base salary</label>
+      <input type="number" id="bBase" value="88000" step="1000" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="bBonus">Annual bonus <span class="hint">Percent of base</span></label>
+      <input type="number" id="bBonus" value="5" step="1" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="bEquity">Equity vesting per year <span class="hint">Use 0 if unsure</span></label>
+      <input type="number" id="bEquity" value="0" step="1000" min="0" inputmode="decimal">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="bMatch">401(k) match <span class="hint">Percent of base</span></label>
+      <input type="number" id="bMatch" value="6" step="0.5" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="bBenefits">Benefits value per month</label>
+      <input type="number" id="bBenefits" value="0" step="50" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="bHours">Expected hours per week</label>
+      <input type="number" id="bHours" value="40" step="1" min="1" inputmode="decimal">
+    </div>
+  </div>
+  <div class="row">
+    <div class="field">
+      <label for="bMiles">Commute, one-way miles</label>
+      <input type="number" id="bMiles" value="6" step="1" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="bMins">Commute, one-way minutes</label>
+      <input type="number" id="bMins" value="15" step="5" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="bDays">Days in office per week</label>
+      <input type="number" id="bDays" value="3" step="0.5" min="0" max="7" inputmode="decimal">
+    </div>
+  </div>
+  <div class="field">
+    <label for="bPark">Parking or transit per month</label>
+    <input type="number" id="bPark" value="0" step="25" min="0" inputmode="decimal">
+  </div>
+</div>
+
+<div class="panel">
+  <h3>Assumptions</h3>
+  <div class="row">
+    <div class="field">
+      <label for="cpm">Driving cost per mile <span class="hint">Fuel, wear, insurance. Adjust to your car</span></label>
+      <input type="number" id="cpm" value="0.70" step="0.01" min="0" inputmode="decimal">
+    </div>
+    <div class="field">
+      <label for="weeks">Paid weeks per year</label>
+      <input type="number" id="weeks" value="50" step="1" min="1" max="52" inputmode="decimal">
+    </div>
+  </div>
+</div>
+
+<div id="results" aria-live="polite">
+  <div class="grid3">
+    <div class="stat" id="aCard">
+      <p class="lbl">Offer A, net of commute</p>
+      <p class="val" id="aNet">$0</p>
+    </div>
+    <div class="stat" id="bCard">
+      <p class="lbl">Offer B, net of commute</p>
+      <p class="val" id="bNet">$0</p>
+    </div>
+    <div class="stat hl">
+      <p class="lbl">Difference</p>
+      <p class="val" id="diff">$0</p>
+    </div>
+  </div>
+
+  <h2>Side by side</h2>
+  <table>
+    <caption class="vh">Comparison of the two offers by component</caption>
+    <thead><tr><th>Component</th><th class="num">Offer A</th><th class="num">Offer B</th></tr></thead>
+    <tbody>
+      <tr><td>Base salary</td><td class="num" id="rABase">$0</td><td class="num" id="rBBase">$0</td></tr>
+      <tr><td>Bonus</td><td class="num" id="rABonus">$0</td><td class="num" id="rBBonus">$0</td></tr>
+      <tr><td>Equity vesting</td><td class="num" id="rAEquity">$0</td><td class="num" id="rBEquity">$0</td></tr>
+      <tr><td>401(k) match</td><td class="num" id="rAMatch">$0</td><td class="num" id="rBMatch">$0</td></tr>
+      <tr><td>Benefits</td><td class="num" id="rABen">$0</td><td class="num" id="rBBen">$0</td></tr>
+      <tr><td><strong>Total compensation</strong></td><td class="num" id="rATotal"><strong>$0</strong></td><td class="num" id="rBTotal"><strong>$0</strong></td></tr>
+      <tr><td>Commute cost per year</td><td class="num" id="rACommute">$0</td><td class="num" id="rBCommute">$0</td></tr>
+      <tr><td>Commute hours per year</td><td class="num" id="rAHours">0</td><td class="num" id="rBHours">0</td></tr>
+      <tr><td><strong>Net of commute</strong></td><td class="num" id="rANet"><strong>$0</strong></td><td class="num" id="rBNet"><strong>$0</strong></td></tr>
+      <tr><td>Real hourly rate</td><td class="num" id="rARate">$0</td><td class="num" id="rBRate">$0</td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight" id="insight"></div>
+</div>
+
+<h2>Common questions</h2>
+
+<details>
+  <summary>How should I value equity when comparing offers?</summary>
+  <p>Value only the portion that vests each year, and discount it for the risk it never pays out. For a private company, many people count equity at a fraction of paper value or at zero, because illiquid shares can end up worthless. For public company RSUs, the annual vesting value is close to cash and can be counted near face value. Entering the annual vesting amount rather than the total grant is the most common correction people need to make.</p>
+</details>
+
+<details>
+  <summary>Should commuting cost be part of the comparison?</summary>
+  <p>Yes, and it is the item most often left out. A 45 minute each way commute is roughly 390 hours a year, which at a $40 effective hourly rate is about $15,600 of time, plus fuel, wear, parking or fares. A job paying $8,000 more can easily lose to one that is closer. Include both the money cost and the hours, because the hours are usually the larger number.</p>
+</details>
+
+<details>
+  <summary>How much is a 401(k) match worth?</summary>
+  <p>A match is immediate compensation, not a future abstraction. A 4% match on a $90,000 salary is $3,600 a year you would otherwise have to save yourself. It is worth more than equal salary in one respect — contributions grow tax deferred — and less in another: it is usually not available until you are vested, so check the vesting schedule before counting it fully.</p>
+</details>
+
+<details>
+  <summary>What if the offers involve different working hours?</summary>
+  <p>Compare the effective hourly rate rather than the annual figure. An offer of $95,000 that reliably requires 55 hours a week pays about $33 an hour. An offer of $82,000 at 40 hours pays about $39 an hour. The lower salary is the better job on every measure involving your time. Enter expected weekly hours for both and use the real hourly rate as the deciding number.</p>
+</details>
+
+<h2>Related tools</h2>
+<div class="related">
+  <a href="https://example.com/take-home-pay-calculator.html">Take-Home Pay Calculator</a>
+  <a href="https://example.com/commute-cost-calculator.html">Commute Cost Calculator</a>
+  <a href="https://example.com/hourly-to-salary-calculator.html">Hourly to Salary Calculator</a>
+  <a href="https://example.com/raise-calculator.html">Raise Calculator</a>
+</div>
+
+<div class="disc"><strong>Disclaimer.</strong> For informational and educational purposes only. Results are estimates and do not constitute financial, tax, or career advice. Equity valuations are speculative and vesting schedules vary. Verify all offer terms with the employer before deciding.</div>
+
+<footer>
+  <a href="https://example.com/tools.html">All tools</a>
+  <a href="https://example.com/about.html">About</a>
+  <a href="https://example.com/privacy.html">Privacy Policy</a>
+  <a href="https://example.com/disclaimer.html">Disclaimer</a>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function money(n){ return '$' + Math.round(n).toLocaleString('en-US'); }
+  function money2(n){ return '$' + n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+  function num(n, d){ return n.toLocaleString('en-US',{maximumFractionDigits:d||0}); }
+  function val(id){ var v = parseFloat($(id).value); return isNaN(v) ? 0 : v; }
+
+  function evalOffer(p){
+    var base = Math.max(val(p + 'Base'), 0);
+    var bonus = base * val(p + 'Bonus') / 100;
+    var equity = Math.max(val(p + 'Equity'), 0);
+    var match = base * val(p + 'Match') / 100;
+    var benefits = Math.max(val(p + 'Benefits'), 0) * 12;
+    var hours = Math.max(val(p + 'Hours'), 1);
+    var miles = Math.max(val(p + 'Miles'), 0);
+    var mins = Math.max(val(p + 'Mins'), 0);
+    var days = Math.max(val(p + 'Days'), 0);
+    var park = Math.max(val(p + 'Park'), 0) * 12;
+    var cpm = Math.max(val('cpm'), 0);
+    var weeks = Math.min(Math.max(val('weeks'), 1), 52);
+
+    var total = base + bonus + equity + match + benefits;
+    var milesYear = miles * 2 * days * weeks;
+    var commuteCost = milesYear * cpm + park;
+    var commuteHours = (mins * 2 / 60) * days * weeks;
+    var workHours = hours * weeks;
+    var realRate = workHours > 0 ? total / workHours : 0;
+    var timeCost = commuteHours * realRate;
+    var net = total - commuteCost - timeCost;
+
+    return { base:base, bonus:bonus, equity:equity, match:match, benefits:benefits,
+             total:total, commuteCost:commuteCost, commuteHours:commuteHours,
+             realRate:realRate, net:net, hours:hours, weeks:weeks };
+  }
+
+  function calc(){
+    var a = evalOffer('a'), b = evalOffer('b');
+
+    $('rABase').textContent = money(a.base); $('rBBase').textContent = money(b.base);
+    $('rABonus').textContent = money(a.bonus); $('rBBonus').textContent = money(b.bonus);
+    $('rAEquity').textContent = money(a.equity); $('rBEquity').textContent = money(b.equity);
+    $('rAMatch').textContent = money(a.match); $('rBMatch').textContent = money(b.match);
+    $('rABen').textContent = money(a.benefits); $('rBBen').textContent = money(b.benefits);
+    $('rATotal').innerHTML = '<strong>' + money(a.total) + '</strong>';
+    $('rBTotal').innerHTML = '<strong>' + money(b.total) + '</strong>';
+    $('rACommute').textContent = money(a.commuteCost);
+    $('rBCommute').textContent = money(b.commuteCost);
+    $('rAHours').textContent = num(a.commuteHours);
+    $('rBHours').textContent = num(b.commuteHours);
+    $('rANet').innerHTML = '<strong>' + money(a.net) + '</strong>';
+    $('rBNet').innerHTML = '<strong>' + money(b.net) + '</strong>';
+    $('rARate').textContent = money2(a.realRate);
+    $('rBRate').textContent = money2(b.realRate);
+
+    $('aNet').textContent = money(a.net);
+    $('bNet').textContent = money(b.net);
+
+    var diff = a.net - b.net;
+    $('diff').textContent = (diff >= 0 ? '+' : '−') + money(Math.abs(diff));
+
+    var aCard = $('aCard'), bCard = $('bCard');
+    aCard.className = 'stat' + (diff > 0 ? ' hl' : '');
+    bCard.className = 'stat' + (diff < 0 ? ' hl' : '');
+
+    var win = diff >= 0 ? 'A' : 'B';
+    var gap = Math.abs(diff);
+    var msg;
+    if (gap < 500) {
+      msg = 'These two offers come out within ' + money(gap) + ' of each other once commuting is counted. '
+          + 'At that distance, decide on the work itself, the team and the hours rather than on pay.';
+    } else {
+      var loser = win === 'A' ? 'B' : 'A';
+      var baseDiff = (win === 'A' ? a.base - b.base : b.base - a.base);
+      msg = 'Offer ' + win + ' comes out ' + money(gap) + ' a year ahead once commuting is included. ';
+      if (baseDiff < 0) {
+        msg += 'Note that offer ' + win + ' has the lower base salary and still wins, which is exactly the case '
+             + 'a salary-only comparison gets wrong. ';
+      }
+      msg += 'The real hourly rate is ' + money2(win === 'A' ? a.realRate : b.realRate) + ' versus '
+           + money2(win === 'A' ? b.realRate : a.realRate) + '.';
+    }
+    $('insight').textContent = msg;
+  }
+
+  ['aBase','aBonus','aEquity','aMatch','aBenefits','aHours','aMiles','aMins','aDays','aPark',
+   'bBase','bBonus','bEquity','bMatch','bBenefits','bHours','bMiles','bMins','bDays','bPark',
+   'cpm','weeks'].forEach(function(id){
+    var el = $(id);
+    el.addEventListener('input', calc);
+    el.addEventListener('change', calc);
+  });
+  calc();
+})();
+</script>
+</body>
+</html>
