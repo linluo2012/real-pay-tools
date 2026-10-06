@@ -64,12 +64,22 @@ footer{border-top:1px solid var(--line);margin-top:48px;padding-top:16px;
 本机 → GitHub 这一环已完成。
 </div>
 
+<div class="box ok">
+<b>已确认的前置状态（2026-10-06）</b>
+<table style="margin:8px 0 0;font-size:13.5px;">
+<tr><th style="width:38%">项目</th><th>状态</th></tr>
+<tr><td>GitHub 仓库</td><td><code>linluo2012/real-pay-tools</code> · <b>Public</b> · main 分支 · 31 个文件</td></tr>
+<tr><td>linwt.top 的 DNS</td><td>托管在 Cloudflare（NS: julio / marlowe.ns.cloudflare.com）</td></tr>
+<tr><td>第一站 linwt.top</td><td>在线（HTTP 200），本次操作不会触碰它</td></tr>
+<tr><td>career.linwt.top</td><td>尚未解析，等绑定后由 Cloudflare 自动添加</td></tr>
+</table>
+<p style="margin:8px 0 0;font-size:13.5px;">因为 DNS 本就在 Cloudflare，第 4 步的 CNAME 会<b>自动添加</b>，不用手动去 DNS 页面加记录。</p>
+</div>
+
 <div class="box warn">
-<b>你的仓库是 Private，所以第 2 步会多一个授权动作</b>
-Cloudflare 默认搜不到私有仓库。需要先在 GitHub 上显式允许 Cloudflare Pages 访问
-<b>这一个仓库</b>，再回 Cloudflare 刷新才看得到。<br><br>
-（如果嫌麻烦，可以先去仓库 Settings → Danger Zone → Change visibility 改成 Public，
-这样第 2 步一次就能看到仓库，不用额外授权。）
+<b>仓库已是 Public，第 2 步跳过授权</b>
+列表里能直接看到 <code>real-pay-tools</code>，不用做下面那段授权动作。<br><br>
+<span style="font-size:14px;">（下面这段只在仓库是 Private 时才需要——列表里搜不到仓库时回来照做）</span>
 </div>
 
 <h2>第 1 步 · 进入 Cloudflare Pages 创建页</h2>
