@@ -126,10 +126,19 @@ Repository access 里单独把这个仓库勾上，再回 Cloudflare 刷新才�
 </div>
 
 <div class="step"><div class="num">改</div><div>
-<b>把已有仓库改成 Public：</b>进入仓库页面 → <b>Settings</b>（右上角 tab）
-→ 左侧最下面 <b>Danger Zone</b> → <b>Change visibility</b> → <b>Change to public</b>
-→ 按提示输入仓库名确认。<br>
-<span style="color:var(--muted);font-size:14px;">（不想改也行，保持 Private 完全可以，只是 Cloudflare 那步要多授权一次，手册后面有说明）</span>
+<b>把已有仓库改成 Public（约 20 秒）：</b><br>
+<span style="font-size:14px;">最快方式——浏览器直接打开这个地址：</span>
+<div class="cmd"><button class="cp">复制</button>https://github.com/linluo2012/real-pay-tools/settings</div>
+<ol style="margin:8px 0 0;padding-left:20px;">
+<li>进入后，左侧菜单<b>往下拉到最底部</b>，找到 <b>Danger Zone</b>（危险区域，红框）</li>
+<li>点 <b>Change repository visibility</b>（更改仓库可见性）</li>
+<li>弹窗里选 <b>Make public</b> / <b>Change to public</b></li>
+<li>下方输入框<b>照抄输入仓库全名</b> <code>linluo2012/real-pay-tools</code> 来确认</li>
+<li>点 <b>I understand, change repository visibility</b>（我了解，更改可见性）</li>
+</ol>
+<p style="margin:10px 0 0;font-size:14px;">改完刷新仓库页面，<b>右上角 Public 徽章</b>出现即成功。之后 Cloudflare 那步就能直接搜到仓库，不用额外授权了。</p>
+<br>
+<span style="color:var(--muted);font-size:14px;">（不改也行，保持 Private 完全可以，只是 Cloudflare 那步要多授权一次）</span>
 </div></div>
 
 <div class="box stop">
