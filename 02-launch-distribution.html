@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>冷启动分发 — Real Pay Tools 第一批流量怎么来</title>
+<style>
+:root{--ink:#1c1c1a;--muted:#6b6a64;--line:#e5e3dc;--surface:#faf9f7;
+      --accent:#185fa5;--accent-soft:#e6f1fb;--accent-line:#85b7eb;
+      --warn-bg:#faeeda;--warn-bd:#fac775;--warn-fg:#854f0b;
+      --bad-bg:#fcebeb;--bad-bd:#f7c1c1;--bad-fg:#a32d2d;
+      --good-bg:#eaf5ec;--good-bd:#a8d5b1;--good-fg:#1a6b2e;}
+*{box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,
+     "PingFang SC","Microsoft YaHei",sans-serif;background:#fff;color:var(--ink);
+     line-height:1.7;margin:0;padding:0 16px 80px;font-size:15px;}
+.wrap{max-width:820px;margin:0 auto;}
+h1{font-size:27px;font-weight:600;letter-spacing:-0.02em;margin:36px 0 8px;line-height:1.3;}
+h2{font-size:20px;font-weight:600;margin:40px 0 6px;padding-top:20px;border-top:1px solid var(--line);}
+h2:first-of-type{border-top:none;padding-top:0;}
+h3{font-size:16px;font-weight:600;margin:24px 0 8px;}
+p{margin:0 0 14px;}
+.sub{color:var(--muted);margin:0 0 24px;}
+ol,ul{padding-left:24px;margin:0 0 16px;}
+li{margin-bottom:9px;}
+code{background:var(--surface);border:1px solid var(--line);border-radius:4px;
+     padding:1px 6px;font-size:13.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+.cmd{background:#1c1c1a;color:#f2f0ea;border-radius:8px;padding:14px 16px;margin:12px 0 16px;
+     font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;
+     line-height:1.75;overflow-x:auto;position:relative;white-space:pre-wrap;}
+button.cp{float:right;background:#3a3a36;color:#e8e6df;border:1px solid #55554f;
+  border-radius:5px;font-size:11.5px;padding:3px 9px;cursor:pointer;font-family:inherit;
+  margin-left:10px;}
+button.cp:hover{background:#4a4a45;}
+button.cp.ok{background:#2f6b3c;border-color:#2f6b3c;color:#fff;}
+.box{border-radius:8px;padding:14px 18px;margin:16px 0;font-size:14.5px;}
+.box p:last-child{margin-bottom:0;}
+.box.warn{background:var(--warn-bg);border:1px solid var(--warn-bd);color:var(--warn-fg);}
+.box.stop{background:var(--bad-bg);border:1px solid var(--bad-bd);color:var(--bad-fg);}
+.box.tip{background:var(--accent-soft);border:1px solid var(--accent-line);color:var(--accent);}
+.box.ok{background:var(--good-bg);border:1px solid var(--good-bd);color:var(--good-fg);}
+.box b{display:block;margin-bottom:5px;}
+table{width:100%;border-collapse:collapse;margin:14px 0 18px;font-size:14px;}
+th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top;}
+th{background:var(--surface);font-weight:600;}
+.step{display:flex;gap:14px;margin:0 0 6px;align-items:baseline;}
+.num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;
+     font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+.num.sm{font-size:12px;}
+footer{border-top:1px solid var(--line);margin-top:48px;padding-top:16px;
+       font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>冷启动分发：第一批流量怎么来</h1>
+<p class="sub">Real Pay Tools · 17 个页面已上线。本手册解决「没人知道它存在」的问题</p>
+
+<div class="box stop">
+<b>先说最现实的一件事</b>
+Reddit 是这站最有效的渠道，但有硬门槛：<b>账号满 30 天、100+ karma 之前发推广帖，会被 AutoMod 直接吞掉</b>（实测 30 天内的新账号发商业内容，97% 被自动移除）。<br><br>
+如果你的 Reddit 账号是新注册的，<b>前 30 天不要在任何 sub 发链接</b>。这段时间用来养号和做下面第 1、2 步——它们不需要账号年龄。
+</div>
+
+<h2>开始前必须先完成（约 15 分钟）</h2>
+
+<div class="step"><div class="num">1</div><div>
+<b>Google Search Console 提交 sitemap。</b>站点 17 页全靠爬虫自己发现会非常慢。<br>
+打开 <code>search.google.com/search-console</code> → 添加资源 <code>https://career.linwt.top</code>（若第一站验证的是 Domain 类型 <code>linwt.top</code>，子域会自动覆盖，不用新建）→ 左侧 <b>Sitemaps</b> → 提交 <code>sitemap.xml</code>。
+</div></div>
+
+<div class="step"><div class="num">2</div><div>
+<b>用 URL 检查工具手动请求索引。</b>GSC 顶部搜索框，把首页 + 3 个核心计算器页逐个粘进去点「请求编入索引」。这比等爬虫快几周。
+</div></div>
+
+<div class="box tip">
+<b>这两步是所有分发动作的地基</b>
+没做的话，后面引来的流量留不下任何长期资产——Reddit 帖子三天就沉了，只有被 Google 收录的页面会持续带来流量。
+</div>
+
+<h2>新功能：每个结果都能变成一条可分享的链接</h2>
+
+<p>这一步已经替你做好了——11 个计算器页现在都能生成带参数的链接：</p>
+
+<div class="cmd"><button class="cp">复制</button><span class="ct">https://career.linwt.top/take-home-pay-calculator#salary=150000&status=married&state=0.0495&pretax=0&freq=26</span></div>
+
+<p>打开这条链接，页面会自动填好 15 万年薪、已婚、加州、双周发薪，并直接算出结果。<b>这就是冷启动的核心武器</b>，原因在下面：</p>
+
+<table>
+<tr><th style="width:38%">为什么它有用</th><th>说明</th></tr>
+<tr>
+<td><b>别人帮你传播</b></td>
+<td>有人在 Reddit 问「加州 15 万年薪到手多少」，你回帖时贴的是<b>算好的结果链接</b>，不是首页。对他有用，对旁观者也有用，被点开的概率高得多</td>
+</tr>
+<tr>
+<td><b>不违反反推广规则</b></td>
+<td>Reddit 判断 spam 看的是「你是在帮忙还是在打广告」。一个直接给出答案的链接，性质上是帮忙</td>
+</tr>
+<tr>
+<td><b>天然的长期入口</b></td>
+<td>这些链接会被转贴、被收藏、被 Google 索引，几个月后仍在带来点击</td>
+</tr>
+<tr>
+<td><b>不影响 SEO</b></td>
+<td>参数放在 <code>#</code> 后面。URL fragment 不会发给服务器，搜索引擎不会当成新页面，<b>不会产生海量重复内容 URL</b>（这是刻意的设计，别改成 <code>?参数</code>）</td>
+</tr>
+</table>
+
+<div class="box warn">
+<b>使用方式</b>
+打开任一计算器 → 填好数字 → 结果区下方点 <b>Copy link</b> → 粘贴到回帖里。<br>
+链接会自动带上你填的所有参数。
+</div>
+
+<h2>渠道清单：按「现在就能做」排序</h2>
+
+<table>
+<tr><th style="width:22%">渠道</th><th style="width:16%">门槛</th><th>怎么做</th></tr>
+<tr>
+<td><b>Quora</b></td>
+<td>无门槛<br><span style="color:var(--good-fg);">立刻可做</span></td>
+<td>搜「how much take home pay」「is this a good offer」类问题，用工具算出结果后回答并附链接。<b>Quora 答案会被 Google 长期收录</b>，是这类站被低估的稳定来源</td>
+</tr>
+<tr>
+<td><b>Reddit 回帖</b><br><span style="color:var(--muted);font-size:13px;">（不是发帖）</span></td>
+<td>无 karma 门槛<br><span style="color:var(--good-fg);">立刻可做</span></td>
+<td>在薪资/求职类帖子里<b>回答别人的问题</b>，附上算好的链接。评论的审核比发帖宽松得多，是新手唯一安全的入口</td>
+</tr>
+<tr>
+<td><b>Reddit 发帖</b></td>
+<td>30 天 + 100 karma<br><span style="color:var(--warn-fg);">需先养号</span></td>
+<td>见下方文案。只在你真正有 karma 之后再做，否则白发</td>
+</tr>
+<tr>
+<td><b>Indie Hackers</b></td>
+<td>低</td>
+<td>发一篇 build-in-public 的帖子，讲为什么做、技术选型、当前数据。<b>这个社区对「真实数据」反应最好</b>，虚的推广没人理</td>
+</tr>
+<tr>
+<td><b>Hacker News</b><br><span style="font-size:13px;">Show HN</span></td>
+<td>中（需 karma）</td>
+<td>标题必须朴素，不要营销腔。HN 用户反感「工具集合」类，但对「浏览器本地计算、不上传数据」这个技术点会感兴趣</td>
+</tr>
+<tr>
+<td><b>Product Hunt</b></td>
+<td>高<br><span style="color:var(--muted);">需 4–6 周准备</span></td>
+<td>周四/周三 12:01 AM PST 发布效果最好。要有 60 秒演示视频 + 3–5 张图 + 故事化的首条评论。<b>没有预热受众基本拿不到名次</b>，可以放到第 6–8 周</td>
+</tr>
+</table>
+
+<h2>现成文案（英文，可直接复制改）</h2>
+
+<h3>1 · Reddit 回帖（最常用，最安全）</h3>
+<p>场景：有人问「两份 offer 怎么选」或「这个薪资到手多少」。</p>
+<div class="cmd"><button class="cp">复制</button><span class="ct">I ran the numbers for you: [粘贴算好的链接]
+
+That's after federal + state + FICA at your bracket. Worth noting the state tax difference alone is usually bigger than people expect — plug in both states and compare.
+
+The calculator runs entirely in the browser, nothing is uploaded, so you can put your real numbers in. (I built it, for full disclosure.)</span></div>
+
+<div class="box stop">
+<b>最后那句「I built it」不能省</b>
+Reddit 把「隐瞒关联关系」判定为欺骗行为，一旦被发现是永久封禁。主动说明反而更受信任——实测披露自己的作者身份比藏着掖着获得的信任度更高。
+</div>
+
+<h3>2 · Reddit 发帖（账号达标后再用）</h3>
+<p>适用 <code>r/personalfinance</code>、<code>r/cscareerquestions</code>、<code>r/salary</code>。<b>发帖前先读该 sub 的 sidebar 规则</b>，有些 sub 完全禁止链接。</p>
+<div class="cmd"><button class="cp">复制</button><span class="ct">Title: I got tired of offer letters hiding the real number, so I built 11 salary calculators that run in your browser
+
+Body:
+Every offer letter shows gross. What matters is what lands in your account after federal, state, FICA, and pre-tax deductions — and that gap surprises almost everyone.
+
+I built these because the existing calculators all had the same problem: they were wrong about 2026 brackets, or they made you upload your salary to some server.
+
+What's there:
+- Take-home pay (2026 IRS brackets, all 50 states)
+- Offer comparison including equity and commute cost
+- Bonus withholding — why you get refunded instead of owing
+- W-2 vs 1099 break-even rate
+- Freelance rate needed to replace a given salary
+
+Everything runs client-side. No signup, no data leaves your browser.
+
+Happy to take feature requests — what's missing?</span></div>
+
+<h3>3 · Hacker News（Show HN）</h3>
+<div class="cmd"><button class="cp">复制</button><span class="ct">Title: Show HN: Salary calculators that run entirely client-side, no data leaves the browser</span></div>
+<p class="sub" style="margin-top:-8px;">标题要朴素。HN 对「11 must-have tools」这类营销标题会直接 flag。首条评论讲技术细节：为什么选纯静态、2026 税档从哪来、FLSA 门槛那个坑（网上大量文章还在传已被撤销的 $58,656）。</p>
+
+<h3>4 · Product Hunt tagline（60 字符内）</h3>
+<div class="cmd"><button class="cp">复制</button><span class="ct">See what a job offer is actually worth</span></div>
+<p class="sub" style="margin-top:-8px;">36 字符，符合 60 上限。首条评论写「为什么做」而不是功能列表，结尾抛一个问题引导回复。</p>
+
+<h2>8 周节奏表</h2>
+
+<table>
+<tr><th style="width:14%">周</th><th>动作</th></tr>
+<tr><td><b>第 1 周</b></td><td>GSC 提交 sitemap + 请求索引（<b>必须先做完</b>）。Quora 回答 3–5 个薪资问题。Reddit 只回帖不发帖，每天 1–2 条</td></tr>
+<tr><td><b>第 2 周</b></td><td>继续 Quora + Reddit 回帖。观察 GSC 收录进度（收录数会开始爬升）。挑 1 个计算器页用分享链接做实验，看点击</td></tr>
+<tr><td><b>第 3 周</b></td><td>Reddit 账号若已达标，发第一个帖（选周二–周四早上 6–8 AM ET，此时审核最快）。发完留在帖子里回复每一条评论</td></tr>
+<tr><td><b>第 4 周</b></td><td>Indie Hackers 发 build-in-public 帖。若有真实数据（访问量、收录数）就写出来，这个社区买账</td></tr>
+<tr><td><b>第 5 周</b></td><td>Hacker News Show HN（若 HN karma 够）。同时看 GSC 的查询词数据——<b>真实搜索词是最好的选题信号</b>，据此决定下一批页面做什么</td></tr>
+<tr><td><b>第 6–8 周</b></td><td>准备 Product Hunt：录演示视频、做图、预热受众。发布后全天回复评论</td></tr>
+</table>
+
+<div class="box tip">
+<b>第 5 周那个动作最关键</b>
+GSC 的「查询」报表会告诉你用户实际用什么词找到你。这些词是真实需求，比任何关键词工具都准——下一批页面照着它做，命中率高得多。
+</div>
+
+<h2>红线：做了会被封的几件事</h2>
+
+<div class="box stop">
+<b>这些是实测会导致封号/降权的行为</b>
+<ul style="margin-bottom:0;">
+<li><b>同一天在多个 sub 发同样内容</b> —— 最快触发自动过滤的方式</li>
+<li><b>删掉没反响的推广帖</b> —— Reddit 会记录「发帖 → 无互动 → 删除」的模式，判定为机器人行为。发砸了就留着</li>
+<li><b>找朋友/群友点赞</b> —— 投票操控是违反服务条款的，检测准确率很高，而且一旦被标记，自然曝光会下降</li>
+<li><b>9:1 比例失衡</b> —— 官方口径是「链接到自己内容的比例不超过 10%」，但主流大 sub 实际执行接近 1:20。每发 1 条带链接的内容，先做 20 条不带链接的正常互动</li>
+<li><b>不披露作者身份</b> —— 隐瞒关联关系可导致永久封禁</li>
+</ul>
+</div>
+
+<div class="box warn">
+<b>关于「最安全的推广位」</b>
+Reddit 上几乎唯一零风险的推广位置，是<b>你个人主页的 bio 和置顶帖</b>——它不在任何 sub 里，不违反任何 sub 的规则。有人觉得你的回答有用，自然会点进主页看。<br>
+把站点链接放进个人简介，这一步今天就能做，且不受账号年龄限制。
+</div>
+
+<h2>配套：两个技术细节已经替你处理好了</h2>
+
+<table>
+<tr><th style="width:30%">项目</th><th>状态</th></tr>
+<tr>
+<td><b>OG 分享卡片</b></td>
+<td>17 个页面各有专属 1200×630 分享图，贴到 Reddit / X / Slack 会显示成正规卡片而不是裸链接</td>
+</tr>
+<tr>
+<td><b>结果分享链接</b></td>
+<td>11 个计算器页已支持，参数走 hash 不污染 SEO</td>
+</tr>
+</table>
+
+<footer>
+Real Pay Tools · 冷启动分发手册 · 规则核对于 2026-10-06<br>
+（Reddit 9:1 比例与账号门槛、Product Hunt 发布时点均来自当前公开口径，平台政策会变，发帖前再扫一眼目标 sub 的 sidebar）
+</footer>
+
+</div>
+<script>
+document.querySelectorAll('button.cp').forEach(function(b){
+  b.addEventListener('click',function(){
+    var t=b.parentElement.querySelector('.ct').textContent;
+    function ok(){ b.textContent='已复制'; b.classList.add('ok');
+      setTimeout(function(){ b.textContent='复制'; b.classList.remove('ok'); },1600); }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(ok,function(){
+        var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta);
+        ta.select(); try{document.execCommand('copy'); ok();}catch(e){} document.body.removeChild(ta);
+      });
+    }
+  });
+});
+</script>
+</body>
+</html>
