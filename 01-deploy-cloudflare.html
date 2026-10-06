@@ -178,23 +178,35 @@ build command 和 output directory，保存后重新部署即可。<b>创建完�
 
 <p>第一次构建大约 1–2 分钟。构建日志可以实时看，如果失败会在日志里写明原因。</p>
 
-<h2>第 4 步 · 绑定自定义域名</h2>
+<h2>第 4 步 · 绑定自定义域名（Workers 项目，路径和 Pages 不同）</h2>
+
+<div class="box warn">
+<b>注意：本项目实际部署成了 Workers（静态资源）</b>
+日志里是 <code>npx wrangler deploy</code>，地址是 <code>*.workers.dev</code> 而不是 <code>*.pages.dev</code>。
+这不影响使用——Workers 静态资源托管是 Cloudflare 官方支持的方式，自定义域名照绑。
+只是<b>菜单路径跟 Pages 不一样</b>，按下面走：
+</div>
 
 <div class="step"><div class="num">1</div><div>
-部署成功后，进入项目 → <b>Custom domains</b> 标签 → <b>Set up a custom domain</b>。
+进入项目 <code>real-pay-tools</code> → <b>Settings</b>（设置）标签。
 </div></div>
 
 <div class="step"><div class="num">2</div><div>
-输入 <code>career.linwt.top</code> → 继续。
+找 <b>Domains &amp; Routes</b>（域名与路由）→ 点 <b>Add</b>（添加）→ 选 <b>Custom domain</b>。
+<br><span style="font-size:14px;color:var(--muted);">（不是 "Workers &amp; Pages → Custom domains"，那是 Pages 的路径）</span>
 </div></div>
 
 <div class="step"><div class="num">3</div><div>
-因为 <code>linwt.top</code> 的 DNS 本来就托管在 Cloudflare（第一站用的也是它），
-Cloudflare 会<b>自动添加那条 CNAME 记录</b>，不用你手动去 DNS 页面加。点确认即可。
+输入 <code>career.linwt.top</code> → 继续/确认。
 </div></div>
 
 <div class="step"><div class="num">4</div><div>
-等 SSL 证书签发，通常几分钟，最长不超过几小时。状态变成 <b>Active</b> 就能访问了。
+因为 <code>linwt.top</code> 的 DNS 本来就托管在 Cloudflare，它<b>会自动添加 DNS 记录和路由</b>，
+不用你手动去 DNS 页面加。
+</div></div>
+
+<div class="step"><div class="num">5</div><div>
+等 SSL 证书签发，通常几分钟，最长几小时。状态变 <b>Active</b> 后即可访问。
 </div></div>
 
 <div class="box stop">
