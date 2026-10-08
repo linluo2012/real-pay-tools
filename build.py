@@ -136,6 +136,70 @@ def strip_html_suffix(text: str, domain: str) -> str:
     return re.sub(rf'https://{re.escape(domain)}/([A-Za-z0-9\-]*?)\.html', _r, text)
 
 
+def load_sister(issues: list) -> dict:
+    """读取兄弟站（第一站 Small Profit Tools）的互通链接配置。
+
+    两站在内容上互不干扰，但真实用户常常同时踩到两边的题目：算完自己的到
+    手工资，下一个问题就是"老板雇我到底花了多少钱"；拿到遣散补偿，下一个
+    问题是"这笔钱能撑几个月"。
+
+    链接放在配置文件而不是写死在页面里，原因有两个：
+      1. 第一站的 URL 规范还没定稿（现在是 .html canonical + 307 跳转），
+         将来它一改，这里改一处即可，不用碰 17 个页面；
+      2. 想临时断开互通时，删掉配置文件再构建就恢复原样。
+    """
+    p = ROOT / "sister-links.json"
+    if not p.exists():
+        return {}
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception as e:
+        issues.append(f"sister-links.json 解析失败: {e}")
+        return {}
+
+
+def inject_sister(text: str, key: str, cfg: dict) -> tuple[str, dict]:
+    """把兄弟站链接注入两类位置：
+
+      - 计算器页底部的 "related" 链接区：追加 1-2 个跨站工具（话题相邻才算，
+        宁缺毋滥，硬塞不相干的链接既伤用户体验也伤 SEO）；
+      - 全站页脚：一行低调的站名链接，17 个页面共同形成 discovered-by-crawl 的路径。
+    """
+    stats = {"related": 0, "footer": False}
+    if not cfg:
+        return text, stats
+
+    base = cfg.get("url", "").rstrip("/")
+    name = esc(cfg.get("footer_label") or cfg.get("name", ""))
+
+    # 先处理页脚：它的判断依赖原文里是否已含兄弟站域名，
+    # 若放在 related 之后判断，会被刚注入的外链误判为"已有"。
+    if base and name and base not in text and re.search(r"</footer\s*>", text, re.I):
+        link = f'  <a href="{base}/">{name} &#8594;</a>\n'
+        text = re.sub(r"</footer\s*>", link + "</footer>", text, count=1, flags=re.I)
+        stats["footer"] = True
+
+    items = cfg.get("related", {}).get(key, [])
+    if items:
+        anchors = []
+        for it in items:
+            url = it.get("url", "").strip()
+            if not url.startswith("http"):
+                continue
+            title = esc(it.get("title") or url)
+            note = esc(it.get("note", ""))
+            tip = f"{note} — {name}" if note else name
+            anchors.append(
+                f'  <a class="ext" href="{url}" title="{tip}">{title} &#8599;</a>')
+        if anchors:
+            block = "\n".join(anchors)
+            m = re.search(r'(<div class="related">)(.*?)(\n</div>)', text, re.S)
+            if m:
+                text = text[:m.end(2)] + "\n" + block + text[m.end(2):]
+                stats["related"] = len(anchors)
+    return text, stats
+
+
 def build(domain: str, outdir: pathlib.Path) -> int:
     if not SRC.exists():
         print(f"错误：找不到 {SRC}")
@@ -147,6 +211,11 @@ def build(domain: str, outdir: pathlib.Path) -> int:
         return 1
 
     outdir.mkdir(parents=True, exist_ok=True)
+
+    issues = []
+    sister = load_sister(issues)
+    sister_related = 0
+    sister_footer = 0
 
     changed = []
     og_added = []
@@ -164,6 +233,11 @@ def build(domain: str, outdir: pathlib.Path) -> int:
         text, added = inject_og(text, domain, rel_s)
         if added:
             og_added.append(rel_s)
+        # 兄弟站链接注入在去后缀之前：外链指向另一域名，不受本域规范化影响
+        key = rel_s[:-5] if rel_s.endswith(".html") else rel_s
+        text, st = inject_sister(text, key, sister)
+        sister_related += st["related"]
+        sister_footer += 1 if st["footer"] else 0
         # 顺序：先注入 OG（其 og:url 带 .html），再去后缀，两者都会被统一
         text = strip_html_suffix(text, domain)
         # share.js 放在最后注入，确保它在页面自身脚本之后执行
@@ -216,8 +290,6 @@ def build(domain: str, outdir: pathlib.Path) -> int:
         "  Cache-Control: no-cache\n",
         encoding="utf-8")
 
-    issues = []
-
     if domain == PLACEHOLDER:
         issues.append(
             f"域名未配置，构建使用了占位域名 {PLACEHOLDER}。\n"
@@ -245,6 +317,22 @@ def build(domain: str, outdir: pathlib.Path) -> int:
             if h and f"{h}.html" not in built:
                 issues.append(f"死链 {rel} -> {h}")
 
+    if sister:
+        base = sister.get("url", "").rstrip("/")
+        for slug, items in sister.get("related", {}).items():
+            if f"{slug}.html" not in built:
+                issues.append(f"sister-links.json 指向不存在的页面: {slug}")
+            for it in items:
+                u = it.get("url", "")
+                if not base or not u.startswith(base + "/"):
+                    issues.append(f"兄弟站链接不在配置域名下: {u}")
+        ext_re = rf'href="{re.escape(base)}/[^"]*"' if base else None
+        ext_links = 0
+        for f in sorted(outdir.rglob("*.html")):
+            ext_links += len(re.findall(ext_re, f.read_text(encoding="utf-8")))
+        if base and ext_links == 0:
+            issues.append("兄弟站链接一个都没注入成功，检查页面是否含 <footer> 或 .related 区块")
+
     print(f"domain:  {domain}")
     print(f"out:     {outdir}")
     print(f"pages:   {len(built)}")
@@ -254,6 +342,8 @@ def build(domain: str, outdir: pathlib.Path) -> int:
         print(f"og:      为 {len(og_added)} 个页面补全 Open Graph / Twitter Card")
     if share_added:
         print(f"share:   为 {len(share_added)} 个计算器页注入结果分享链接功能")
+    if sister_footer or sister_related:
+        print(f"sister:  {sister_footer} 页加页脚互通链接，{sister_related} 处计算器页追加跨站工具推荐")
     missing_og = [p for p in og_added
                   if not (outdir / "og" / ("home.png" if p == "index.html"
                                            else p[:-5] + ".png")).exists()]

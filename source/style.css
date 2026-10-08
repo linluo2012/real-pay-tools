@@ -101,6 +101,9 @@ details p{margin:10px 0 0;font-size:14px;}
      text-decoration:none;color:var(--accent);font-size:14px;}
 .related a:hover{background:var(--accent-soft);}
 
+/* 兄弟站外链（Small Profit Tools）：虚线边框与站内链接区分 */
+.related a.ext{border-style:dashed;}
+
 /* 分享条：让计算结果可被复制成链接带走 */
 .sharebar{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:18px 0 0;
      padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface);}

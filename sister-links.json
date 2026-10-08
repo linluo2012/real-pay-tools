@@ -1,0 +1,81 @@
+{
+  "_comment": "第一站（Small Profit Tools）互通链接配置。url 必须与第一站 sitemap 声明的规范形式一致（当前为带 .html 的 canonical），将来第一站统一成无后缀时只改本文件的 url 即可，不用动页面。",
+  "name": "Small Profit Tools",
+  "url": "https://linwt.top",
+  "footer_label": "Small Profit Tools",
+  "related": {
+    "take-home-pay-calculator": [
+      {
+        "title": "Payroll Burden Calculator",
+        "url": "https://linwt.top/payroll-burden-calculator.html",
+        "note": "See what that salary actually costs your employer"
+      }
+    ],
+    "hourly-to-salary-calculator": [
+      {
+        "title": "Payroll Burden Calculator",
+        "url": "https://linwt.top/payroll-burden-calculator.html",
+        "note": "Employer-side cost of an hourly employee"
+      }
+    ],
+    "raise-calculator": [
+      {
+        "title": "Payroll Burden Calculator",
+        "url": "https://linwt.top/payroll-burden-calculator.html",
+        "note": "What your raise costs the company, not just you"
+      }
+    ],
+    "overtime-pay-calculator": [
+      {
+        "title": "Payroll Burden Calculator",
+        "url": "https://linwt.top/payroll-burden-calculator.html",
+        "note": "True cost of every overtime hour to the business"
+      }
+    ],
+    "bonus-tax-calculator": [
+      {
+        "title": "Break-Even Calculator",
+        "url": "https://linwt.top/break-even-calculator.html",
+        "note": "If your bonus is tied to a target, check what the company needs to break even"
+      }
+    ],
+    "severance-calculator": [
+      {
+        "title": "Cash Runway Calculator",
+        "url": "https://linwt.top/cash-runway-calculator.html",
+        "note": "How long your severance keeps the household covered"
+      }
+    ],
+    "job-offer-comparison-calculator": [
+      {
+        "title": "Cash Runway Calculator",
+        "url": "https://linwt.top/cash-runway-calculator.html",
+        "note": "Estimate how long a startup's cash lasts before you accept"
+      }
+    ],
+    "freelance-rate-calculator": [
+      {
+        "title": "Markup & Margin Calculator",
+        "url": "https://linwt.top/markup-margin-calculator.html",
+        "note": "Set prices with the right markup over your cost"
+      },
+      {
+        "title": "Break-Even Calculator",
+        "url": "https://linwt.top/break-even-calculator.html",
+        "note": "How many billable hours you need before you profit"
+      }
+    ],
+    "w2-vs-1099-calculator": [
+      {
+        "title": "Cash Runway Calculator",
+        "url": "https://linwt.top/cash-runway-calculator.html",
+        "note": "Plan cash flow between contracts when you go independent"
+      },
+      {
+        "title": "Gross vs Net Profit Calculator",
+        "url": "https://linwt.top/gross-vs-net-profit-calculator.html",
+        "note": "Where your contracting revenue actually goes"
+      }
+    ]
+  }
+}
